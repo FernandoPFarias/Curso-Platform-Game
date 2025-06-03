@@ -1,2 +1,11 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+
+
+# Arquivos Unity e texto como texto normal
+*.cs text
+*.shader text
+*.txt text
+*.asmdef text
+*.json text
+*.meta text
+*.unity text
+*.prefab text
