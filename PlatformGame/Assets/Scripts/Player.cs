@@ -22,9 +22,9 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        Vector2 movemet = Input.GetAxis("Horizontal");
+        float moveInput = Input.GetAxis("Horizontal");
 
-        rig.linearVelocity = new Vector2(movemet * speed, rig.linearVelocity.y);
+        rig.velocity = new Vector2(moveInput * speed, rig.velocity.y);
 
 
 
