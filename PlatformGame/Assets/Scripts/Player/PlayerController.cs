@@ -37,8 +37,11 @@ public class PlayerController : MonoBehaviour
     private bool wasGrounded;
     private bool isFacingRight = true;
 
+    public PlayerCombat Combat { get; private set; }
+
     private void Awake()
-    {
+    {   
+        Combat = GetComponent<PlayerCombat>();
         rb = GetComponent<Rigidbody2D>();
         playerControls = new InputSystem_Actions();
     }
