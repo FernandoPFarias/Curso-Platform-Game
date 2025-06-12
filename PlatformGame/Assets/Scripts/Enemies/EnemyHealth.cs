@@ -16,6 +16,8 @@ public class EnemyHealth : MonoBehaviour
     private float currentHealth;
     private bool isDead = false;
 
+    private Enemy stateMachine;
+
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -47,7 +49,8 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            animator?.SetTrigger("Hurt"); ;
+            // Em vez de só tocar a animação, manda a IA inteira para o estado de "Hurt".
+            stateMachine.ChangeState(new HurtState(stateMachine));
         }
 
 

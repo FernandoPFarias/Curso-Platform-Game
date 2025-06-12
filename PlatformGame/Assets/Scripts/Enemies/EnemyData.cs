@@ -13,6 +13,9 @@ public class EnemyData : ScriptableObject
     public float maxHealth;
     public float moveSpeed;
 
+    [Header("Combat Feedback")]
+    public float hurtDuration = 0.5f;
+
     [Header("Effects")]
     public GameObject deathParticlesPrefab; // por particulas de morte se o inimigo tiver
     public GameEvent deathSoundEvent;      // por os sons de morte se o inimigo tiver
