@@ -21,6 +21,7 @@ public class EnemyHealth : MonoBehaviour
     private void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        stateMachine = GetComponent<Enemy>();
 
         if (enemyData != null)
         {
