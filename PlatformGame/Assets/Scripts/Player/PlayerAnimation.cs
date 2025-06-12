@@ -93,7 +93,7 @@ public class PlayerAnimation : MonoBehaviour
             // CÓDIGO CORRIGIDO E DESCOMENTADO:
             if (hit.TryGetComponent<EnemyHealth>(out EnemyHealth enemy))
             {
-                enemy.TakeDamage(currentAttack.attackdamage);
+               enemy.TakeDamage(currentAttack.attackdamage);
                 Debug.Log($"Atingiu {hit.name} com o ataque {currentAttack.attackType}!");
             }
         }
