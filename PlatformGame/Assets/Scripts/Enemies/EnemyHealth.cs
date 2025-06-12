@@ -10,12 +10,16 @@ public class EnemyHealth : MonoBehaviour
     // Evento que será anunciado quando este inimigo morrer
     public GameEvent onDeathEvent;
 
+    private Animator animator;
+
     // --- Variáveis de Estado ---
     private float currentHealth;
     private bool isDead = false;
 
     private void Start()
     {
+        animator = GetComponentInChildren<Animator>();
+
         if (enemyData != null)
         {
             // Inicializa a vida com o valor da nossa ficha de ScriptableObject
@@ -41,6 +45,12 @@ public class EnemyHealth : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            animator?.SetTrigger("Hurt"); ;
+        }
+
+
     }
 
     private void Die()
@@ -48,16 +58,24 @@ public class EnemyHealth : MonoBehaviour
         isDead = true;
         Debug.Log($"{enemyData.enemyName} foi derrotado!");
 
+
+        animator?.SetTrigger("Death");
         // Anuncia para todo o jogo que este inimigo morreu.
         // Um ScoreManager ou um LootManager poderiam ouvir este evento.
         onDeathEvent?.Raise();
 
-        // Exemplo simples: toca as partículas de morte e destrói o objeto.
-        if (enemyData.deathParticlesPrefab != null)
-        {
-            Instantiate(enemyData.deathParticlesPrefab, transform.position, Quaternion.identity);
-        }
 
-        Destroy(gameObject);
+        GetComponent<Enemy>().enabled = false;
+
+        this.enabled = false;
+
+        GetComponent<Collider2D>().enabled = false;
+
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+
+
+
+        Destroy(gameObject, 2f);
     }
 }

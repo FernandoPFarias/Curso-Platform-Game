@@ -137,7 +137,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 14
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -157,9 +157,9 @@ TextureImporter:
       name: herochar_jump_down_anim_strip_3_1
       rect:
         serializedVersion: 2
-        x: 17
+        x: 16
         y: 0
-        width: 13
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -181,7 +181,7 @@ TextureImporter:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 14
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -201,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d99cdad47779a8847bc5bba96f191677
     internalID: 0
     vertices: []
     indices: 

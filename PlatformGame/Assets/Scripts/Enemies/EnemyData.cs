@@ -17,9 +17,17 @@ public class EnemyData : ScriptableObject
     public GameObject deathParticlesPrefab; // por particulas de morte se o inimigo tiver
     public GameEvent deathSoundEvent;      // por os sons de morte se o inimigo tiver
 
+    [Header("Damage Types")]
+    public float contactDamage; // vai ser o dano do toque
+
+
+
     [Header("AI Logic")]
     public float detectionRange; // Distância para "ver" o jogador e começar a perseguir
     public float giveUpRange;    // Distância para o jogador fugir e o inimigo desistir
+    public float alertDuration = 1f; //tempo que o inimigo vai parar para seguir o player
 
+    [Header("Animation")]
+    public string attackTriggerName;
 
 }

@@ -7,6 +7,8 @@ public class ChaseState : AIState
     public override void OnEnter()
     {
         Debug.Log("Entrando no estado de Perseguição.");
+        
+
     }
 
     public override void Tick()

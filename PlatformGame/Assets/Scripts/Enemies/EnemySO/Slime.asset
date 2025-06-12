@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997c0a227e472564191a4abfa1ef0f4f, type: 3}
   m_Name: Slime
   m_EditorClassIdentifier: 
-  enemyName: 
+  enemyName: Slime
   tier: 0
-  maxHealth: 0
-  moveSpeed: 0
+  maxHealth: 100
+  moveSpeed: 1
   deathParticlesPrefab: {fileID: 0}
   deathSoundEvent: {fileID: 0}
-  detectionRange: 1
-  giveUpRange: 1
+  contactDamage: 10
+  detectionRange: 2
+  giveUpRange: 2
+  alertDuration: 1
+  attackTriggerName: 
   attackDamage: 0
-  attackRadius: 2
+  attackRadius: 0.5
   attackCooldown: 0

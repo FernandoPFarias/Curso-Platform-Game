@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class AIState : MonoBehaviour
+public abstract class AIState 
 {
     protected Enemy stateMachine;
 
