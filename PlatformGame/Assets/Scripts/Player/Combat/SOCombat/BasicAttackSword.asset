@@ -18,8 +18,8 @@ MonoBehaviour:
   animationTrrigerName: T_IsBasicAttack
   onAttackSfx: {fileID: 0}
   onAttackVfx: {fileID: 0}
-  hitboxOffSet: {x: 0.7, y: 0.1}
-  hitboxRadius: 0.2
+  hitboxOffSet: {x: 0.5, y: -0.1}
+  hitboxSize: {x: 0.5, y: 0.5}
   damageableLayers:
     serializedVersion: 2
     m_Bits: 128

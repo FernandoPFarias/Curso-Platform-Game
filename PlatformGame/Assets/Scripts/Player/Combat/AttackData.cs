@@ -17,7 +17,7 @@ public abstract class AttackData : ScriptableObject
 
     [Header("HitBox")]
     public Vector2 hitboxOffSet; // posição da hitbox
-    public float hitboxRadius;  // tamanho do circulo da box
+    public Vector2 hitboxSize;  // tamanho do circulo da box
     public LayerMask damageableLayers; // Definir quais as layer que podem tomar dano
 
 

@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|c:\\users\\ffarias\\desktop\\unity\\curso-platform-game\\platformgame\\assets\\scripts\\enemies\\alertstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\alertstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\assets\\scripts\\enemies\\enemydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\enemydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|c:\\users\\ffarias\\desktop\\unity\\curso-platform-game\\platformgame\\assets\\scripts\\enemies\\chasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\chasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|c:\\users\\ffarias\\desktop\\unity\\curso-platform-game\\platformgame\\assets\\scripts\\enemies\\alertstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\alertstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\assets\\scripts\\enemies\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,20 +19,28 @@
       "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\patrolstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|c:\\users\\ffarias\\desktop\\unity\\curso-platform-game\\platformgame\\assets\\scripts\\enemies\\enemydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\enemydata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\assets\\scripts\\enemies\\chasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\chasestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|c:\\users\\ffarias\\desktop\\unity\\curso-platform-game\\platformgame\\assets\\scripts\\enemies\\enemyhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\enemyhealth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|c:\\users\\ffarias\\desktop\\unity\\curso-platform-game\\platformgame\\assets\\scripts\\enemies\\attackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\attackstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\assets\\scripts\\enemies\\contactdamage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\contactdamage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\AIState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:Assets\\Scripts\\Enemies\\AIState.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|c:\\users\\ffarias\\desktop\\unity\\curso-platform-game\\platformgame\\assets\\scripts\\player\\playeranimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\assets\\scripts\\player\\playeranimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playeranimation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\assets\\scripts\\enemies\\contactdamage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{803D81D6-585C-0A70-9949-91B7EF9CF2DE}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\enemies\\contactdamage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,24 +50,50 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
+              "Title": "EnemyHealth.cs",
+              "DocumentMoniker": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\EnemyHealth.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\EnemyHealth.cs",
+              "ToolTip": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\EnemyHealth.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Enemies\\EnemyHealth.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAowE4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T19:27:22.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AttackState.cs",
+              "DocumentMoniker": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\AttackState.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\AttackState.cs",
+              "ToolTip": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\AttackState.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Enemies\\AttackState.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwBUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T18:42:42.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "ChaseState.cs",
               "DocumentMoniker": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\ChaseState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\ChaseState.cs",
               "ToolTip": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\ChaseState.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemies\\ChaseState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-12T18:38:58.116Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "PlayerAnimation.cs",
               "DocumentMoniker": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Player\\PlayerAnimation.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerAnimation.cs",
@@ -67,31 +101,30 @@
               "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerAnimation.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T18:09:38.77Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T18:09:38.77Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AlertState.cs",
               "DocumentMoniker": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\AlertState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\AlertState.cs",
               "ToolTip": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\AlertState.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemies\\AlertState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAowC8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-12T15:47:22.252Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "EnemyData.cs",
               "DocumentMoniker": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\EnemyData.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\EnemyData.cs",
               "ToolTip": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\EnemyData.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemies\\EnemyData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-12T15:29:13.119Z",
               "EditorCaption": ""
@@ -117,7 +150,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\PatrolState.cs",
               "ToolTip": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\PatrolState.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemies\\PatrolState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-12T14:55:09.137Z",
               "EditorCaption": ""
@@ -130,14 +163,14 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\Enemy.cs",
               "ToolTip": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\Enemy.cs",
               "RelativeToolTip": "Assets\\Scripts\\Enemies\\Enemy.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAQwB4AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAwEEAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-12T13:05:48.33Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "AIState.cs",
               "DocumentMoniker": "C:\\Users\\ffarias\\Desktop\\Unity\\Curso-Platform-Game\\PlatformGame\\Assets\\Scripts\\Enemies\\AIState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Enemies\\AIState.cs",
@@ -145,8 +178,7 @@
               "RelativeToolTip": "Assets\\Scripts\\Enemies\\AIState.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-12T13:02:46.398Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-12T13:02:46.398Z"
             }
           ]
         }

@@ -85,7 +85,7 @@ public class PlayerAnimation : MonoBehaviour
                                new Vector2(currentAttack.hitboxOffSet.x * playerController.transform.localScale.x, currentAttack.hitboxOffSet.y);
 
         // Pede à física da Unity uma lista de todos os colliders dentro do círculo
-        Collider2D[] hits = Physics2D.OverlapCircleAll(hitboxCenter, currentAttack.hitboxRadius, currentAttack.damageableLayers);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(hitboxCenter, currentAttack.hitboxSize, currentAttack.damageableLayers);
 
         // CORREÇÃO DE SINTAXE: 'hit' em vez de 'hitbox'
         foreach (Collider2D hit in hits)

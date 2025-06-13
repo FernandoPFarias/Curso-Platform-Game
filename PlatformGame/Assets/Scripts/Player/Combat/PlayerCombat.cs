@@ -64,7 +64,7 @@ public class PlayerCombat : MonoBehaviour
 
         Vector2 hitBoxCenter = (Vector2)transform.position + new Vector2(basicAttack.hitboxOffSet.x * transform.localScale.x, basicAttack.hitboxOffSet.y * transform.localScale.y);
 
-        Gizmos.DrawSphere(hitBoxCenter, basicAttack.hitboxRadius);
+        Gizmos.DrawWireCube(hitBoxCenter, basicAttack.hitboxSize);
 
 
     }
