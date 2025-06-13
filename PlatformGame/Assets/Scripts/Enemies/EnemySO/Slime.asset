@@ -16,6 +16,9 @@ MonoBehaviour:
   tier: 0
   maxHealth: 100
   moveSpeed: 1
+  hurtDuration: 0
+  knockbackForce: {x: 2, y: 2}
+  knockbackDuration: 0.3
   deathParticlesPrefab: {fileID: 0}
   deathSoundEvent: {fileID: 0}
   contactDamage: 10
@@ -23,6 +26,6 @@ MonoBehaviour:
   giveUpRange: 2
   alertDuration: 1
   attackTriggerName: 
-  attackDamage: 0
-  attackRadius: 0.5
+  attackDamage: 10
+  attackRadius: 1
   attackCooldown: 0

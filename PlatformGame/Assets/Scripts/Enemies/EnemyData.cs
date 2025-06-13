@@ -15,6 +15,8 @@ public class EnemyData : ScriptableObject
 
     [Header("Combat Feedback")]
     public float hurtDuration = 0.5f;
+    public Vector2 knockbackForce = new Vector2(5f , 3f);
+    public float knockbackDuration = 0.3f;
 
     [Header("Effects")]
     public GameObject deathParticlesPrefab; // por particulas de morte se o inimigo tiver

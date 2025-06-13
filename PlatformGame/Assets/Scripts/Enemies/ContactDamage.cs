@@ -10,16 +10,17 @@ public class ContactDamage : MonoBehaviour
     private float contactCooldown = 1f;
     private float lastDamageTime;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+   
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        // Verifica se o objeto com o qual colidimos tem a tag "Player"
-        if (collision.gameObject.CompareTag("Player"))
+       
+        if (other.CompareTag("Player"))
         {
-            // Verifica se o tempo de cooldown já passou
+            
             if (Time.time >= lastDamageTime + contactCooldown)
             {
-                // Tenta encontrar o componente de vida do jogador
-                if (collision.gameObject.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
+                // Tenta encontrar o componente de vida do jogador no objeto que entrou no trigger
+                if (other.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
                 {
                     Debug.Log($"Inimigo {gameObject.name} causou {enemyData.contactDamage} de dano por contato.");
 

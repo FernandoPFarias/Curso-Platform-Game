@@ -47,12 +47,13 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+            return;
         }
-        else
-        {
+       
+        
             // Em vez de só tocar a animação, manda a IA inteira para o estado de "Hurt".
-            stateMachine.ChangeState(new HurtState(stateMachine));
-        }
+            stateMachine.ChangeState(new KnockbackState(stateMachine));
+        
 
 
     }
@@ -63,7 +64,9 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log($"{enemyData.enemyName} foi derrotado!");
 
 
+        Debug.Log("<color=orange>Tentando disparar o gatilho Death...</color>");
         animator?.SetTrigger("Death");
+        Debug.Log("<color=lime>Gatilho Death disparado.</color>");
         // Anuncia para todo o jogo que este inimigo morreu.
         // Um ScoreManager ou um LootManager poderiam ouvir este evento.
         onDeathEvent?.Raise();
