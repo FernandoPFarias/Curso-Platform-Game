@@ -19,7 +19,7 @@ MonoBehaviour:
   onAttackSfx: {fileID: 0}
   onAttackVfx: {fileID: 0}
   hitboxOffSet: {x: 0.6, y: -0.1}
-  hitboxSize: {x: 0.6, y: 0.5}
+  hitboxSize: {x: 0.7, y: 0.5}
   damageableLayers:
     serializedVersion: 2
     m_Bits: 128
