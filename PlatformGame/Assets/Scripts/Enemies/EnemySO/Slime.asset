@@ -17,7 +17,7 @@ MonoBehaviour:
   behaviour: {fileID: 11400000, guid: f995c70b0c72c9149bb6984939e11372, type: 2}
   maxHealth: 100
   moveSpeed: 1
-  hurtDuration: 0
+  hurtDuration: 0.1
   knockbackForce: {x: 2, y: 2}
   knockbackDuration: 0.3
   deathParticlesPrefab: {fileID: 0}
