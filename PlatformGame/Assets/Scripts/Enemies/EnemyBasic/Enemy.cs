@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
 
     private AIBehaviour behaviour;
 
+
+
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
