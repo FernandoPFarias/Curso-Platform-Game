@@ -3,82 +3,113 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "AI Behaviours/Sentry Behaviour")]
 public class SentryBehaviour : AIBehaviour
 {
-    private enum State { Idling, Alert, Chasing }
+    private enum State { Idling, Alert, Chasing, Knockback }
     private State currentState;
 
     private float stateTimer;
 
     public override void Initialize(Enemy puppet)
     {
-        currentState = State.Idling;
-        if (puppet.Animator != null) puppet.Animator.SetTrigger("GoToIdle");
+        ChangeState(State.Idling, puppet);
+    }
+
+    public override void OnTakeDamage(Enemy puppet)
+    {
+        ChangeState(State.Knockback, puppet);
     }
 
     public override void Tick(Enemy puppet)
     {
+        if (puppet.PlayerTarget == null && currentState != State.Idling)
+        {
+            ChangeState(State.Idling, puppet);
+            return;
+        }
+
         switch (currentState)
         {
             case State.Idling:
-                // Fica parado, apenas virando na direção padrão se necessário
-                puppet.FlipTowards(puppet.transform.position + (Vector3.right * puppet.transform.localScale.x));
-
-                // Se detectar o jogador, muda para o estado de Alerta
                 if (IsPlayerDetected(puppet))
                 {
-                    currentState = State.Alert;
-                    stateTimer = puppet.EnemyData.alertDuration;
-                    if (puppet.Animator != null) puppet.Animator.SetTrigger("GoToIdle"); // Ou um trigger "Alert"
+                    ChangeState(State.Alert, puppet);
                 }
                 break;
 
             case State.Alert:
-                // A lógica de alerta é idêntica à do Patrulheiro
                 stateTimer -= Time.fixedDeltaTime;
                 if (stateTimer <= 0)
                 {
-                    currentState = State.Chasing;
-                    if (puppet.Animator != null) puppet.Animator.SetTrigger("StartRun");
+                    ChangeState(State.Chasing, puppet);
                 }
                 break;
 
             case State.Chasing:
-                // A lógica de perseguição também pode ser reutilizada
-                if (puppet.PlayerTarget == null || Vector2.Distance(puppet.transform.position, puppet.PlayerTarget.position) > puppet.EnemyData.giveUpRange)
+                if (Vector2.Distance(puppet.transform.position, puppet.PlayerTarget.position) > puppet.EnemyData.giveUpRange)
                 {
-                    currentState = State.Idling; // Volta a ficar parado, não a patrulhar
-                    if (puppet.Animator != null) puppet.Animator.SetTrigger("GoToIdle");
+                    ChangeState(State.Idling, puppet);
                     break;
                 }
                 puppet.MoveTowards(puppet.PlayerTarget.position);
                 break;
+
+            case State.Knockback:
+                stateTimer -= Time.fixedDeltaTime;
+                if (stateTimer <= 0)
+                {
+                    ChangeState(State.Chasing, puppet);
+                }
+                break;
         }
     }
 
-    public override bool IsPlayerDetected(Enemy puppet)
+    private void ChangeState(State newState, Enemy puppet)
+    {
+        currentState = newState;
+
+        // AGORA USANDO OS MÉTODOS DO NOSSO ENEMYANIMATOR
+        switch (currentState)
+        {
+            case State.Idling:
+                puppet.Rb.linearVelocity = Vector2.zero;
+                puppet.AnimationManager?.TriggerIdle();
+                break;
+            case State.Alert:
+                puppet.Rb.linearVelocity = Vector2.zero;
+                puppet.AnimationManager?.TriggerAlert();
+                if (puppet.PlayerTarget != null) puppet.FlipTowards(puppet.PlayerTarget.position);
+                stateTimer = puppet.EnemyData.alertDuration;
+                break;
+            case State.Chasing:
+                puppet.AnimationManager?.TriggerChase();
+                break;
+            case State.Knockback:
+                stateTimer = puppet.EnemyData.knockbackDuration;
+                puppet.AnimationManager?.TriggerHurt();
+
+                if (puppet.PlayerTarget != null)
+                {
+                    Vector2 direction = (puppet.transform.position - puppet.PlayerTarget.position).normalized;
+                    Vector2 force = new Vector2(direction.x * puppet.EnemyData.knockbackForce.x, puppet.EnemyData.knockbackForce.y);
+                    puppet.Rb.linearVelocity = Vector2.zero;
+                    puppet.Rb.AddForce(force, ForceMode2D.Impulse);
+                }
+                break;
+        }
+    }
+
+    // A lógica de detecção por Raycast continua a mesma
+    private bool IsPlayerDetected(Enemy puppet)
     {
         if (puppet.PlayerTarget == null) return false;
-
         Vector2 directionToPlayer = puppet.PlayerTarget.position - puppet.transform.position;
         float distanceToPlayer = directionToPlayer.magnitude;
-
         if (distanceToPlayer > puppet.EnemyData.detectionRange) return false;
 
-        float facingDirection = Mathf.Sign(puppet.transform.localScale.x);
+        float facingDirection = puppet.startsFacingLeft ? -puppet.transform.localScale.x : puppet.transform.localScale.x;
         float playerDirection = Mathf.Sign(directionToPlayer.x);
+        if (Mathf.Abs(facingDirection - playerDirection) > 0.1f) return false;
 
-        // Só detecta se o jogador estiver na frente
-        if (facingDirection != playerDirection) return false;
-
-        // Dispara um Raycast para ver se há paredes no caminho
         RaycastHit2D hit = Physics2D.Raycast(puppet.transform.position, directionToPlayer.normalized, distanceToPlayer, LayerMask.GetMask("Player", "Ground"));
-
-        // Se o que ele atingiu primeiro foi o jogador, então ele foi detectado!
-        if (hit.collider != null && hit.collider.CompareTag("Player"))
-        {
-            Debug.Log("Sentinela: Jogador detectado com Raycast!");
-            return true;
-        }
-
-        return false;
+        return hit.collider != null && hit.collider.CompareTag("Player");
     }
 }

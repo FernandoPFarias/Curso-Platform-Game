@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Slime
   tier: 0
-  behaviour: {fileID: 11400000, guid: f995c70b0c72c9149bb6984939e11372, type: 2}
-  maxHealth: 100
+  maxHealth: 10
   moveSpeed: 1
+  contactDamage: 10
   hurtDuration: 0.1
   knockbackForce: {x: 2, y: 2}
   knockbackDuration: 0.3
-  deathParticlesPrefab: {fileID: 0}
-  deathSoundEvent: {fileID: 0}
-  contactDamage: 10
   detectionRange: 2
   giveUpRange: 2
   alertDuration: 1
-  attackTriggerName: 
+  behaviour: {fileID: 11400000, guid: 7550bbbf1097b574083f78a79c21b88f, type: 2}
+  deathParticlesPrefab: {fileID: 0}
+  onDeathEvent: {fileID: 0}
   attackDamage: 10
   attackRadius: 1
   attackCooldown: 0
+  attackTriggerName: 

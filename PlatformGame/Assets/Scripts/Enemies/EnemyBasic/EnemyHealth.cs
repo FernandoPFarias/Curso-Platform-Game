@@ -13,7 +13,7 @@ public class EnemyHealth : MonoBehaviour
     // --- Componentes ---
     private Animator animator;
     private Enemy stateMachine; // Referência para o "cérebro" da IA para dar ordens
-
+    private EnemyAnimator enemyAnimator;
     // --- Variáveis de Estado ---
     private float currentHealth;
     private bool isDead = false;
@@ -23,6 +23,8 @@ public class EnemyHealth : MonoBehaviour
         // Pega as referências necessárias que estão no mesmo GameObject ou em filhos
         animator = GetComponentInChildren<Animator>();
         stateMachine = GetComponent<Enemy>();
+        enemyAnimator = GetComponent<EnemyAnimator>();
+
 
         if (enemyData != null)
         {
@@ -43,6 +45,10 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damageAmount;
         Debug.Log($"{enemyData.enemyName} tomou {damageAmount} de dano! Vida atual: {currentHealth}");
 
+        enemyAnimator?.TriggerHurt();
+
+        
+
         // Checagem de Morte é a PRIORIDADE MÁXIMA
         if (currentHealth <= 0)
         {
@@ -51,7 +57,7 @@ public class EnemyHealth : MonoBehaviour
         }
 
         // APENAS SE NÃO MORREU, ele comanda a IA para entrar no estado de knockback/dor.
-        stateMachine.ChangeState(new KnockbackState(stateMachine));
+        stateMachine.GetBehaviour().OnTakeDamage(stateMachine);
     }
 
     private void Die()
@@ -60,7 +66,7 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log($"{enemyData.enemyName} foi derrotado!");
 
         // 1. Dispara a animação de morte
-        animator?.SetTrigger("T_Death");
+        enemyAnimator?.TriggerDeath();
 
         // 2. Anuncia para o resto do jogo que o inimigo morreu
         onDeathEvent?.Raise();
