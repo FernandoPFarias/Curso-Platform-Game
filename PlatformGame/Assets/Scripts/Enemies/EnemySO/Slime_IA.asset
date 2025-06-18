@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc93cfec5425d6144a1dd64e0ee4d5aa, type: 3}
   m_Name: Slime_IA
   m_EditorClassIdentifier: 
+  gizmoColor: {r: 0, g: 1, b: 1, a: 1}

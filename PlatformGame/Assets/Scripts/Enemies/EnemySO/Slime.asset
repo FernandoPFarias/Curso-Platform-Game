@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Slime
   tier: 0
-  maxHealth: 10
+  maxHealth: 50
   moveSpeed: 1
   contactDamage: 10
-  hurtDuration: 0.1
+  hurtDuration: 0.5
   knockbackForce: {x: 2, y: 2}
   knockbackDuration: 0.3
-  detectionRange: 2
-  giveUpRange: 2
+  detectionRange: 1.44
+  giveUpRange: 1.66
   alertDuration: 1
   behaviour: {fileID: 11400000, guid: 7550bbbf1097b574083f78a79c21b88f, type: 2}
   deathParticlesPrefab: {fileID: 0}

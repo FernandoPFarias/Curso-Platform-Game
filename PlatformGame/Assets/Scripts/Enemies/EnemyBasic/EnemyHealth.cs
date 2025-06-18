@@ -3,86 +3,112 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [Header("Data")]
-    // Puxaremos o valor de vida m·xima da nossa "Ficha de Inimigo"
+    // Puxaremos o valor de vida m√°xima da nossa "Ficha de Inimigo"
     public EnemyData enemyData;
 
     [Header("Event Channel to Raise on Death")]
-    // Evento que ser· anunciado quando este inimigo morrer
+    // Evento que ser√° anunciado quando este inimigo morrer
     public GameEvent onDeathEvent;
 
-    // --- Componentes ---
-    private Animator animator;
-    private Enemy stateMachine; // ReferÍncia para o "cÈrebro" da IA para dar ordens
+    private Enemy enemy;
     private EnemyAnimator enemyAnimator;
-    // --- Vari·veis de Estado ---
+    // --- Vari√°veis de Estado ---
     private float currentHealth;
     private bool isDead = false;
 
     private void Start()
     {
-        // Pega as referÍncias necess·rias que est„o no mesmo GameObject ou em filhos
-        animator = GetComponentInChildren<Animator>();
-        stateMachine = GetComponent<Enemy>();
-        enemyAnimator = GetComponent<EnemyAnimator>();
-
-
-        if (enemyData != null)
+        enemy = GetComponent<Enemy>();
+        if (enemy != null)
         {
-            currentHealth = enemyData.maxHealth;
+            enemyAnimator = enemy.animationManager;
+            if (enemy.enemyData != null)
+                currentHealth = enemy.enemyData.maxHealth;
+            else
+                Debug.LogError($"EnemyData n√£o foi atribu√≠do no Enemy do objeto {gameObject.name}!");
         }
         else
         {
-            Debug.LogError($"EnemyData n„o foi atribuÌdo no EnemyHealth do objeto {gameObject.name}!");
+            Debug.LogError($"Enemy n√£o encontrado no objeto {gameObject.name}!");
         }
     }
 
-    // Este È o mÈtodo P⁄BLICO que a hitbox do jogador vai chamar.
+    // Este √© o m√©todo P√öBLICO que a hitbox do jogador vai chamar.
     public void TakeDamage(float damageAmount)
     {
-        // Se j· est· morto, n„o faz mais nada para evitar bugs.
         if (isDead) return;
 
         currentHealth -= damageAmount;
-        Debug.Log($"{enemyData.enemyName} tomou {damageAmount} de dano! Vida atual: {currentHealth}");
+        Debug.Log($"{enemy.enemyData.enemyName} tomou {damageAmount} de dano! Vida atual: {currentHealth}");
 
-        enemyAnimator?.TriggerHurt();
-
-        
-
-        // Checagem de Morte È a PRIORIDADE M¡XIMA
+        // Checagem de Morte √© a PRIORIDADE M√ÅXIMA
         if (currentHealth <= 0)
         {
             Die();
-            return; // 'return' È crucial para garantir que nada mais seja executado.
+            return;
         }
 
-        // APENAS SE N√O MORREU, ele comanda a IA para entrar no estado de knockback/dor.
-        stateMachine.GetBehaviour().OnTakeDamage(stateMachine);
+        // S√≥ toca anima√ß√£o de hurt se n√£o morreu
+        if (enemyAnimator != null)
+        {
+            enemyAnimator.TriggerHurt();
+            Debug.Log($"Anima√ß√£o de hurt disparada para {enemy.enemyData.enemyName}");
+        }
+        else
+        {
+            Debug.LogWarning($"EnemyAnimator n√£o encontrado em {gameObject.name}!");
+        }
+
+        // Modular: chama o comportamento do inimigo via Enemy
+        if (enemy != null && enemy.GetBehaviour() != null)
+        {
+            enemy.GetBehaviour().OnTakeDamage(enemy);
+            Debug.Log($"Estado de knockback ativado para {enemy.enemyData.enemyName}");
+        }
+        else
+        {
+            Debug.LogWarning($"Behaviour n√£o encontrado em {gameObject.name}!");
+        }
     }
 
     private void Die()
     {
         isDead = true;
-        Debug.Log($"{enemyData.enemyName} foi derrotado!");
+        Debug.Log($"{enemy.enemyData.enemyName} foi derrotado!");
 
-        // 1. Dispara a animaÁ„o de morte
-        enemyAnimator?.TriggerDeath();
+        // 1. Dispara a anima√ß√£o de morte
+        if (enemyAnimator != null)
+        {
+            enemyAnimator.TriggerDeath();
+            Debug.Log($"Anima√ß√£o de death disparada para {enemy.enemyData.enemyName}");
+        }
+        else
+        {
+            Debug.LogWarning($"EnemyAnimator n√£o encontrado em {gameObject.name}!");
+        }
 
         // 2. Anuncia para o resto do jogo que o inimigo morreu
         onDeathEvent?.Raise();
 
-        // 3. Desliga a "inteligÍncia" e a "fÌsica" do inimigo
-        if (GetComponent<Enemy>() != null) GetComponent<Enemy>().enabled = false;
-        if (GetComponent<Collider2D>() != null) GetComponent<Collider2D>().enabled = false;
+        // 3. Desliga a "intelig√™ncia" do inimigo
+        if (enemy != null) enemy.enabled = false;
 
+        // 4. Congela o Rigidbody2D completamente
         var rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
             rb.bodyType = RigidbodyType2D.Kinematic;
             rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.gravityScale = 0f; // Garante que n√£o caia
         }
 
-        // 4. Agenda a destruiÁ„o do objeto, dando tempo para a animaÁ„o tocar.
-        Destroy(gameObject, 3f); // Ajuste o tempo conforme sua animaÁ„o de morte.
+        // 5. Desativa o Collider2D (opcional, pode deixar ativado se quiser corpo vis√≠vel)
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+            col.enabled = false;
+
+        // 6. Agenda a destrui√ß√£o do objeto, dando tempo para a anima√ß√£o tocar.
+        Destroy(gameObject, 3f); // Ajuste o tempo conforme sua anima√ß√£o de morte.
     }
 }

@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class EnemyAnimator : MonoBehaviour
 {
-    private Animator animator;
+    [Header("Animation Reference")]
+    public Animator animator;
 
-    // Converte os nomes dos par�metros em "apelidos" num�ricos para performance
+    // Converte os nomes dos parâmetros em "apelidos" numéricos para performance
     private readonly int speedHash = Animator.StringToHash("Speed");
     private readonly int isActingHash = Animator.StringToHash("isActing");
     private readonly int goToIdleHash = Animator.StringToHash("T_GoToIdle");
@@ -18,26 +18,76 @@ public class EnemyAnimator : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        // Se não foi atribuído via inspector, tenta encontrar automaticamente
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+            Debug.LogWarning($"Animator não foi atribuído via inspector em {gameObject.name}. Procurando automaticamente...");
+        }
+        
+        if (animator == null)
+        {
+            Debug.LogError($"Animator não encontrado! Atribua manualmente via inspector ou verifique se existe um componente Animator nos filhos de {gameObject.name}.");
+        }
+        else
+        {
+            Debug.Log($"Animator configurado para {gameObject.name}: {animator.gameObject.name}");
+        }
     }
 
-    // --- M�TODOS P�BLICOS (A NOSSA "API") ---
+    // --- MÉTODOS PÚBLICOS (A NOSSA "API") ---
 
     public void UpdateSpeed(float speed)
     {
-        animator.SetFloat(speedHash, speed);
+        if (animator != null)
+            animator.SetFloat(speedHash, speed);
     }
 
     public void SetIsActing(bool isActing)
     {
-        animator.SetBool(isActingHash, isActing);
+        if (animator != null)
+            animator.SetBool(isActingHash, isActing);
     }
 
-    public void TriggerIdle() => animator.SetTrigger(goToIdleHash);
-    public void TriggerWalk() => animator.SetTrigger(startWalkHash);
-    public void TriggerChase() => animator.SetTrigger(startChaseHash);
-    public void TriggerAlert() => animator.SetTrigger(triggerAlertHash);
-    public void TriggerAttack() => animator.SetTrigger(doAttackHash);
-    public void TriggerHurt() => animator.SetTrigger(hurtHash);
-    public void TriggerDeath() => animator.SetTrigger(deathHash);
+    public void TriggerIdle() 
+    { 
+        if (animator != null) 
+            animator.SetTrigger(goToIdleHash); 
+    }
+    
+    public void TriggerWalk() 
+    { 
+        if (animator != null) 
+            animator.SetTrigger(startWalkHash); 
+    }
+    
+    public void TriggerChase() 
+    { 
+        if (animator != null) 
+            animator.SetTrigger(startChaseHash); 
+    }
+    
+    public void TriggerAlert() 
+    { 
+        if (animator != null) 
+            animator.SetTrigger(triggerAlertHash); 
+    }
+    
+    public void TriggerAttack() 
+    { 
+        if (animator != null) 
+            animator.SetTrigger(doAttackHash); 
+    }
+    
+    public void TriggerHurt() 
+    { 
+        if (animator != null) 
+            animator.SetTrigger(hurtHash); 
+    }
+    
+    public void TriggerDeath() 
+    { 
+        if (animator != null) 
+            animator.SetTrigger(deathHash); 
+    }
 }

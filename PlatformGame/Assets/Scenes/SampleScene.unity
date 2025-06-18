@@ -6669,6 +6669,29 @@ CapsuleCollider2D:
   m_Offset: {x: -0.031494737, y: -0.02549553}
   m_Size: {x: 0.5329945, y: 0.7330451}
   m_Direction: 0
+--- !u!1 &1673875785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8475207169184299743, guid: d1bfc8337ef5022499492230c885895e, type: 3}
+  m_PrefabInstance: {fileID: 1651209725452188016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1673875787 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3214734639895488531, guid: d1bfc8337ef5022499492230c885895e, type: 3}
+  m_PrefabInstance: {fileID: 1651209725452188016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1673875789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673875785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4243e2014bbe75a41b8e189e9c94a237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1673875787}
 --- !u!1 &1680300274
 GameObject:
   m_ObjectHideFlags: 0
@@ -7181,6 +7204,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6666792419970488066, guid: d1bfc8337ef5022499492230c885895e, type: 3}
+      propertyPath: pointA
+      value: 
+      objectReference: {fileID: 1444464315}
+    - target: {fileID: 6666792419970488066, guid: d1bfc8337ef5022499492230c885895e, type: 3}
+      propertyPath: pointB
+      value: 
+      objectReference: {fileID: 1680300275}
+    - target: {fileID: 6666792419970488066, guid: d1bfc8337ef5022499492230c885895e, type: 3}
       propertyPath: _pointA
       value: 
       objectReference: {fileID: 1444464315}
@@ -7189,13 +7220,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1680300275}
     - target: {fileID: 6666792419970488066, guid: d1bfc8337ef5022499492230c885895e, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: f50a8415be8054a419869164169a614f, type: 2}
+    - target: {fileID: 6666792419970488066, guid: d1bfc8337ef5022499492230c885895e, type: 3}
+      propertyPath: animationManager
+      value: 
+      objectReference: {fileID: 1673875789}
+    - target: {fileID: 6666792419970488066, guid: d1bfc8337ef5022499492230c885895e, type: 3}
       propertyPath: startsFacingLeft
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8475207169184299743, guid: d1bfc8337ef5022499492230c885895e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1673875789}
   m_SourcePrefab: {fileID: 100100000, guid: d1bfc8337ef5022499492230c885895e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

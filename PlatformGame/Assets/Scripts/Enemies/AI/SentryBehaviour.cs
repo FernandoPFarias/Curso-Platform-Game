@@ -3,6 +3,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "AI Behaviours/Sentry Behaviour")]
 public class SentryBehaviour : AIBehaviour
 {
+    [Header("Gizmos")]
+    public float detectionRange = 5f;
+    public float visionAngle = 60f; // cone de visão
+    public Color gizmoColor = Color.yellow;
+    public bool useConeVision = false; // se true, desenha cone; se false, desenha 360
+
     private enum State { Idling, Alert, Chasing, Knockback }
     private State currentState;
 
@@ -54,8 +60,20 @@ public class SentryBehaviour : AIBehaviour
 
             case State.Knockback:
                 stateTimer -= Time.fixedDeltaTime;
+                if (stateTimer > 0)
+                {
+                    // Aplica knockback apenas via linearVelocity
+                    if (puppet.PlayerTarget != null)
+                    {
+                        Vector2 direction = (puppet.transform.position - puppet.PlayerTarget.position).normalized;
+                        Vector2 force = new Vector2(direction.x * puppet.EnemyData.knockbackForce.x, puppet.EnemyData.knockbackForce.y);
+                        puppet.Rb.linearVelocity = force;
+                    }
+                }
                 if (stateTimer <= 0)
                 {
+                    // Para o movimento após o knockback
+                    puppet.Rb.linearVelocity = new Vector2(0f, puppet.Rb.linearVelocity.y);
                     ChangeState(State.Chasing, puppet);
                 }
                 break;
@@ -66,7 +84,7 @@ public class SentryBehaviour : AIBehaviour
     {
         currentState = newState;
 
-        // AGORA USANDO OS M�TODOS DO NOSSO ENEMYANIMATOR
+        // AGORA USANDO OS MÉTODOS DO NOSSO ENEMYANIMATOR
         switch (currentState)
         {
             case State.Idling:
@@ -85,19 +103,12 @@ public class SentryBehaviour : AIBehaviour
             case State.Knockback:
                 stateTimer = puppet.EnemyData.knockbackDuration;
                 puppet.AnimationManager?.TriggerHurt();
-
-                if (puppet.PlayerTarget != null)
-                {
-                    Vector2 direction = (puppet.transform.position - puppet.PlayerTarget.position).normalized;
-                    Vector2 force = new Vector2(direction.x * puppet.EnemyData.knockbackForce.x, puppet.EnemyData.knockbackForce.y);
-                    puppet.Rb.linearVelocity = Vector2.zero;
-                    puppet.Rb.AddForce(force, ForceMode2D.Impulse);
-                }
+                // Não altere bodyType, gravityScale ou Collider2D aqui!
                 break;
         }
     }
 
-    // A l�gica de detec��o por Raycast continua a mesma
+    // A lógica de detecção por Raycast continua a mesma
     private bool IsPlayerDetected(Enemy puppet)
     {
         if (puppet.PlayerTarget == null) return false;
@@ -111,5 +122,44 @@ public class SentryBehaviour : AIBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(puppet.transform.position, directionToPlayer.normalized, distanceToPlayer, LayerMask.GetMask("Player", "Ground"));
         return hit.collider != null && hit.collider.CompareTag("Player");
+    }
+
+    public override void DrawGizmos(Enemy enemy)
+    {
+        Gizmos.color = gizmoColor;
+        Vector3 pos = enemy.transform.position;
+        if (!useConeVision)
+        {
+            Gizmos.DrawWireSphere(pos, detectionRange);
+        }
+        else
+        {
+            // Desenhar cone de visão
+            Vector3 forward = enemy.startsFacingLeft ? -enemy.transform.right : enemy.transform.right;
+            float halfAngle = visionAngle / 2f;
+            Quaternion leftRayRotation = Quaternion.AngleAxis(-halfAngle, Vector3.forward);
+            Quaternion rightRayRotation = Quaternion.AngleAxis(halfAngle, Vector3.forward);
+
+            Vector3 leftRay = leftRayRotation * forward * detectionRange;
+            Vector3 rightRay = rightRayRotation * forward * detectionRange;
+
+            Gizmos.DrawRay(pos, leftRay);
+            Gizmos.DrawRay(pos, rightRay);
+            DrawWireArc(pos, Vector3.forward, leftRay, visionAngle, detectionRange);
+        }
+    }
+
+    // Método auxiliar para desenhar arco
+    private void DrawWireArc(Vector3 center, Vector3 normal, Vector3 from, float angle, float radius, int segments = 32)
+    {
+        float angleStep = angle / segments;
+        Vector3 prevPoint = center + from.normalized * radius;
+        for (int i = 1; i <= segments; i++)
+        {
+            Vector3 nextDir = Quaternion.AngleAxis(angleStep * i, normal) * from.normalized;
+            Vector3 nextPoint = center + nextDir * radius;
+            Gizmos.DrawLine(prevPoint, nextPoint);
+            prevPoint = nextPoint;
+        }
     }
 }
