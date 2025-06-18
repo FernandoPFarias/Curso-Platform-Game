@@ -21,7 +21,7 @@ public class PlayerCombat : MonoBehaviour
     private void OnEnable()
     {
         playerControls.Player.Enable();
-        // se a ação tiver criada no input system ela vem pra cá
+        // se a aï¿½ï¿½o tiver criada no input system ela vem pra cï¿½
         playerControls.Player.Attack.performed += OnBasicAttack;
 
 
@@ -56,7 +56,7 @@ public class PlayerCombat : MonoBehaviour
 
 
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (basicAttack == null) return;
 

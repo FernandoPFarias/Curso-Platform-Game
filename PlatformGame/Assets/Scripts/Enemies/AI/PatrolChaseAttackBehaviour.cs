@@ -14,14 +14,19 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
     private Transform currentPatrolTarget;
     private float stateTimer;
     private float patrolPointReachDistance = 0.5f; // Distância para considerar que chegou ao ponto
-    private Vector2 knockbackDirection; // Direção do knockback
+    private Vector2 knockbackDirection; // image.png
     private bool isInKnockback = false;
     private float knockbackStartTime; // Para controlar a força do knockback
+    private float lastFireTime = -999f;
+    private Transform projectileSpawnPoint;
 
     public override void Initialize(Enemy puppet)
     {
         // Inicializa com o ponto A como primeiro alvo
         currentPatrolTarget = puppet.PointA;
+        // Tenta encontrar um ponto de spawn para o projétil (opcional)
+        var spawn = puppet.transform.Find("ProjectileSpawn");
+        projectileSpawnPoint = spawn != null ? spawn : puppet.transform;
         ChangeState(State.Patrolling, puppet);
     }
 
@@ -84,7 +89,32 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
                     ChangeState(State.Patrolling, puppet);
                     break;
                 }
-                puppet.MoveTowards(puppet.PlayerTarget.position);
+                // Ataca se estiver no range de ataque
+                float distToPlayer = Vector2.Distance(puppet.transform.position, puppet.PlayerTarget.position);
+                if (distToPlayer < puppet.EnemyData.attackRange)
+                {
+                    puppet.Rb.linearVelocity = Vector2.zero;
+                    puppet.FlipTowards(puppet.PlayerTarget.position);
+                    // Checa cooldown
+                    float fireRate = 1f;
+                    GameObject projectilePrefab = null;
+                    if (puppet.EnemyData is RangedEnemyData rangedData)
+                    {
+                        fireRate = rangedData.fireRate > 0 ? rangedData.fireRate : 1f;
+                        projectilePrefab = rangedData.projectilPrefab;
+                    }
+                    if (Time.time >= lastFireTime + 1f / fireRate && projectilePrefab != null)
+                    {
+                        puppet.AnimationManager?.animator.SetTrigger(puppet.EnemyData.attackTriggerName);
+                        lastFireTime = Time.time;
+                        // Instancia o projétil (pode ser chamado via Animation Event se preferir)
+                        FireProjectile(puppet, projectilePrefab);
+                    }
+                }
+                else
+                {
+                    puppet.MoveTowards(puppet.PlayerTarget.position);
+                }
                 break;
 
             case State.Knockback:
@@ -159,5 +189,26 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
         // giveUpRange
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(pos, enemy.EnemyData.giveUpRange);
+        // attackRange
+        Gizmos.color = Color.magenta;
+        Vector3 attackPos = enemy.transform.position + (Vector3)enemy.EnemyData.attackOffset;
+        Gizmos.DrawWireSphere(attackPos, enemy.EnemyData.attackRange);
+    }
+
+    // Método para instanciar o projétil
+    private void FireProjectile(Enemy puppet, GameObject projectilePrefab)
+    {
+        if (projectilePrefab == null) return;
+        Vector3 spawnPos = projectileSpawnPoint != null ? projectileSpawnPoint.position : puppet.transform.position;
+        Vector2 direction = (puppet.PlayerTarget.position - spawnPos).normalized;
+        GameObject proj = GameObject.Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        // Se o projétil tiver um script Projectile, configure a direção, velocidade e dano
+        var projScript = proj.GetComponent<Projectile>();
+        if (projScript != null && puppet.EnemyData is RangedEnemyData rangedData)
+        {
+            projScript.speed = rangedData.projectileSpeed;
+            projScript.damage = rangedData.projectileDamage;
+            projScript.SetDirection(direction);
+        }
     }
 }

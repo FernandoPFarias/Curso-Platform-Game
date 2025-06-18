@@ -16,17 +16,20 @@ MonoBehaviour:
   tier: 0
   maxHealth: 50
   moveSpeed: 1
+  chaseSpeed: 1
   contactDamage: 10
   hurtDuration: 0.5
   knockbackForce: {x: 2, y: 2}
   knockbackDuration: 0.3
-  detectionRange: 1.44
-  giveUpRange: 1.66
+  detectionRange: 2.5
+  giveUpRange: 2.38
   alertDuration: 1
   behaviour: {fileID: 11400000, guid: 7550bbbf1097b574083f78a79c21b88f, type: 2}
   deathParticlesPrefab: {fileID: 0}
   onDeathEvent: {fileID: 0}
-  attackDamage: 10
-  attackRadius: 1
-  attackCooldown: 0
   attackTriggerName: 
+  attackRange: 0
+  attackOffset: {x: 0, y: 0}
+  attackDamage: 10
+  attackCooldown: 0
+  attackType: Melee

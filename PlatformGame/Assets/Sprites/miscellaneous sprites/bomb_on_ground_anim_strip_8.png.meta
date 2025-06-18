@@ -149,7 +149,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
+        width: 8
         height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -169,7 +169,7 @@ TextureImporter:
       name: bomb_on_ground_anim_strip_8_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 8
         y: 0
         width: 8
         height: 8
@@ -191,7 +191,7 @@ TextureImporter:
       name: bomb_on_ground_anim_strip_8_2
       rect:
         serializedVersion: 2
-        x: 24
+        x: 16
         y: 0
         width: 8
         height: 8
@@ -213,10 +213,10 @@ TextureImporter:
       name: bomb_on_ground_anim_strip_8_3
       rect:
         serializedVersion: 2
-        x: 32
+        x: 24
         y: 0
         width: 8
-        height: 7
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,19 +235,19 @@ TextureImporter:
       name: bomb_on_ground_anim_strip_8_4
       rect:
         serializedVersion: 2
-        x: 40
+        x: 32
         y: 0
         width: 8
-        height: 7
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1e04e06b8a8e45320800000000000000
+      spriteID: 6f76d58c09b3c5b40a60118d2e5be74f
       internalID: 2545915500677710049
       vertices: []
       indices: 
@@ -257,19 +257,19 @@ TextureImporter:
       name: bomb_on_ground_anim_strip_8_5
       rect:
         serializedVersion: 2
-        x: 48
+        x: 40
         y: 0
         width: 8
-        height: 7
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 002444e14fe2f07d0800000000000000
+      spriteID: 2d0a915ca160c9e4baa550bb02d02642
       internalID: -2950087604889697792
       vertices: []
       indices: 
@@ -279,20 +279,42 @@ TextureImporter:
       name: bomb_on_ground_anim_strip_8_6
       rect:
         serializedVersion: 2
-        x: 56
+        x: 48
         y: 0
         width: 8
-        height: 7
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3eab0f1259de99fe0800000000000000
+      spriteID: eadf4fc5c831a5f45a0d112aa36f2398
       internalID: -1181652202432709917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bomb_on_ground_anim_strip_8_7
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4adc0663b6d95f14ebefea550ad5768e
+      internalID: 287588489
       vertices: []
       indices: 
       edges: []
@@ -301,7 +323,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8909a6be976954b47a0724ba86ee302f
     internalID: 0
     vertices: []
     indices: 
@@ -318,6 +340,7 @@ TextureImporter:
       bomb_on_ground_anim_strip_8_4: 2545915500677710049
       bomb_on_ground_anim_strip_8_5: -2950087604889697792
       bomb_on_ground_anim_strip_8_6: -1181652202432709917
+      bomb_on_ground_anim_strip_8_7: 287588489
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

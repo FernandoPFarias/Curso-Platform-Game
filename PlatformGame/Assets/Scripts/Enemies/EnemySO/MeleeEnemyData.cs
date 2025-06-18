@@ -4,8 +4,8 @@ using UnityEngine;
 public class MeleeEnemyData : EnemyData
 {
     [Header("Melee Attack Stats")]
-    public float attackDamage;
-    public float attackRadius;
-    public float attackCooldown;
-    public string attackTriggerName; // Nome do gatilho de ataque no Animator
+    public float attackDamage = 10f;
+    public float attackCooldown = 1f;
+    public string attackType = "Melee";
+    // Adicione aqui outros campos exclusivos do melee, como efeitos, animações específicas, etc.
 }

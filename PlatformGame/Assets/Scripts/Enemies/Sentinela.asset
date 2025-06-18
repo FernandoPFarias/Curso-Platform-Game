@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc93cfec5425d6144a1dd64e0ee4d5aa, type: 3}
-  m_Name: Slime_IA
+  m_Script: {fileID: 11500000, guid: ab88d1a5a844fc54f89b6d495ea01270, type: 3}
+  m_Name: Sentinela
   m_EditorClassIdentifier: 
-  gizmoColor: {r: 0, g: 1, b: 1, a: 1}
+  detectionRange: 5.65
+  visionAngle: 23.2
+  gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  useConeVision: 0
+  visionDirection: {x: 1, y: 0}
+  visionOffset: {x: -0.12, y: 0.45}

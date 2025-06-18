@@ -7,5 +7,6 @@ public class RangedEnemyData : EnemyData
     public GameObject projectilPrefab; // o projetil que o inimigo joga
     public float fireRate; // quantos tiros por segundo
     public float visionRange; // distancia que ele ve o player
-
+    public float projectileSpeed = 10f;
+    public float projectileDamage = 15f;
 }

@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour
     [Header("Patrol Points")]
     public Transform pointA;
     public Transform pointB;
+    [Header("Sentry Area")]
+    public Transform sentryGuardPoint;
+    public Transform sentryChaseLimit;
     [Header("Animation Reference")]
     public EnemyAnimator animationManager;
     [Header("Sprite Settings")]
@@ -19,8 +22,11 @@ public class Enemy : MonoBehaviour
     public EnemyData EnemyData => enemyData;
     public Transform PointA => pointA;
     public Transform PointB => pointB;
+    public Transform SentryGuardPoint => sentryGuardPoint;
+    public Transform SentryChaseLimit => sentryChaseLimit;
 
     private AIBehaviour behaviour;
+    private float currentMoveSpeed;
 
     private void Awake()
     {
@@ -34,6 +40,7 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError($"EnemyAnimator não encontrado! Atribua manualmente via inspector ou verifique se existe o componente EnemyAnimator nos filhos de {gameObject.name}.");
         }
+        currentMoveSpeed = enemyData != null ? enemyData.moveSpeed : 3f;
     }
 
     private void Start()
@@ -60,14 +67,24 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         behaviour?.Tick(this);
+        // Atualiza a velocidade no Animator para garantir Idle
+        if (animationManager != null)
+        {
+            animationManager.UpdateSpeed(Mathf.Abs(Rb.linearVelocity.x));
+        }
     }
 
     public AIBehaviour GetBehaviour() => behaviour;
 
+    public void SetMoveSpeed(float speed)
+    {
+        currentMoveSpeed = speed;
+    }
+
     public void MoveTowards(Vector2 targetPosition)
     {
         Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-        Rb.linearVelocity = new Vector2(direction.x * enemyData.moveSpeed, Rb.linearVelocity.y);
+        Rb.linearVelocity = new Vector2(direction.x * currentMoveSpeed, Rb.linearVelocity.y);
         FlipTowards(targetPosition);
     }
 
@@ -81,11 +98,27 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void FlipToDefault()
+    {
+        float direction = startsFacingLeft ? -1f : 1f;
+        transform.localScale = new Vector3(direction, 1f, 1f);
+    }
+
     private void OnDrawGizmos()
     {
         if (enemyData != null && enemyData.behaviour != null)
         {
             enemyData.behaviour.DrawGizmos(this);
+        }
+        // Sentry area gizmos
+        if (sentryGuardPoint != null && sentryChaseLimit != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(sentryGuardPoint.position, 0.1f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(sentryChaseLimit.position, 0.1f);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(sentryGuardPoint.position, sentryChaseLimit.position);
         }
     }
 }

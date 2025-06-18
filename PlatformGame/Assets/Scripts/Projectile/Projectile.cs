@@ -4,22 +4,34 @@ public class Projectile : MonoBehaviour
 {
     public float speed = 10f;
     public float damage = 15f;
-    public float lifetime = 5f; // Tempo at� o proj�til se destruir sozinho
+    public float lifetime = 5f; // Tempo até o projétil se destruir sozinho
 
     private Rigidbody2D rb;
+    private bool directionSet = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        // Encontra o jogador e atira na dire��o dele
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (!directionSet)
         {
-            Vector2 direction = (player.transform.position - transform.position).normalized;
-            rb.linearVelocity = direction * speed;
+            // Encontra o jogador e atira na direção dele (fallback)
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                Vector2 direction = (player.transform.position - transform.position).normalized;
+                rb.linearVelocity = direction * speed;
+            }
         }
-        // Destr�i o proj�til depois de um tempo para n�o poluir a cena
+        // Destrói o projétil depois de um tempo para não poluir a cena
         Destroy(gameObject, lifetime);
+    }
+
+    // Permite setar a direção de fora
+    public void SetDirection(Vector2 direction)
+    {
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction.normalized * speed;
+        directionSet = true;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -30,7 +42,7 @@ public class Projectile : MonoBehaviour
             {
                 playerHealth.TakeDamage(damage);
             }
-            Destroy(gameObject); // Destr�i ao atingir o jogador
+            Destroy(gameObject); // Destrói ao atingir o jogador
         }
     }
 }

@@ -138,12 +138,12 @@ TextureImporter:
       name: goblin_attack_anim_strip_4_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 0
         y: 0
-        width: 14
+        width: 24
         height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.35, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -160,12 +160,12 @@ TextureImporter:
       name: goblin_attack_anim_strip_4_1
       rect:
         serializedVersion: 2
-        x: 27
+        x: 24
         y: 0
-        width: 18
+        width: 24
         height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.35, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -182,12 +182,12 @@ TextureImporter:
       name: goblin_attack_anim_strip_4_2
       rect:
         serializedVersion: 2
-        x: 50
+        x: 48
         y: 0
-        width: 22
+        width: 24
         height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.35, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -204,12 +204,12 @@ TextureImporter:
       name: goblin_attack_anim_strip_4_3
       rect:
         serializedVersion: 2
-        x: 73
+        x: 72
         y: 0
-        width: 22
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 24
+        height: 16
+      alignment: 9
+      pivot: {x: 0.35, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -226,7 +226,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: acc769eb2d78bb44eb7d451e29ef36f8
     internalID: 0
     vertices: []
     indices: 

@@ -201,7 +201,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Inimigo_AnimatorController
+  m_Name: Slime-Anim
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: T_Alert
@@ -288,7 +288,7 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -9164191378093334090}
-    m_Position: {x: 270, y: 80, z: 0}
+    m_Position: {x: 300, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4455029117954793301}
     m_Position: {x: 260, y: -70, z: 0}

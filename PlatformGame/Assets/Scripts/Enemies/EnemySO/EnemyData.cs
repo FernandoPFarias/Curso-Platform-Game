@@ -11,6 +11,7 @@ public abstract class EnemyData : ScriptableObject
     [Header("Core Stats")]
     public float maxHealth;
     public float moveSpeed;
+    public float chaseSpeed = 6f;
 
     [Header("Damage Types")]
     public float contactDamage;
@@ -31,4 +32,9 @@ public abstract class EnemyData : ScriptableObject
     [Header("Effects")]
     public GameObject deathParticlesPrefab;
     public GameEvent onDeathEvent;
+
+    [Header("Attack Settings")]
+    public string attackTriggerName = "T_DoAttack";
+    public float attackRange = 1f;
+    public Vector2 attackOffset = Vector2.zero;
 }

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Death
+  m_Name: Death_Goblin_Knife
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -51,17 +51,17 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -619481976519917459, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
+      value: {fileID: -4454485551354414918, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
     - time: 0.083333336
-      value: {fileID: -4070623177008022339, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
+      value: {fileID: 6609010165032081395, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
     - time: 0.16666667
-      value: {fileID: 4250375330769356045, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
+      value: {fileID: -6310726310726893129, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
     - time: 0.25
-      value: {fileID: -175604918, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
+      value: {fileID: 1440824083, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
     - time: 0.33333334
-      value: {fileID: -1857424975, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
+      value: {fileID: 1718624043, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
     - time: 0.41666666
-      value: {fileID: 525324652, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
+      value: {fileID: -1309494538, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -93,12 +93,12 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -619481976519917459, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
-    - {fileID: -4070623177008022339, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
-    - {fileID: 4250375330769356045, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
-    - {fileID: -175604918, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
-    - {fileID: -1857424975, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
-    - {fileID: 525324652, guid: deb7027519fadb0499f31992b4d6cb6b, type: 3}
+    - {fileID: -4454485551354414918, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
+    - {fileID: 6609010165032081395, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
+    - {fileID: -6310726310726893129, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
+    - {fileID: 1440824083, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
+    - {fileID: 1718624043, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
+    - {fileID: -1309494538, guid: aa3f202c6a5bbcc47b283ae778cb11cb, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
