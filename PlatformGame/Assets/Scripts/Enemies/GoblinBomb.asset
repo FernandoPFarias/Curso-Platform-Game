@@ -23,7 +23,7 @@ MonoBehaviour:
   knockbackDuration: 0.3
   detectionRange: 5
   giveUpRange: 4
-  alertDuration: 1
+  alertDuration: 0.2
   behaviour: {fileID: 11400000, guid: 0d6db4fbdb841e7429d9fd4ae1f2c870, type: 2}
   deathParticlesPrefab: {fileID: 0}
   onDeathEvent: {fileID: 0}
@@ -31,7 +31,7 @@ MonoBehaviour:
   attackRange: 4
   attackOffset: {x: 0, y: 0}
   projectilPrefab: {fileID: 5943379641328257205, guid: 2ae42e3a2bd3d274eb1774e064d8d91a, type: 3}
-  fireRate: 1
+  fireRate: 0.5
   visionRange: 4
   projectileSpeed: 2
   projectileDamage: 15

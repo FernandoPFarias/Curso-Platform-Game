@@ -120,4 +120,13 @@ public class PlayerController : MonoBehaviour
         isFacingRight = !isFacingRight;
         transform.localScale = new Vector3(transform.localScale.x * -1, 1f, 1f);
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var collectable = other.GetComponent<Collectable>();
+        if (collectable != null)
+        {
+            collectable.Collect(gameObject);
+        }
+    }
 }

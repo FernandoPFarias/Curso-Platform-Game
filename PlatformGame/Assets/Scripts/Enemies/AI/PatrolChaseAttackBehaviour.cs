@@ -107,8 +107,6 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
                     {
                         puppet.AnimationManager?.animator.SetTrigger(puppet.EnemyData.attackTriggerName);
                         lastFireTime = Time.time;
-                        // Instancia o projétil (pode ser chamado via Animation Event se preferir)
-                        FireProjectile(puppet, projectilePrefab);
                     }
                 }
                 else

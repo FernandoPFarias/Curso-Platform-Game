@@ -23,7 +23,7 @@ MonoBehaviour:
   knockbackDuration: 0.3
   detectionRange: 5.4
   giveUpRange: 5
-  alertDuration: 1
+  alertDuration: 0.2
   behaviour: {fileID: 11400000, guid: 0d6db4fbdb841e7429d9fd4ae1f2c870, type: 2}
   deathParticlesPrefab: {fileID: 0}
   onDeathEvent: {fileID: 0}

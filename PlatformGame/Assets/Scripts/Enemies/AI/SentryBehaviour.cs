@@ -98,7 +98,6 @@ public class SentryBehaviour : AIBehaviour
                         {
                             puppet.AnimationManager?.animator.SetTrigger(puppet.EnemyData.attackTriggerName);
                             lastFireTime = Time.time;
-                            FireProjectile(puppet, projectilePrefab, rangedData);
                         }
                     }
                     break;
