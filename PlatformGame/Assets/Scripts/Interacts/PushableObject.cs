@@ -84,15 +84,18 @@ public class PushableObject : MonoBehaviour
     {
         if (isGrabbed && playerTransform != null && playerEncostado)
         {
-            float move = Input.GetAxisRaw("Horizontal");
-            // Aplica força de empurro
+            float move = 0f;
+            if (playerActions != null)
+            {
+                // Lê o valor do eixo X do input de movimento do novo Input System
+                move = playerActions.Player.Move.ReadValue<Vector2>().x;
+            }
+
             rb.AddForce(new Vector2(move * pushForce, 0f), ForceMode2D.Force);
 
-            // Limita a velocidade máxima da caixa
             if (Mathf.Abs(rb.linearVelocity.x) > maxPushSpeed)
                 rb.linearVelocity = new Vector2(Mathf.Sign(rb.linearVelocity.x) * maxPushSpeed, rb.linearVelocity.y);
 
-            // Arremesso com Input System (Throw)
             if (podeArremessar && throwAction != null && throwAction.WasPressedThisFrame())
             {
                 Debug.Log("Botão de arremesso pressionado!");

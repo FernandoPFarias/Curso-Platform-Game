@@ -7683,12 +7683,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c65530f2ba789c4f9ae594cf491e021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushSpeed: 3
+  pushSpeed: 10
   isGrabbed: 0
   podeArremessar: 1
-  forcaArremesso: {x: 1, y: 0}
-  pushForce: 15
-  maxPushSpeed: 4
+  forcaArremesso: {x: 10, y: 0}
+  pushForce: 20
+  maxPushSpeed: 10
 --- !u!4 &1982643471 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2161489430245226693, guid: 353b3b86ea2a4224aa12ae258683e528, type: 3}
