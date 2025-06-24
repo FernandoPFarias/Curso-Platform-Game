@@ -21,7 +21,7 @@ public class PlayerCombat : MonoBehaviour
     private void OnEnable()
     {
         playerControls.Player.Enable();
-        // se a a��o tiver criada no input system ela vem pra c�
+        // se a ação tiver criada no input system ela vem pra c
         playerControls.Player.Attack.performed += OnBasicAttack;
 
 
@@ -35,23 +35,37 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
+        var controller = GetComponent<PlayerController>();
+        if (controller != null && controller.segurandoCaixa)
+        {
+            // Tenta arremessar a caixa se estiver segurando
+            var pushables = FindObjectsOfType<PushableObject>();
+            foreach (var pushable in pushables)
+            {
+                if (pushable.isGrabbed)
+                {
+                    pushable.Arremessar(controller.transform);
+                    break;
+                }
+            }
+            return;
+        }
+        if (controller != null && !controller.podeAtacar)
+        {
+            Debug.Log("Não pode atacar enquanto empurra!");
+            return;
+        }
 
         if (Time.time >= lastAttackTime + basicAttack.attackCooldown)
         {
-
-
             CurrentAttack = basicAttack;
             basicAttack?.Execute(this.gameObject);
-
-
             lastAttackTime = Time.time;
-
         }
         else
         {
             Debug.Log("ATAQUE EM CDR");
         }
-
     }
 
 

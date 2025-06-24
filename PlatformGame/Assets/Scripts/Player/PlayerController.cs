@@ -25,10 +25,14 @@ public class PlayerController : MonoBehaviour
     public Vector2 CurrentVelocity => rb.linearVelocity;
     public bool IsGrounded => isGrounded;
     public bool IsFacingRight => isFacingRight;
+    public bool podeVirar = true;
+    public bool podeAtacar = true;
+    public bool segurandoCaixa = false;
 
     // --- Componentes e Referências ---
     private Rigidbody2D rb;
     private InputSystem_Actions playerControls;
+    public InputSystem_Actions PlayerControls => playerControls;
 
     // --- Variáveis de Estado Interno ---
     private Vector2 moveDirection = Vector2.zero;
@@ -109,6 +113,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleFlip()
     {
+        if (!podeVirar) return;
         if ((isFacingRight && moveDirection.x < 0f) || (!isFacingRight && moveDirection.x > 0f))
         {
             Flip();
