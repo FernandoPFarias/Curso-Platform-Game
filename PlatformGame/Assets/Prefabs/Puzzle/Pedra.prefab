@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7954389568237020071}
   - component: {fileID: 5170932046533876879}
   - component: {fileID: 6673209563613026962}
+  - component: {fileID: 2265222116638851211}
   m_Layer: 11
   m_Name: Pedra
   m_TagString: Pedra
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 4304013091080103044}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.190868, y: 1.6899848, z: -0.053812888}
+  m_LocalPosition: {x: -0.22913218, y: 3.2089849, z: -0.107625775}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -119,7 +120,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -162,3 +163,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2265222116638851211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4304013091080103044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c65530f2ba789c4f9ae594cf491e021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushForce: 1
+  maxPushSpeed: 1
+  podeArremessar: 1
+  forcaArremesso: {x: 10, y: 0}
+  maxGrabDistance: 1
+  groundSensorAOffset: {x: -0.35, y: -0.36}
+  groundSensorARadius: 0.08
+  groundSensorBOffset: {x: 0.35, y: -0.36}
+  groundSensorBRadius: 0.08
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64

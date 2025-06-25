@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -6,6 +7,25 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask pushableLayer;
     private PushableObject grabbedObject;
     private int holdSide = 1; // 1 = direita, -1 = esquerda
+
+    private InputSystem_Actions playerControls;
+
+    void Awake()
+    {
+        playerControls = new InputSystem_Actions();
+    }
+
+    void OnEnable()
+    {
+        playerControls.Player.Enable();
+        playerControls.Player.Throw.performed += OnThrow;
+    }
+
+    void OnDisable()
+    {
+        playerControls.Player.Throw.performed -= OnThrow;
+        playerControls.Player.Disable();
+    }
 
     void Update()
     {
@@ -33,6 +53,15 @@ public class PlayerInteraction : MonoBehaviour
                 grabbedObject.Release();
                 grabbedObject = null;
             }
+        }
+    }
+
+    private void OnThrow(InputAction.CallbackContext ctx)
+    {
+        if (grabbedObject != null)
+        {
+            grabbedObject.Arremessar(transform);
+            grabbedObject = null;
         }
     }
 

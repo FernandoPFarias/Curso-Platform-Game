@@ -45,7 +45,7 @@ public class PushableObject : MonoBehaviour
         joint.enableCollision = false;
     }
 
-    public void Release()
+    public void Release(bool travarX = true, bool zerarVelocidade = true)
     {
         isGrabbed = false;
         if (playerTransform != null)
@@ -59,8 +59,12 @@ public class PushableObject : MonoBehaviour
             if (joint != null) GameObject.Destroy(joint);
         }
         playerTransform = null;
-        rb.linearVelocity = Vector2.zero;
-        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        if (zerarVelocidade)
+            rb.linearVelocity = Vector2.zero;
+        if (travarX)
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        else
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     void FixedUpdate()
@@ -95,12 +99,15 @@ public class PushableObject : MonoBehaviour
     public void Arremessar(Transform player)
     {
         float direcaoX = Mathf.Sign(player.localScale.x);
-        // Libera X antes do impulso
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        Vector2 forca = new Vector2(forcaArremesso.x * direcaoX, 0f);
+        // Remove FixedJoint2D do player ANTES de aplicar a força
+        var joint = player.GetComponent<FixedJoint2D>();
+        if (joint != null) GameObject.Destroy(joint);
+        // NÃO afasta a pedra!
+        Vector2 forca = new Vector2(forcaArremesso.x * direcaoX, forcaArremesso.y);
         rb.AddForce(forca, ForceMode2D.Impulse);
         Debug.Log($"Arremessou a pedra! Força: {forca}, Direção: {direcaoX}");
-        Release(); // Agora solta depois de aplicar a força
+        Release(false, false);
     }
 
     public bool IsGrabbed => isGrabbed;
