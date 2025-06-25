@@ -20,11 +20,29 @@ public class PushableObject : MonoBehaviour
     public Vector2 groundSensorBOffset = new Vector2(0.2f, -0.5f);
     public float groundSensorBRadius = 0.08f;
     public LayerMask groundLayer;
+    private bool foiArremessada = false;
+    [Header("Comportamento com Inimigos")]
+    public bool atravessavelPorInimigos = false;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    void Start()
+    {
+        if (atravessavelPorInimigos)
+        {
+            var inimigos = FindObjectsOfType<Enemy>(); // Troque Enemy pelo nome do seu script de inimigo se necessário
+            var col = GetComponent<Collider2D>();
+            foreach (var inimigo in inimigos)
+            {
+                var inimigoCol = inimigo.GetComponent<Collider2D>();
+                if (inimigoCol != null && col != null)
+                    Physics2D.IgnoreCollision(col, inimigoCol);
+            }
+        }
     }
 
     public void TryGrab(Transform player, int side)
@@ -94,6 +112,13 @@ public class PushableObject : MonoBehaviour
                 return;
             }
         }
+
+        // Travar X após arremesso quando parar
+        if (foiArremessada && Mathf.Abs(rb.linearVelocity.x) < 0.01f)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            foiArremessada = false;
+        }
     }
 
     public void Arremessar(Transform player)
@@ -107,6 +132,7 @@ public class PushableObject : MonoBehaviour
         Vector2 forca = new Vector2(forcaArremesso.x * direcaoX, forcaArremesso.y);
         rb.AddForce(forca, ForceMode2D.Impulse);
         Debug.Log($"Arremessou a pedra! Força: {forca}, Direção: {direcaoX}");
+        foiArremessada = true;
         Release(false, false);
     }
 

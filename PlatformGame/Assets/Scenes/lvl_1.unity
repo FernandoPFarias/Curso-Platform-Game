@@ -260,7 +260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2265222116638851211, guid: fe5005bdaa68ea144a737e49fd3054a6, type: 3}
       propertyPath: forcaArremesso.x
-      value: 200
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 2265222116638851211, guid: fe5005bdaa68ea144a737e49fd3054a6, type: 3}
       propertyPath: forcaArremesso.y
