@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -43,11 +44,37 @@ public class PlayerController : MonoBehaviour
 
     public PlayerCombat Combat { get; private set; }
 
-    private void Awake()
-    {   
+    public static PlayerController Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            rb = GetComponent<Rigidbody2D>();
+            playerControls = new InputSystem_Actions();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         Combat = GetComponent<PlayerCombat>();
-        rb = GetComponent<Rigidbody2D>();
-        playerControls = new InputSystem_Actions();
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        var spawn = GameObject.Find("PlayerSpawn");
+        if (spawn != null)
+            transform.position = spawn.transform.position;
     }
 
     private void OnEnable()

@@ -4,6 +4,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     private float currentHealth;
+    public float CurrentHealth => currentHealth;
     private bool isDead = false;
 
     private Animator animator;
@@ -41,18 +42,18 @@ public class PlayerHealth : MonoBehaviour
         animator?.SetTrigger("Death");
 
 
-        // Desliga os scripts de controle para que o jogador n�o possa mais se mover ou atacar
+        // Desliga os scripts de controle para que o jogador não possa mais se mover ou atacar
         GetComponent<PlayerController>().enabled = false;
         GetComponent<PlayerCombat>().enabled = false;
 
-        // Desliga a f�sica para o corpo n�o cair ou ser empurrado
+        // Desliga a física para o corpo não cair ou ser empurrado
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
 
-        // Desliga o collider para n�o interagir mais com nada
+        // Desliga o collider para não interagir mais com nada
         GetComponent<Collider2D>().enabled = false;
 
-        // Aqui voc� chamaria seu GameManager para mostrar a tela de "Game Over"
+        // Aqui você chamaria seu GameManager para mostrar a tela de "Game Over"
         // Ex: GameManager.Instance.ShowGameOverScreen();
 
 
@@ -68,4 +69,4 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = maxHealth;
         Debug.Log($"JOGADOR curado em {amount}! Vida atual: {currentHealth}");
     }
-}
+} 
