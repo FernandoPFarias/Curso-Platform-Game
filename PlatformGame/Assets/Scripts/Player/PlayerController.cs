@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     private void HandleFlip()
     {
         if (!podeVirar) return;
+        if (segurandoCaixa) return; // Não flipar enquanto segura a pedra
         if ((isFacingRight && moveDirection.x < 0f) || (!isFacingRight && moveDirection.x > 0f))
         {
             Flip();

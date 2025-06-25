@@ -410,6 +410,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pedra 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5170932046533876879, guid: fe5005bdaa68ea144a737e49fd3054a6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6242,12 +6246,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c65530f2ba789c4f9ae594cf491e021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushSpeed: 3
-  isGrabbed: 0
+  pushForce: 1
+  maxPushSpeed: 1
   podeArremessar: 1
-  forcaArremesso: {x: 2, y: 0}
-  pushForce: 15
-  maxPushSpeed: 4
+  forcaArremesso: {x: 10, y: 0}
+  maxGrabDistance: 1
+  groundSensorAOffset: {x: -0.35, y: -0.36}
+  groundSensorARadius: 0.08
+  groundSensorBOffset: {x: 0.35, y: -0.36}
+  groundSensorBRadius: 0.08
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &901936154
 GameObject:
   m_ObjectHideFlags: 0
@@ -6617,75 +6627,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1361429100
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2123336201}
-    m_Modifications:
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.31319904
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.54274
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.107625775
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3285804478338491293, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_Name
-      value: "Bot\xE3o"
-      objectReference: {fileID: 0}
-    - target: {fileID: 7805484849640011865, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: barrierAnim
-      value: 
-      objectReference: {fileID: 1982643472}
-    - target: {fileID: 7805484849640011865, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: layer.m_Bits
-      value: 2056
-      objectReference: {fileID: 0}
-    - target: {fileID: 7805484849640011865, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: barrierController
-      value: 
-      objectReference: {fileID: 1982643475}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
 --- !u!4 &1363568854 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3636024994117829754, guid: 6b43685137a32334d9638262b4357079, type: 3}
@@ -7059,11 +7000,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinText: {fileID: 1489988811}
---- !u!4 &1511518868 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1105278008880643484, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-  m_PrefabInstance: {fileID: 1361429100}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1520643073 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3636024994117829754, guid: 6b43685137a32334d9638262b4357079, type: 3}
@@ -7081,10 +7017,10 @@ GameObject:
   - component: {fileID: 1651135500}
   - component: {fileID: 1651135498}
   - component: {fileID: 1651135499}
-  - component: {fileID: 1651135494}
-  - component: {fileID: 1651135501}
   - component: {fileID: 1651135497}
   - component: {fileID: 1651135502}
+  - component: {fileID: 1651135494}
+  - component: {fileID: 1651135501}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -7249,6 +7185,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d7d00bdc-c6ee-46eb-bb2c-dd5bfd37711e
+    m_ActionName: 'Player/Throw[/Mouse/rightButton]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -7355,10 +7295,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48f87e097585b994e979049286467fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactDistance: 1
-  pushables:
-  - {fileID: 1950312550}
-  - {fileID: 878403403}
+  interactDistance: 0.4
+  pushableLayer:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!1 &1662499040 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3251891927106566083, guid: c4bce0b79576fa14893d1f22945a68cd, type: 3}
@@ -7683,12 +7623,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c65530f2ba789c4f9ae594cf491e021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushSpeed: 10
-  isGrabbed: 0
+  pushForce: 1
+  maxPushSpeed: 1
   podeArremessar: 1
   forcaArremesso: {x: 10, y: 0}
-  pushForce: 20
-  maxPushSpeed: 10
+  maxGrabDistance: 0.7
+  groundSensorAOffset: {x: -0.2, y: -0.5}
+  groundSensorARadius: 0.08
+  groundSensorBOffset: {x: 0.2, y: -0.5}
+  groundSensorBRadius: 0.08
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &1982643471 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2161489430245226693, guid: 353b3b86ea2a4224aa12ae258683e528, type: 3}
@@ -7938,7 +7884,6 @@ Transform:
   - {fileID: 1430834808}
   - {fileID: 878403402}
   - {fileID: 769598481}
-  - {fileID: 1511518868}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2126057231
@@ -8273,9 +8218,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pedra
       objectReference: {fileID: 0}
+    - target: {fileID: 5170932046533876879, guid: fe5005bdaa68ea144a737e49fd3054a6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6673209563613026962, guid: fe5005bdaa68ea144a737e49fd3054a6, type: 3}
       propertyPath: m_Mass
-      value: 1
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6673209563613026962, guid: fe5005bdaa68ea144a737e49fd3054a6, type: 3}
       propertyPath: m_Constraints
@@ -8584,21 +8533,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1982643472}
     - target: {fileID: 7805484849640011865, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: layer.m_Bits
-      value: 2056
-      objectReference: {fileID: 0}
-    - target: {fileID: 7805484849640011865, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
       propertyPath: barrierController
       value: 
       objectReference: {fileID: 1982643475}
-    - target: {fileID: 8754906565624357580, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x
-      value: -0.1907196
-      objectReference: {fileID: 0}
-    - target: {fileID: 8754906565624357580, guid: 4aa12b81bf175b34d9ae75879ec04bd7, type: 3}
-      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
-      value: -0.021100232
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

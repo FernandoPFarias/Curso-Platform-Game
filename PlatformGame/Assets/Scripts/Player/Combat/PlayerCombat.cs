@@ -42,7 +42,7 @@ public class PlayerCombat : MonoBehaviour
             var pushables = FindObjectsOfType<PushableObject>();
             foreach (var pushable in pushables)
             {
-                if (pushable.isGrabbed)
+                if (pushable.IsGrabbed)
                 {
                     pushable.Arremessar(controller.transform);
                     break;

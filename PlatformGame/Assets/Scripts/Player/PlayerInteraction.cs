@@ -1,30 +1,30 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections.Generic;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public float interactDistance = 1f;
-    public List<PushableObject> pushables; // Arraste os objetos empurráveis aqui no Inspector
+    public LayerMask pushableLayer;
     private PushableObject grabbedObject;
+    private int holdSide = 1; // 1 = direita, -1 = esquerda
 
     void Update()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (grabbedObject == null)
             {
-                Vector2 dir = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-                foreach (var pushable in pushables)
+                // Detecta objeto empurrável próximo usando OverlapBox
+                Vector2 boxCenter = (Vector2)transform.position + Vector2.right * transform.localScale.x * interactDistance * 0.5f;
+                Vector2 boxSize = new Vector2(interactDistance, 1f);
+                Collider2D obj = Physics2D.OverlapBox(boxCenter, boxSize, 0f, pushableLayer);
+                if (obj != null)
                 {
-                    if (pushable == null) continue;
-                    Vector2 toObj = (Vector2)pushable.transform.position - (Vector2)transform.position;
-                    // Checa se está na direção e dentro da distância
-                    if (Vector2.Dot(dir, toObj.normalized) > 0.7f && toObj.magnitude <= interactDistance)
+                    grabbedObject = obj.GetComponent<PushableObject>();
+                    if (grabbedObject != null)
                     {
-                        pushable.TryGrab(transform);
-                        grabbedObject = pushable;
-                        break;
+                        // Salva o lado
+                        holdSide = (transform.position.x < obj.transform.position.x) ? -1 : 1;
+                        grabbedObject.TryGrab(transform, holdSide);
                     }
                 }
             }
@@ -36,10 +36,12 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    // Visualização do OverlapBox no editor
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Vector2 dir = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
-        Gizmos.DrawLine(transform.position, (Vector2)transform.position + dir * interactDistance);
+        Vector2 boxCenter = (Vector2)transform.position + Vector2.right * transform.localScale.x * interactDistance * 0.5f;
+        Vector2 boxSize = new Vector2(interactDistance, 1f);
+        Gizmos.DrawWireCube(boxCenter, boxSize);
     }
 } 

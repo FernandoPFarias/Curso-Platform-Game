@@ -137,9 +137,9 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: -0.43803486, y: -0.0772786}
-      - {x: 0.2522984, y: -0.064363}
-      - {x: 0.24441534, y: 0.0014967248}
-      - {x: -0.15114188, y: -0.0013113711}
+      - {x: 0.30771953, y: -0.07502085}
+      - {x: 0.21466905, y: -0.04269094}
+      - {x: -0.2234106, y: -0.05188889}
   m_UseDelaunayMesh: 0
 --- !u!95 &2959475709870866826
 Animator:
@@ -176,7 +176,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrierAnim: {fileID: 0}
+  barrierController: {fileID: 0}
   layer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 2056
   boxSize: {x: 0.16, y: 0.29}
+  tempoParaAtivar: 0.5
