@@ -1,25 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class HeartBarUIController : MonoBehaviour
 {
-    public GameObject heartPrefab; // Prefab do coração (UI Image)
-    private List<Image> hearts = new List<Image>();
+    [Header("Referências das Imagens")]
+    public Image heartFillerImage; // Imagem do coração que enche/seca (Image Type: Filled)
+    public Image heartFrameImage;  // Imagem do contorno do coração
 
-    void Start()
-    {
-        // Instancia os corações logo ao iniciar o jogo
-        if (PlayerController.Instance != null)
-        {
-            var health = PlayerController.Instance.GetComponent<PlayerHealth>();
-            if (health != null)
-            {
-                int vidaMaxima = Mathf.RoundToInt(health.maxHealth);
-                AtualizarCoroes(vidaMaxima);
-            }
-        }
-    }
+    [Header("Configurações da Animação")]
+    public float lowHealthThreshold = 0.3f; // Vida considerada baixa
+    public float pulseSpeed = 8f;           // Velocidade do pulsar
+    public float pulseAmount = 0.1f;        // Intensidade do pulsar
+    public float blinkSpeed = 2f;           // Velocidade do piscar
 
     void Update()
     {
@@ -27,31 +19,39 @@ public class HeartBarUIController : MonoBehaviour
         var health = PlayerController.Instance.GetComponent<PlayerHealth>();
         if (health == null) return;
 
-        int vidaMaxima = Mathf.FloorToInt(health.maxHealth);
-        int vidaAtual = Mathf.FloorToInt(health.CurrentHealth);
-        AtualizarCoroes(vidaMaxima);
+        float fill = Mathf.Clamp01(health.CurrentHealth / health.maxHealth);
+        if (heartFillerImage != null)
+            heartFillerImage.fillAmount = fill;
 
-        for (int i = 0; i < hearts.Count; i++)
+        // Animação: pulsar e piscar vermelho quando a vida estiver baixa
+        if (fill < lowHealthThreshold)
         {
-            if (i < vidaAtual)
-                hearts[i].fillAmount = 1f;
-            else
-                hearts[i].fillAmount = 0f;
-        }
-    }
+            float scale = 1f + Mathf.Sin(Time.time * pulseSpeed) * pulseAmount;
+            Color blinkColor = Color.Lerp(Color.white, Color.red, Mathf.PingPong(Time.time * blinkSpeed, 1));
 
-    void AtualizarCoroes(int vidaMaxima)
-    {
-        // Ajusta a quantidade de corações
-        while (hearts.Count < vidaMaxima)
-        {
-            var heart = Instantiate(heartPrefab, transform).GetComponent<Image>();
-            hearts.Add(heart);
+            if (heartFillerImage != null)
+            {
+                heartFillerImage.rectTransform.localScale = new Vector3(scale, scale, 1f);
+                heartFillerImage.color = blinkColor;
+            }
+            if (heartFrameImage != null)
+            {
+                heartFrameImage.rectTransform.localScale = new Vector3(scale, scale, 1f);
+                heartFrameImage.color = blinkColor;
+            }
         }
-        while (hearts.Count > vidaMaxima)
+        else
         {
-            Destroy(hearts[hearts.Count - 1].gameObject);
-            hearts.RemoveAt(hearts.Count - 1);
+            if (heartFillerImage != null)
+            {
+                heartFillerImage.rectTransform.localScale = Vector3.one;
+                heartFillerImage.color = Color.white;
+            }
+            if (heartFrameImage != null)
+            {
+                heartFrameImage.rectTransform.localScale = Vector3.one;
+                heartFrameImage.color = Color.white;
+            }
         }
     }
 }

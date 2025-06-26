@@ -8,7 +8,7 @@ public class HeartUIController : MonoBehaviour
 
     void Update()
     {
-        int vidaAtual = GameManager.Instance.vida; // ou PlayerController.Instance.vida
+        int vidaAtual = Mathf.CeilToInt(GameManager.Instance.playerHealth); // usa playerHealth do GameManager
         float fill = Mathf.Clamp01((float)vidaAtual / vidaMaxima);
         heartFillImage.fillAmount = fill;
     }

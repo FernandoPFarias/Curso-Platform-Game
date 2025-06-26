@@ -140,10 +140,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 36
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 12
+        height: 20
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -160,12 +160,12 @@ TextureImporter:
       name: save_point_saving_anim_strip_3_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 12
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 12
+        y: 0
+        width: 12
+        height: 20
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -182,12 +182,12 @@ TextureImporter:
       name: save_point_saving_anim_strip_3_2
       rect:
         serializedVersion: 2
-        x: 13
-        y: 12
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 24
+        y: 0
+        width: 12
+        height: 20
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -200,33 +200,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: save_point_saving_anim_strip_3_3
-      rect:
-        serializedVersion: 2
-        x: 25
-        y: 12
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: aa96b14f157581d40800000000000000
-      internalID: 5555286149860911530
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8237964bbc003384ea0b7820a00c1697
     internalID: 0
     vertices: []
     indices: 
@@ -239,7 +217,6 @@ TextureImporter:
       save_point_saving_anim_strip_3_0: -8472866378243816795
       save_point_saving_anim_strip_3_1: -5066322228538487545
       save_point_saving_anim_strip_3_2: -7639937824955634983
-      save_point_saving_anim_strip_3_3: 5555286149860911530
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

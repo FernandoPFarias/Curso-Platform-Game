@@ -48,19 +48,11 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            rb = GetComponent<Rigidbody2D>();
-            playerControls = new InputSystem_Actions();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        rb = GetComponent<Rigidbody2D>();
+        playerControls = new InputSystem_Actions();
         Combat = GetComponent<PlayerCombat>();
     }
 
@@ -87,6 +79,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
+        if (Instance == this)
+            Instance = null;
         playerControls.Player.Disable();
         playerControls.Player.Jump.performed -= OnJumpPerformed;
         playerControls.Player.Move.performed -= ctx => moveDirection = ctx.ReadValue<Vector2>();
