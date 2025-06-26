@@ -69,9 +69,13 @@ public class GameManager : MonoBehaviour
             playerLives = PlayerPrefs.GetInt("Vidas");
     }
 
-    private void Start()
+    void Start()
     {
-        LoadGame();
+        playerLives = 3;
+        playerHealth = 100f;
+        lastCheckpointPosition = Vector3.zero;
+        lastCheckpointYOffset = 0.3f;
+        // Se quiser, zere outros dados aqui futuramente
     }
 
     public void GameOver()

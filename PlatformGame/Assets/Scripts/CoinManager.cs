@@ -19,6 +19,11 @@ public class CoinManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    void Start()
+    {
+        SetCoins(0);
+    }
+
     public void AddCoin(int amount = 1)
     {
         Coins += amount;
