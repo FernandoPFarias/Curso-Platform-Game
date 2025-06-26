@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     public void LoadGame()
     {
         if (PlayerPrefs.HasKey("Moedas") && CoinManager.Instance != null)
-            CoinManager.Instance.Coins = PlayerPrefs.GetInt("Moedas");
+            CoinManager.Instance.SetCoins(PlayerPrefs.GetInt("Moedas"));
         if (PlayerPrefs.HasKey("Vida"))
             playerHealth = PlayerPrefs.GetFloat("Vida");
         if (PlayerPrefs.HasKey("Vidas"))
@@ -76,12 +76,20 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        Debug.Log("GameOver chamado!");
         // Zera moedas e outros itens futuramente
         if (CoinManager.Instance != null)
-            CoinManager.Instance.Coins = 0;
-        // Exemplo: zere outros itens aqui futuramente
-        playerLives = 3; // (opcional: resetar vidas para novo jogo)
-        playerHealth = 100f; // (opcional: resetar vida)
+            CoinManager.Instance.SetCoins(0);
+        playerLives = 3;
+        playerHealth = 100f;
         SaveGame();
+
+        // Mostra a tela de Game Over
+        var gameOverUI = FindObjectOfType<GameOverUI>();
+        Debug.Log("GameOverUI encontrado? " + (gameOverUI != null));
+        if (gameOverUI != null)
+            gameOverUI.ShowGameOver();
+        else
+            Debug.LogWarning("GameOverUI não encontrado na cena!");
     }
 } 

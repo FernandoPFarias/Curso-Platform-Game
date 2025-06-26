@@ -31,4 +31,10 @@ public class CoinManager : MonoBehaviour
         Coins = 0;
         OnCoinChanged?.Invoke(Coins);
     }
+
+    public void SetCoins(int value)
+    {
+        Coins = value;
+        OnCoinChanged?.Invoke(Coins);
+    }
 } 
