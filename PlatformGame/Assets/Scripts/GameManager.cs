@@ -1,15 +1,24 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-1000)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public float playerHealth = 100f; // Valor inicial padrão
+    public GameObject playerPrefab;
+    public GameObject coinManagerPrefab;
+    public GameObject uiPrefab;
+
+    // Referências para instâncias
+    private GameObject playerInstance;
+    private GameObject coinManagerInstance;
+    private GameObject uiInstance;
+
+    public float playerHealth = 100f;
     public Vector3 lastCheckpointPosition = Vector3.zero;
     public float lastCheckpointYOffset = 0.3f;
-    public int playerLives = 3; // Valor inicial de vidas
-    // Adicione outros dados persistentes aqui (ex: moedas)
+    public int playerLives = 3;
 
     void Awake()
     {
@@ -76,6 +85,22 @@ public class GameManager : MonoBehaviour
         lastCheckpointPosition = Vector3.zero;
         lastCheckpointYOffset = 0.3f;
         // Se quiser, zere outros dados aqui futuramente
+
+        // Instanciar Player se não existir
+        if (FindObjectOfType<PlayerController>() == null && playerPrefab != null)
+        {
+            playerInstance = Instantiate(playerPrefab, lastCheckpointPosition, Quaternion.identity);
+        }
+        // Instanciar CoinManager se não existir
+        if (FindObjectOfType<CoinManager>() == null && coinManagerPrefab != null)
+        {
+            coinManagerInstance = Instantiate(coinManagerPrefab);
+        }
+        // Instanciar UI se não existir
+        if (FindObjectOfType<MenuUI>() == null && uiPrefab != null)
+        {
+            uiInstance = Instantiate(uiPrefab);
+        }
     }
 
     public void GameOver()
