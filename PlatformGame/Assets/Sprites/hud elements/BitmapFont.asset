@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d8fa4c8bb64cf45ba262291fa74485, type: 3}
+  m_Name: BitmapFont
+  m_EditorClassIdentifier: 
+  characters:
+  - character: 0
+    sprite: {fileID: 6323133540406899595, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 1
+    sprite: {fileID: -1140755060, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 2
+    sprite: {fileID: 903749549, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 3
+    sprite: {fileID: -1505020057, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 4
+    sprite: {fileID: 330661639, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 5
+    sprite: {fileID: -634148844, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 6
+    sprite: {fileID: 2104063869, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 7
+    sprite: {fileID: -66273245, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 8
+    sprite: {fileID: 2047653130, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: 9
+    sprite: {fileID: -1112463256, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: A
+    sprite: {fileID: -51894200, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: B
+    sprite: {fileID: -1290219155, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: C
+    sprite: {fileID: 1977190536, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: D
+    sprite: {fileID: 1020344612, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: E
+    sprite: {fileID: -1898589312, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: F
+    sprite: {fileID: -1144999110, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: G
+    sprite: {fileID: -975291230, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: H
+    sprite: {fileID: 1052618699, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: I
+    sprite: {fileID: 1033592949, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: J
+    sprite: {fileID: 649132038, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: K
+    sprite: {fileID: -2059615454, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: L
+    sprite: {fileID: 687229699, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: M
+    sprite: {fileID: 1351116889, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: N
+    sprite: {fileID: 2134903530, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: O
+    sprite: {fileID: -1189831088, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: P
+    sprite: {fileID: 1046246096, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: Q
+    sprite: {fileID: -1015416591, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: R
+    sprite: {fileID: 7974644, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: S
+    sprite: {fileID: -1011614287, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: T
+    sprite: {fileID: -481953366, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: U
+    sprite: {fileID: -543629530, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: V
+    sprite: {fileID: 1387470995, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: W
+    sprite: {fileID: 884609057, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: X
+    sprite: {fileID: 387443730, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: Y
+    sprite: {fileID: -449356362, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: Z
+    sprite: {fileID: 331810008, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: '?'
+    sprite: {fileID: 1571726750, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: '!'
+    sprite: {fileID: -983604121, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  - character: /
+    sprite: {fileID: 839222448, guid: 3bc9efdaffd8c7c4c864b0647d42fe95, type: 3}
+  characterSpacing: 0
+  lineHeight: 32

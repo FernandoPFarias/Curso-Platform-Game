@@ -1,17 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+// using UnityEngine.UI;
+// using TMPro;
 
 public class CoinUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI coinText;
+    public SpriteText spriteText;
 
     private void OnEnable()
     {
         if (CoinManager.Instance != null)
         {
             CoinManager.Instance.OnCoinChanged += UpdateUI;
-            UpdateUI(CoinManager.Instance.Coins); // Atualiza ao habilitar
+            UpdateUI(CoinManager.Instance.Coins);
         }
     }
 
@@ -29,14 +29,13 @@ public class CoinUI : MonoBehaviour
 
     private void UpdateUI(int newTotal)
     {
-        Debug.Log("UpdateUI chamado! Novo valor: " + newTotal + " | coinText null? " + (coinText == null));
-        if (coinText != null)
-            coinText.text = "x " + newTotal.ToString();
+        if (spriteText != null)
+            spriteText.SetText(newTotal.ToString());
     }
 
     void Update()
     {
-        if (CoinManager.Instance != null && coinText != null)
-            coinText.text = "x " + CoinManager.Instance.Coins.ToString();
+        if (CoinManager.Instance != null && spriteText != null)
+            spriteText.SetText(CoinManager.Instance.Coins.ToString());
     }
 } 

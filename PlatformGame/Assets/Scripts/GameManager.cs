@@ -85,22 +85,6 @@ public class GameManager : MonoBehaviour
         lastCheckpointPosition = Vector3.zero;
         lastCheckpointYOffset = 0.3f;
         // Se quiser, zere outros dados aqui futuramente
-
-        // Instanciar Player se não existir
-        if (FindObjectOfType<PlayerController>() == null && playerPrefab != null)
-        {
-            playerInstance = Instantiate(playerPrefab, lastCheckpointPosition, Quaternion.identity);
-        }
-        // Instanciar CoinManager se não existir
-        if (FindObjectOfType<CoinManager>() == null && coinManagerPrefab != null)
-        {
-            coinManagerInstance = Instantiate(coinManagerPrefab);
-        }
-        // Instanciar UI se não existir
-        if (FindObjectOfType<MenuUI>() == null && uiPrefab != null)
-        {
-            uiInstance = Instantiate(uiPrefab);
-        }
     }
 
     public void GameOver()

@@ -1,13 +1,13 @@
 using UnityEngine;
-using TMPro;
+// using TMPro;
 
 public class LivesUI : MonoBehaviour
 {
-    public TextMeshProUGUI livesText; // Arraste o TextMeshProUGUI no Inspector
+    public SpriteText spriteText;
 
     void Update()
     {
-        if (GameManager.Instance != null)
-            livesText.text = "x " + GameManager.Instance.playerLives.ToString();
+        if (GameManager.Instance != null && spriteText != null)
+            spriteText.SetText(GameManager.Instance.playerLives.ToString());
     }
 } 
