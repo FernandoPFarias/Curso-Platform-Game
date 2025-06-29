@@ -231,7 +231,7 @@ MonoBehaviour:
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 3136
   OnGroundJumpEvent: {fileID: 11400000, guid: b7b4f402a9b6fa74eb27c753366e97d6, type: 2}
   OnAirJumpEvent: {fileID: 11400000, guid: 3425e8c4cfb72a0428416d130ef6d634, type: 2}
   OnLandedEvent: {fileID: 11400000, guid: 4f5023a4e914aef45833a955c7132e59, type: 2}
@@ -413,8 +413,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &2593932536465417896
 CapsuleCollider2D:
