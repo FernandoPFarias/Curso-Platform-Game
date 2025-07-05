@@ -56,6 +56,11 @@ public class PlayerController : MonoBehaviour
         Combat = GetComponent<PlayerCombat>();
     }
 
+    void Start()
+    {
+        ForceGroundCheck();
+    }
+
     void OnDestroy()
     {
         if (Instance == this)
@@ -69,11 +74,22 @@ public class PlayerController : MonoBehaviour
             transform.position = spawn.transform.position;
     }
 
+    public void ForceGroundCheck()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        wasGrounded = isGrounded;
+        if (isGrounded)
+            jumpsRemaining = maxJumps;
+    }
+
     private void OnEnable()
     {
         playerControls.Player.Enable();
         playerControls.Player.Jump.performed += OnJumpPerformed;
-        playerControls.Player.Move.performed += ctx => moveDirection = ctx.ReadValue<Vector2>();
+        playerControls.Player.Move.performed += ctx => {
+            moveDirection = ctx.ReadValue<Vector2>();
+            Debug.Log("Move: " + moveDirection);
+        };
         playerControls.Player.Move.canceled += ctx => moveDirection = Vector2.zero;
     }
 
@@ -107,6 +123,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
+        Debug.Log($"PULO PRESSIONADO! jumpsRemaining: {jumpsRemaining} | context: {context}");
         // Se não temos pulos restantes, não fazemos nada.
         if (jumpsRemaining <= 0)
         {

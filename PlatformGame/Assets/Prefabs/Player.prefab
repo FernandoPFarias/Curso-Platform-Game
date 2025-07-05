@@ -228,7 +228,7 @@ MonoBehaviour:
   jumpForce: 10
   maxJumps: 2
   groundCheck: {fileID: 1916704468378719472}
-  groundCheckRadius: 0.2
+  groundCheckRadius: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 3136
