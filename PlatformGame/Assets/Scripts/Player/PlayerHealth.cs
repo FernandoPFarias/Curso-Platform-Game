@@ -4,48 +4,42 @@ using System.Collections;
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
-    private float currentHealth;
-    public float CurrentHealth => currentHealth;
     private bool isDead = false;
     private bool isInvincible = false;
     public float invincibleTime = 2f; // tempo de invencibilidade após respawn
 
     private Animator animator;
 
+    public float CurrentHealth => GameManager.Instance != null ? GameManager.Instance.playerHealth : (GameManager.Instance != null ? GameManager.Instance.maxHealth : 100f);
+
     private void Start()
     {
-        // Inicializa a vida do GameManager, se existir
+        animator = GetComponentInChildren<Animator>();
+        // Garante que a vida do GameManager nunca passe do máximo
         if (GameManager.Instance != null)
         {
-            if (GameManager.Instance.playerHealth > 0)
-                currentHealth = GameManager.Instance.playerHealth;
-            else
-                currentHealth = maxHealth;
+            if (GameManager.Instance.playerHealth > maxHealth || GameManager.Instance.playerHealth <= 0)
+                GameManager.Instance.playerHealth = maxHealth;
         }
-        else
-        {
-            currentHealth = maxHealth;
-        }
-
-        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnDestroy()
     {
-        // Salva a vida atual no GameManager ao destruir o player
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.playerHealth = currentHealth;
-        }
+        // Nada a fazer, GameManager já tem a vida atual
     }
 
     public void TakeDamage(float damageAmount)
     {
         if (isDead || isInvincible) return;
-        currentHealth -= damageAmount;
-        Debug.Log($"JOGADOR tomou {damageAmount} de dano! Vida atual: {currentHealth}");
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.playerHealth -= damageAmount;
+            if (GameManager.Instance.playerHealth < 0)
+                GameManager.Instance.playerHealth = 0;
+        }
+        Debug.Log($"JOGADOR tomou {damageAmount} de dano! Vida atual: {CurrentHealth}");
 
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
             return;
@@ -62,8 +56,7 @@ public class PlayerHealth : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.playerLives > 0)
         {
             GameManager.Instance.playerLives--;
-            currentHealth = maxHealth; // Vida cheia ao renascer
-            RespawnAtCheckpoint(currentHealth);
+            HandlePlayerDeath();
             return;
         }
         else
@@ -93,7 +86,12 @@ public class PlayerHealth : MonoBehaviour
         float yOffset = GameManager.Instance != null ? GameManager.Instance.lastCheckpointYOffset : 0.3f;
         transform.position = GameManager.Instance.lastCheckpointPosition + Vector3.up * yOffset;
 
-        currentHealth = healthAfterPenalty;
+        if (GameManager.Instance != null && healthAfterPenalty > 0)
+        {
+            GameManager.Instance.playerHealth = healthAfterPenalty;
+            if (GameManager.Instance.playerHealth > GameManager.Instance.maxHealth)
+                GameManager.Instance.playerHealth = GameManager.Instance.maxHealth;
+        }
         isDead = false;
         GetComponent<PlayerController>().enabled = true;
         GetComponent<PlayerCombat>().enabled = true;
@@ -103,7 +101,6 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(ReenablePhysicsNextFrame(rb));
         Debug.Log("Player respawned at checkpoint!");
 
-        // Garante que a câmera siga o player após respawn
         if (GameManager.Instance != null)
             GameManager.Instance.SetCameraFollow(transform);
     }
@@ -138,10 +135,13 @@ public class PlayerHealth : MonoBehaviour
     public void Heal(int amount)
     {
         if (isDead) return;
-        currentHealth += amount;
-        if (currentHealth > maxHealth)
-            currentHealth = maxHealth;
-        Debug.Log($"JOGADOR curado em {amount}! Vida atual: {currentHealth}");
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.playerHealth += amount;
+            if (GameManager.Instance.playerHealth > GameManager.Instance.maxHealth)
+                GameManager.Instance.playerHealth = GameManager.Instance.maxHealth;
+        }
+        Debug.Log($"JOGADOR curado em {amount}! Vida atual: {CurrentHealth}");
     }
 
     public void StartInvincibility()
@@ -157,9 +157,11 @@ public class PlayerHealth : MonoBehaviour
             playerController.enabled = false;
 
         // Aplica penalidade de vida, se houver
-        float newHealth = Mathf.Max(1f, CurrentHealth - penalty);
         if (GameManager.Instance != null)
+        {
+            float newHealth = Mathf.Max(1f, CurrentHealth - penalty);
             GameManager.Instance.playerHealth = newHealth;
+        }
 
         var fade = FindObjectOfType<FadeController>();
         if (fade != null)

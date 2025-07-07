@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public Vector3 lastCheckpointPosition = Vector3.zero;
     public float lastCheckpointYOffset = 0.3f;
     public int playerLives = 3;
+    public float maxHealth = 100f; // Vida máxima centralizada
 
     public Transform initialPlayerSpawnPoint; // Referenciável via Inspector
     public CinemachineCamera virtualCamera; // Arraste a Cinemachine Camera aqui

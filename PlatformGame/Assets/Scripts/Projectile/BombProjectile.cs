@@ -83,7 +83,7 @@ public class BombProjectile : ProjectileBase
         {
             if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerHealth>(out var playerHealth))
             {
-                if (playerHealth.CurrentHealth <= damage)
+               if (playerHealth.CurrentHealth <= damage)
                     playerHealth.HandlePlayerDeath(damage);
                 else
                     playerHealth.TakeDamage(damage);
