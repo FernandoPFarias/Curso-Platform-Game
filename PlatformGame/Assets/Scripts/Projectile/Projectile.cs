@@ -40,7 +40,10 @@ public class Projectile : MonoBehaviour
         {
             if (other.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
             {
-                playerHealth.TakeDamage(damage);
+                if (playerHealth.CurrentHealth <= damage)
+                    playerHealth.HandlePlayerDeath(damage);
+                else
+                    playerHealth.TakeDamage(damage);
             }
             Destroy(gameObject); // Destrói ao atingir o jogador
         }

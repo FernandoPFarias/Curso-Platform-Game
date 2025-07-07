@@ -16,7 +16,10 @@ public class ContactDamage : MonoBehaviour
             {
                 if (other.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
                 {
-                    playerHealth.TakeDamage(enemyData.contactDamage);
+                    if (playerHealth.CurrentHealth <= enemyData.contactDamage)
+                        playerHealth.HandlePlayerDeath(enemyData.contactDamage);
+                    else
+                        playerHealth.TakeDamage(enemyData.contactDamage);
                     lastDamageTime = Time.time;
                 }
             }

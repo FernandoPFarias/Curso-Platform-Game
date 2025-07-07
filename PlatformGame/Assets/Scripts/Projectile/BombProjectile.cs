@@ -83,7 +83,10 @@ public class BombProjectile : ProjectileBase
         {
             if (hit.CompareTag("Player") && hit.TryGetComponent<PlayerHealth>(out var playerHealth))
             {
-                playerHealth.TakeDamage(damage);
+                if (playerHealth.CurrentHealth <= damage)
+                    playerHealth.HandlePlayerDeath(damage);
+                else
+                    playerHealth.TakeDamage(damage);
             }
         }
         animHandler?.PlayExplosion();

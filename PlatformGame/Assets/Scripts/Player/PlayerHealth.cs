@@ -102,6 +102,10 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(InvincibilityCoroutine());
         StartCoroutine(ReenablePhysicsNextFrame(rb));
         Debug.Log("Player respawned at checkpoint!");
+
+        // Garante que a câmera siga o player após respawn
+        if (GameManager.Instance != null)
+            GameManager.Instance.SetCameraFollow(transform);
     }
 
     private System.Collections.IEnumerator ReenablePhysicsNextFrame(Rigidbody2D rb)
@@ -143,5 +147,32 @@ public class PlayerHealth : MonoBehaviour
     public void StartInvincibility()
     {
         StartCoroutine(InvincibilityCoroutine());
+    }
+
+    public void HandlePlayerDeath(float penalty = 0f)
+    {
+        // Desabilita controles
+        var playerController = GetComponent<PlayerController>();
+        if (playerController != null)
+            playerController.enabled = false;
+
+        // Aplica penalidade de vida, se houver
+        float newHealth = Mathf.Max(1f, CurrentHealth - penalty);
+        if (GameManager.Instance != null)
+            GameManager.Instance.playerHealth = newHealth;
+
+        var fade = FindObjectOfType<FadeController>();
+        if (fade != null)
+        {
+            fade.Fade(
+                onBlack: () => {
+                    RespawnAtCheckpoint(GameManager.Instance != null ? GameManager.Instance.playerHealth : maxHealth);
+                }
+            );
+        }
+        else
+        {
+            RespawnAtCheckpoint(GameManager.Instance != null ? GameManager.Instance.playerHealth : maxHealth);
+        }
     }
 } 

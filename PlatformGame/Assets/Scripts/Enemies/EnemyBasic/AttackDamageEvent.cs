@@ -22,7 +22,10 @@ public class AttackDamageEvent : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(origin, range, playerLayer);
         if (hit != null && hit.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
-            playerHealth.TakeDamage(enemyData.contactDamage);
+            if (playerHealth.CurrentHealth <= enemyData.contactDamage)
+                playerHealth.HandlePlayerDeath(enemyData.contactDamage);
+            else
+                playerHealth.TakeDamage(enemyData.contactDamage);
         }
     }
 

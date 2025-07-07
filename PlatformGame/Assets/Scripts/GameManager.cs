@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 [DefaultExecutionOrder(-1000)]
 public class GameManager : MonoBehaviour
@@ -19,6 +20,9 @@ public class GameManager : MonoBehaviour
     public Vector3 lastCheckpointPosition = Vector3.zero;
     public float lastCheckpointYOffset = 0.3f;
     public int playerLives = 3;
+
+    public Transform initialPlayerSpawnPoint; // Referenciável via Inspector
+    public CinemachineCamera virtualCamera; // Arraste a Cinemachine Camera aqui
 
     void Awake()
     {
@@ -78,12 +82,27 @@ public class GameManager : MonoBehaviour
             playerLives = PlayerPrefs.GetInt("Vidas");
     }
 
+    public void SetCameraFollow(Transform playerTransform)
+    {
+        if (virtualCamera != null)
+            virtualCamera.Follow = playerTransform;
+    }
+
     void Start()
     {
         playerLives = 3;
         playerHealth = 100f;
         lastCheckpointPosition = Vector3.zero;
         lastCheckpointYOffset = 0.3f;
+        // Se não houver checkpoint salvo, usa o ponto de spawn inicial
+        if (initialPlayerSpawnPoint != null)
+        {
+            lastCheckpointPosition = initialPlayerSpawnPoint.position;
+        }
+        // Atualiza o Follow da câmera para o player na cena
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            SetCameraFollow(player.transform);
         // Se quiser, zere outros dados aqui futuramente
     }
 
