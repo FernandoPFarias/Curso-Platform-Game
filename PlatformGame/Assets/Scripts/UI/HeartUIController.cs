@@ -5,7 +5,7 @@ public class HeartUIController : MonoBehaviour
 {
     public Image heartFillImage; // arraste o Image do coração aqui no Inspector
 
-    void Update()
+    public void UpdateUI()
     {
         if (GameManager.Instance == null) return;
         float fill = Mathf.Clamp01(GameManager.Instance.playerHealth / GameManager.Instance.maxHealth);

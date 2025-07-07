@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     public Transform initialPlayerSpawnPoint; // Referenciável via Inspector
     public CinemachineCamera virtualCamera; // Arraste a Cinemachine Camera aqui
+    public HeartUIController heartUIController; // Referencie a UI de vida aqui
 
     void Awake()
     {

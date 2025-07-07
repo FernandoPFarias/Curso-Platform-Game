@@ -36,6 +36,8 @@ public class PlayerHealth : MonoBehaviour
             GameManager.Instance.playerHealth -= damageAmount;
             if (GameManager.Instance.playerHealth < 0)
                 GameManager.Instance.playerHealth = 0;
+            if (GameManager.Instance.heartUIController != null)
+                GameManager.Instance.heartUIController.UpdateUI();
         }
         Debug.Log($"JOGADOR tomou {damageAmount} de dano! Vida atual: {CurrentHealth}");
 
@@ -91,6 +93,8 @@ public class PlayerHealth : MonoBehaviour
             GameManager.Instance.playerHealth = healthAfterPenalty;
             if (GameManager.Instance.playerHealth > GameManager.Instance.maxHealth)
                 GameManager.Instance.playerHealth = GameManager.Instance.maxHealth;
+            if (GameManager.Instance.heartUIController != null)
+                GameManager.Instance.heartUIController.UpdateUI();
         }
         isDead = false;
         GetComponent<PlayerController>().enabled = true;
@@ -140,6 +144,8 @@ public class PlayerHealth : MonoBehaviour
             GameManager.Instance.playerHealth += amount;
             if (GameManager.Instance.playerHealth > GameManager.Instance.maxHealth)
                 GameManager.Instance.playerHealth = GameManager.Instance.maxHealth;
+            if (GameManager.Instance.heartUIController != null)
+                GameManager.Instance.heartUIController.UpdateUI();
         }
         Debug.Log($"JOGADOR curado em {amount}! Vida atual: {CurrentHealth}");
     }
@@ -161,6 +167,8 @@ public class PlayerHealth : MonoBehaviour
         {
             float newHealth = Mathf.Max(1f, CurrentHealth - penalty);
             GameManager.Instance.playerHealth = newHealth;
+            if (GameManager.Instance.heartUIController != null)
+                GameManager.Instance.heartUIController.UpdateUI();
         }
 
         var fade = FindObjectOfType<FadeController>();
