@@ -15,11 +15,13 @@ public class HeartBarUIController : MonoBehaviour
 
     void Update()
     {
-        if (PlayerController.Instance == null) return;
-        var health = PlayerController.Instance.GetComponent<PlayerHealth>();
-        if (health == null) return;
-
-        float fill = Mathf.Clamp01(health.CurrentHealth / health.maxHealth);
+        // Usar GameManager em vez de PlayerController para garantir funcionamento após respawn
+        if (GameManager.Instance == null) return;
+        
+        float currentHealth = GameManager.Instance.playerHealth;
+        float maxHealth = GameManager.Instance.maxHealth;
+        
+        float fill = Mathf.Clamp01(currentHealth / maxHealth);
         if (heartFillerImage != null)
             heartFillerImage.fillAmount = fill;
 

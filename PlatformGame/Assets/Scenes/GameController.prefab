@@ -9,9 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5050201437087256918}
+  - component: {fileID: 5044786840301234563}
   - component: {fileID: 2817956008124530177}
   - component: {fileID: 4708379407070704898}
   - component: {fileID: 1617231346031930158}
+  - component: {fileID: 8875271108610056103}
+  - component: {fileID: 205941729226076992}
+  - component: {fileID: 9194485385053484941}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -28,12 +32,27 @@ Transform:
   m_GameObject: {fileID: 4997272652666540615}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.17, y: 3.67, z: -0.11369817}
+  m_LocalPosition: {x: -25.09, y: -10.31, z: -0.11369817}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5044786840301234563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997272652666540615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9df43b414c5bf0544b1c8dbe063a89ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartBarController: {fileID: 0}
+  livesUI: {fileID: 0}
+  enableDebugLogs: 1
 --- !u!114 &2817956008124530177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,12 +78,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 8375825369569689431, guid: f43c02191457a4b41a43ebeadf4a8397, type: 3}
-  coinManagerPrefab: {fileID: 6156673149197594814, guid: fa5aef58c543fb846a41510d761c2165, type: 3}
-  uiPrefab: {fileID: 6156673149197594814, guid: fa5aef58c543fb846a41510d761c2165, type: 3}
+  coinManagerPrefab: {fileID: 0}
+  uiPrefab: {fileID: 0}
   playerHealth: 100
   lastCheckpointPosition: {x: 0, y: 0, z: 0}
   lastCheckpointYOffset: 0.3
   playerLives: 3
+  maxHealth: 100
+  initialPlayerSpawnPoint: {fileID: 0}
+  virtualCamera: {fileID: 0}
+  heartUIController: {fileID: 0}
 --- !u!114 &1617231346031930158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,4 +100,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c273a55740c5b44b17bde26a533c86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 6156673149197594814, guid: fa5aef58c543fb846a41510d761c2165, type: 3}
+  gameOverPanel: {fileID: 0}
+  restartButton: {fileID: 0}
+  menuButton: {fileID: 0}
+--- !u!114 &8875271108610056103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997272652666540615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df97cca23d31c0a40992cca8b4a9d68a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 0}
+  fadeOutDuration: 0.2
+  blackDuration: 0.9
+  fadeInDuration: 0.4
+--- !u!114 &205941729226076992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997272652666540615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e3c03e5e2dd7342a13e300b1916b11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingImage: {fileID: 0}
+  loadingCanvas: {fileID: 0}
+  loadingSprites: []
+  fadeOutDuration: 0.5
+  fadeInDuration: 0.5
+  loadingImageDuration: 2
+  sceneSetupDelay: 0.2
+  useLoadingAnimation: 0
+  animationSpeed: 0.5
+  useMinimumLoadingTime: 1
+  minimumLoadingTime: 2
+--- !u!114 &9194485385053484941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4997272652666540615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a83b9b5f40430e344a68e0cc9ec83177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 0}
+  playerSpawnPoint: {fileID: 0}
+  setupDelay: 0.1
+  autoSetupOnStart: 1
+  forceCameraToPlayer: 1

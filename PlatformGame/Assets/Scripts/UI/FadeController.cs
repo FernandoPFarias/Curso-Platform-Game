@@ -23,35 +23,88 @@ public class FadeController : MonoBehaviour
 
     private IEnumerator FadeRoutine(System.Action onBlack, System.Action onComplete)
     {
+        // Verifica se o fadeImage ainda existe
+        if (fadeImage == null)
+        {
+            Debug.LogWarning("FadeController: fadeImage é null, abortando fade");
+            if (onComplete != null) onComplete();
+            yield break;
+        }
+
         fadeImage.gameObject.SetActive(true);
+        
         // Fade Out (visível -> preto)
         yield return StartCoroutine(FadeAlpha(0, 1, fadeOutDuration));
+        
+        // Verifica novamente se ainda existe antes de continuar
+        if (fadeImage == null)
+        {
+            Debug.LogWarning("FadeController: fadeImage foi destruído durante fade out");
+            if (onComplete != null) onComplete();
+            yield break;
+        }
+        
         // Tela preta
         if (onBlack != null) onBlack();
         yield return new WaitForSeconds(blackDuration);
+        
+        // Verifica se ainda existe antes do fade in
+        if (fadeImage == null)
+        {
+            Debug.LogWarning("FadeController: fadeImage foi destruído durante black duration");
+            if (onComplete != null) onComplete();
+            yield break;
+        }
+        
         // Fade In (preto -> visível)
         yield return StartCoroutine(FadeAlpha(1, 0, fadeInDuration));
-        fadeImage.gameObject.SetActive(false);
+        
+        // Verifica uma última vez antes de finalizar
+        if (fadeImage != null)
+        {
+            fadeImage.gameObject.SetActive(false);
+        }
+        
         if (onComplete != null) onComplete();
     }
 
     private IEnumerator FadeAlpha(float from, float to, float duration)
     {
+        // Verifica se o fadeImage existe
+        if (fadeImage == null)
+        {
+            Debug.LogWarning("FadeController: fadeImage é null em FadeAlpha");
+            yield break;
+        }
+
         float elapsed = 0f;
         Color c = fadeImage.color;
         c.a = from;
         fadeImage.color = c;
         fadeImage.raycastTarget = true;
+        
         while (elapsed < duration)
         {
+            // Verifica se o fadeImage ainda existe a cada frame
+            if (fadeImage == null)
+            {
+                Debug.LogWarning("FadeController: fadeImage foi destruído durante FadeAlpha");
+                yield break;
+            }
+            
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(from, to, elapsed / duration);
             c.a = alpha;
             fadeImage.color = c;
             yield return null;
         }
-        c.a = to;
-        fadeImage.color = c;
-        fadeImage.raycastTarget = to > 0.5f;
+        
+        // Verifica uma última vez antes de finalizar
+        if (fadeImage != null)
+        {
+            c.a = to;
+            fadeImage.color = c;
+            fadeImage.raycastTarget = to > 0.5f;
+        }
     }
 } 

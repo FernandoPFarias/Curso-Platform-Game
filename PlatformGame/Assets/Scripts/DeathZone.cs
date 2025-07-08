@@ -12,13 +12,15 @@ public class DeathZone : MonoBehaviour
             var health = other.GetComponent<PlayerHealth>();
             if (health != null)
             {
-                bool morreu = health.CurrentHealth <= penalty;
+                // Aplica o dano da DeathZone
                 health.TakeDamage(penalty);
-                if (!morreu)
+                
+                // Se o player não morreu por dano (vida > 0), respawna sem perder vida extra
+                if (health.CurrentHealth > 0)
                 {
-                    // Força o respawn manualmente (com fade)
-                    health.HandlePlayerDeath(0); // penalidade zero, pois já foi aplicada
+                    health.RespawnFromDeathZone();
                 }
+                // Se morreu por dano (vida <= 0), o método Die() já cuida da lógica de vidas extras
             }
         }
     }

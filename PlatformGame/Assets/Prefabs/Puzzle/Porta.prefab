@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8356022743767893221}
   - component: {fileID: 2744715320790653112}
   - component: {fileID: 1012960538441832182}
+  - component: {fileID: 5715711111247642531}
   m_Layer: 0
   m_Name: Porta
   m_TagString: Untagged
@@ -171,3 +172,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nomeDaProximaCena: lvl_2
+  useFadeTransition: 1
+  transitionDelay: 0.5
+--- !u!114 &5715711111247642531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064068707460574319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5207d8d00e8155b4eb8a3e94c430affa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeController: {fileID: 0}
+  fadeOutDuration: 0.5
+  fadeInDuration: 0.5
+  blackDuration: 0.3
+  disablePlayerInputDuringTransition: 1
+  pauseGameDuringTransition: 1

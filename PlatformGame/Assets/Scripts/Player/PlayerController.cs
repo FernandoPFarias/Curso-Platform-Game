@@ -73,6 +73,28 @@ public class PlayerController : MonoBehaviour
         if (spawn != null)
             transform.position = spawn.transform.position;
     }
+    
+    // Método chamado quando a câmera é reconectada após mudança de cena
+    public void OnCameraReconnected()
+    {
+        Debug.Log("PlayerController: Câmera reconectada!");
+        
+        // Reabilita o input do player se estava desabilitado
+        if (!enabled)
+        {
+            enabled = true;
+            Debug.Log("PlayerController: Input reabilitado após mudança de cena");
+        }
+        
+        // Força um ground check após a mudança de cena
+        ForceGroundCheck();
+        
+        // Notifica o GameManager para atualizar a UI se necessário
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ForceUIUpdate();
+        }
+    }
 
     public void ForceGroundCheck()
     {

@@ -36,11 +36,10 @@ public class PlayerHealth : MonoBehaviour
             GameManager.Instance.playerHealth -= damageAmount;
             if (GameManager.Instance.playerHealth < 0)
                 GameManager.Instance.playerHealth = 0;
-            if (GameManager.Instance.heartUIController != null)
-                GameManager.Instance.heartUIController.UpdateUI();
         }
         Debug.Log($"JOGADOR tomou {damageAmount} de dano! Vida atual: {CurrentHealth}");
 
+        // Só ativa a lógica de vidas extras se a vida chegou a zero por dano
         if (CurrentHealth <= 0)
         {
             Die();
@@ -49,21 +48,47 @@ public class PlayerHealth : MonoBehaviour
 
         animator?.SetTrigger("Hurt");
     }
+    
+    // Método separado para respawn da DeathZone (não perde vida extra)
+    public void RespawnFromDeathZone()
+    {
+        if (isDead) return;
+        isDead = true;
+        
+        Debug.Log("Respawn da DeathZone - não perde vida extra");
+        
+        // Respawn no checkpoint sem perder vida extra
+        HandlePlayerDeath(0); // Sem penalidade
+    }
 
     private void Die()
     {
         if (isDead) return;
         isDead = true;
 
+        // Verifica se ainda tem vidas extras
         if (GameManager.Instance != null && GameManager.Instance.playerLives > 0)
         {
+            // Perde uma vida extra
             GameManager.Instance.playerLives--;
-            HandlePlayerDeath();
+            
+            // Restaura a vida atual para 100
+            GameManager.Instance.playerHealth = GameManager.Instance.maxHealth;
+            
+            Debug.Log($"Player perdeu uma vida! Vidas restantes: {GameManager.Instance.playerLives}");
+            Debug.Log($"Vida restaurada para: {GameManager.Instance.playerHealth}");
+            
+            // Força atualização da UI
+            if (GameManager.Instance.heartUIController != null)
+                GameManager.Instance.ForceUIUpdate();
+            
+            // Respawn no checkpoint
+            HandlePlayerDeath(0); // Sem penalidade, pois a vida já foi restaurada
             return;
         }
         else
         {
-            // Game Over
+            // Game Over - não tem mais vidas extras
             if (GameManager.Instance != null)
                 GameManager.Instance.GameOver();
             animator?.SetTrigger("Death");
@@ -72,7 +97,7 @@ public class PlayerHealth : MonoBehaviour
             GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
             GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
             GetComponent<Collider2D>().enabled = false;
-            Debug.Log("Jogador foi derrotado! Fim de jogo.");
+            Debug.Log("Jogador foi derrotado! Fim de jogo - Sem mais vidas extras.");
             // Aqui você pode chamar a tela de Game Over futuramente
         }
     }
@@ -93,9 +118,12 @@ public class PlayerHealth : MonoBehaviour
             GameManager.Instance.playerHealth = healthAfterPenalty;
             if (GameManager.Instance.playerHealth > GameManager.Instance.maxHealth)
                 GameManager.Instance.playerHealth = GameManager.Instance.maxHealth;
-            if (GameManager.Instance.heartUIController != null)
-                GameManager.Instance.heartUIController.UpdateUI();
+            
+            // Debug: Verificar se a UI está sendo atualizada
+            Debug.Log($"Respawn: Vida atual = {GameManager.Instance.playerHealth}, Vidas = {GameManager.Instance.playerLives}");
+            Debug.Log($"Respawn: HeartUIController existe? {GameManager.Instance.heartUIController != null}");
         }
+        
         isDead = false;
         GetComponent<PlayerController>().enabled = true;
         GetComponent<PlayerCombat>().enabled = true;
@@ -107,6 +135,10 @@ public class PlayerHealth : MonoBehaviour
 
         if (GameManager.Instance != null)
             GameManager.Instance.SetCameraFollow(transform);
+            
+        // Força atualização da UI após respawn
+        if (GameManager.Instance != null)
+            GameManager.Instance.ForceUIUpdate();
     }
 
     private System.Collections.IEnumerator ReenablePhysicsNextFrame(Rigidbody2D rb)
@@ -144,8 +176,6 @@ public class PlayerHealth : MonoBehaviour
             GameManager.Instance.playerHealth += amount;
             if (GameManager.Instance.playerHealth > GameManager.Instance.maxHealth)
                 GameManager.Instance.playerHealth = GameManager.Instance.maxHealth;
-            if (GameManager.Instance.heartUIController != null)
-                GameManager.Instance.heartUIController.UpdateUI();
         }
         Debug.Log($"JOGADOR curado em {amount}! Vida atual: {CurrentHealth}");
     }
@@ -162,13 +192,13 @@ public class PlayerHealth : MonoBehaviour
         if (playerController != null)
             playerController.enabled = false;
 
-        // Aplica penalidade de vida, se houver
-        if (GameManager.Instance != null)
+        // Aplica penalidade de vida apenas se não for perda de vida extra
+        // (quando perde vida extra, a vida já foi restaurada para 100 no método Die())
+        if (GameManager.Instance != null && penalty > 0f)
         {
             float newHealth = Mathf.Max(1f, CurrentHealth - penalty);
             GameManager.Instance.playerHealth = newHealth;
-            if (GameManager.Instance.heartUIController != null)
-                GameManager.Instance.heartUIController.UpdateUI();
+            Debug.Log($"Penalidade aplicada: {penalty}. Nova vida: {newHealth}");
         }
 
         var fade = FindObjectOfType<FadeController>();
@@ -176,13 +206,46 @@ public class PlayerHealth : MonoBehaviour
         {
             fade.Fade(
                 onBlack: () => {
-                    RespawnAtCheckpoint(GameManager.Instance != null ? GameManager.Instance.playerHealth : maxHealth);
+                    // Se perdeu vida extra, respawn com vida cheia (100)
+                    // Se foi penalidade, respawn com a vida após penalidade
+                    // Se foi DeathZone, mantém a vida atual
+                    float respawnHealth;
+                    if (penalty > 0f)
+                    {
+                        respawnHealth = GameManager.Instance.playerHealth;
+                    }
+                    else if (isDead && GameManager.Instance.playerHealth <= 0)
+                    {
+                        // Perdeu vida extra - respawn com vida cheia
+                        respawnHealth = GameManager.Instance.maxHealth;
+                    }
+                    else
+                    {
+                        // DeathZone ou outro respawn - mantém vida atual
+                        respawnHealth = GameManager.Instance.playerHealth;
+                    }
+                    RespawnAtCheckpoint(respawnHealth);
                 }
             );
         }
         else
         {
-            RespawnAtCheckpoint(GameManager.Instance != null ? GameManager.Instance.playerHealth : maxHealth);
+            float respawnHealth;
+            if (penalty > 0f)
+            {
+                respawnHealth = GameManager.Instance.playerHealth;
+            }
+            else if (isDead && GameManager.Instance.playerHealth <= 0)
+            {
+                // Perdeu vida extra - respawn com vida cheia
+                respawnHealth = GameManager.Instance.maxHealth;
+            }
+            else
+            {
+                // DeathZone ou outro respawn - mantém vida atual
+                respawnHealth = GameManager.Instance.playerHealth;
+            }
+            RespawnAtCheckpoint(respawnHealth);
         }
     }
 } 
