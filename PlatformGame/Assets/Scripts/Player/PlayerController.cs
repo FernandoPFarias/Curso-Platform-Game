@@ -13,9 +13,13 @@ public class PlayerController : MonoBehaviour
     public int maxJumps = 2;
 
     [Header("Ground Check")]
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
+    public Vector2 groundCheckBoxSize = new Vector2(0.5f, 0.1f);
+    public Vector2 groundCheckBoxOffset = new Vector2(0f, -0.5f);
     public LayerMask groundLayer;
+    
+    [Header("Coyote Time (Buffer de Pulo)")]
+    [SerializeField] private float coyoteTime = 0.1f; // Tempo de tolerância após sair do chão
+    private float coyoteTimeCounter;
 
     [Header("Event Channels to Raise")]
     public GameEvent OnGroundJumpEvent; // Evento para o primeiro pulo
@@ -98,7 +102,8 @@ public class PlayerController : MonoBehaviour
 
     public void ForceGroundCheck()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        Vector2 checkPos = (Vector2)transform.position + groundCheckBoxOffset;
+        isGrounded = Physics2D.OverlapBox(checkPos, groundCheckBoxSize, 0f, groundLayer);
         wasGrounded = isGrounded;
         if (isGrounded)
             jumpsRemaining = maxJumps;
@@ -128,7 +133,15 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         wasGrounded = isGrounded;
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        Vector2 checkPos = (Vector2)transform.position + groundCheckBoxOffset;
+        isGrounded = Physics2D.OverlapBox(checkPos, groundCheckBoxSize, 0f, groundLayer);
+
+        // Coyote time: buffer para permitir pulo logo após sair do chão
+        if (isGrounded)
+            coyoteTimeCounter = coyoteTime;
+        else
+            coyoteTimeCounter -= Time.fixedDeltaTime;
+
         rb.linearVelocity = new Vector2(moveDirection.x * moveSpeed, rb.linearVelocity.y);
     }
 
@@ -146,27 +159,24 @@ public class PlayerController : MonoBehaviour
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
         Debug.Log($"PULO PRESSIONADO! jumpsRemaining: {jumpsRemaining} | context: {context}");
-        // Se não temos pulos restantes, não fazemos nada.
-        if (jumpsRemaining <= 0)
+        // Permite pulo se ainda houver coyote time, mesmo que jumpsRemaining seja 0
+        if (jumpsRemaining <= 0 && coyoteTimeCounter <= 0f)
         {
             return;
         }
 
-        // A NOVA LÓGICA:
         // Se nosso número de pulos é o MÁXIMO possível, então este SÓ PODE ser um pulo do chão.
-        // Esta verificação é mais confiável do que checar 'isGrounded' neste exato momento.
-        if (jumpsRemaining == maxJumps)
+        if (jumpsRemaining == maxJumps || coyoteTimeCounter > 0f)
         {
             OnGroundJumpEvent?.Raise(); // Dispara o evento de pulo no chão
         }
         else
         {
-            // Se temos pulos, mas não é o máximo, então SÓ PODE ser um pulo aéreo.
             OnAirJumpEvent?.Raise(); // Dispara o evento de pulo aéreo
         }
 
-        // A lógica da física é executada da mesma forma para qualquer pulo válido.
         jumpsRemaining--;
+        coyoteTimeCounter = 0f; // Zera o buffer ao pular
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
@@ -194,5 +204,12 @@ public class PlayerController : MonoBehaviour
         {
             collectable.Collect(gameObject);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector2 checkPos = (Vector2)transform.position + groundCheckBoxOffset;
+        Gizmos.color = isGrounded ? Color.green : Color.red;
+        Gizmos.DrawWireCube(checkPos, groundCheckBoxSize);
     }
 }

@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1649996205601006788}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -3.621, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -137,9 +137,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0a1b717c967ac409f01dec553f8bfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyData: {fileID: 11400000, guid: f50a8415be8054a419869164169a614f, type: 2}
-  _pointA: {fileID: 0}
-  _pointB: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: f50a8415be8054a419869164169a614f, type: 2}
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  sentryGuardPoint: {fileID: 0}
+  sentryChaseLimit: {fileID: 0}
+  animationManager: {fileID: 431910519294553804}
+  startsFacingLeft: 1
 --- !u!114 &6662812281559340138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,8 +168,9 @@ GameObject:
   - component: {fileID: 8930201442830338932}
   - component: {fileID: 9147644539910762301}
   - component: {fileID: 3214734639895488531}
+  - component: {fileID: 431910519294553804}
   m_Layer: 7
-  m_Name: Sprite
+  m_Name: Slime_Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,6 +268,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &431910519294553804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8475207169184299743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4243e2014bbe75a41b8e189e9c94a237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3214734639895488531}
 --- !u!1 &8802100490036313091
 GameObject:
   m_ObjectHideFlags: 0

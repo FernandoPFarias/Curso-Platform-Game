@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Pedra
+  - Platform
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Pedra
   - Empurravel
   - PlayerSpawn
-  - 
+  - Platform
   - 
   - 
   - 
