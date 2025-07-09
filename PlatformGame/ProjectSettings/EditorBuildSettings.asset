@@ -13,9 +13,12 @@ EditorBuildSettings:
     guid: a9e94e6e1dfc45e44ad34a3ae39cf76f
   - enabled: 1
     path: Assets/Scenes/lvl_2.unity
-    guid: c6e24dd26de853a40866d41a40a72648
+    guid: 963c32cc58bbcf04c8137630cadc19ce
   - enabled: 1
     path: Assets/Scenes/lvl_3.unity
+    guid: b3aa12dfeae30a3439342d65cc5cec61
+  - enabled: 0
+    path: Assets/Scenes/game antigo.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

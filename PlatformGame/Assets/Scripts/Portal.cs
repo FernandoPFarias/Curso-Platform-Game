@@ -4,51 +4,85 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
     public string nomeDaProximaCena; // Defina no Inspector
-    
     [Header("Portal Settings")]
     public bool useLoadingScreen = true;
     public float transitionDelay = 0.5f;
+    public float requiredCenterDistance = 0.2f; // Distância máxima para considerar o player "centralizado" na porta
+
+    private bool playerInPortal = false;
+    private Transform playerTransform;
+    private PlayerController playerController;
+
+    void Update()
+    {
+        if (playerInPortal && playerTransform != null)
+        {
+            // Checa se o player está centralizado na porta
+            if (Mathf.Abs(playerTransform.position.x - transform.position.x) < requiredCenterDistance)
+            {
+                // Checa se o botão de interação foi pressionado
+                if (Input.GetButtonDown("Interact")) // Certifique-se que o botão está mapeado no Input System
+                {
+                    TrocarDeFase();
+                }
+                // (Opcional) Mostrar dica visual: "Pressione Interagir para entrar"
+            }
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log($"Portal: Player entrou no portal para {nomeDaProximaCena}");
-            
-            // Desabilita o input do player durante a transição
-            var playerController = other.GetComponent<PlayerController>();
-            if (playerController != null)
+            playerInPortal = true;
+            playerTransform = other.transform;
+            playerController = other.GetComponent<PlayerController>();
+            // (Opcional) Mostrar dica visual: "Pressione Interagir para entrar"
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInPortal = false;
+            playerTransform = null;
+            playerController = null;
+            // (Opcional) Esconder dica visual
+        }
+    }
+
+    private void TrocarDeFase()
+    {
+        Debug.Log($"Portal: Player usou o portal para {nomeDaProximaCena}");
+        if (playerController != null)
+            playerController.enabled = false;
+
+        if (useLoadingScreen && LoadingScreenManager.Instance != null)
+        {
+            if (LoadingScreenManager.Instance.IsProperlyConfigured())
             {
-                playerController.enabled = false;
+                LoadingScreenManager.Instance.LoadSceneWithLoadingScreen(nomeDaProximaCena, () => {
+                    Debug.Log("Portal: Transição com loading screen concluída!");
+                });
+                return;
             }
-            
-            // Usa o LoadingScreenManager se disponível e configurado
-            if (useLoadingScreen && LoadingScreenManager.Instance != null)
+        }
+        else if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.TransitionToScene(nomeDaProximaCena);
+            return;
+        }
+        SceneManager.LoadScene(nomeDaProximaCena);
+    }
+
+    public void TryInteract()
+    {
+        if (playerInPortal && playerTransform != null)
+        {
+            if (Mathf.Abs(playerTransform.position.x - transform.position.x) < requiredCenterDistance)
             {
-                if (LoadingScreenManager.Instance.IsProperlyConfigured())
-                {
-                    Debug.Log("Portal: Usando LoadingScreenManager para transição com loading screen");
-                    LoadingScreenManager.Instance.LoadSceneWithLoadingScreen(nomeDaProximaCena, () => {
-                        Debug.Log("Portal: Transição com loading screen concluída!");
-                    });
-                }
-                else
-                {
-                    Debug.LogWarning("Portal: LoadingScreenManager não está configurado corretamente, usando fallback");
-                    SceneManager.LoadScene(nomeDaProximaCena);
-                }
-            }
-            // Fallback para SceneTransitionManager
-            else if (SceneTransitionManager.Instance != null)
-            {
-                Debug.Log("Portal: Usando SceneTransitionManager para transição suave");
-                SceneTransitionManager.Instance.TransitionToScene(nomeDaProximaCena);
-            }
-            // Fallback para carregamento direto
-            else
-            {
-                Debug.LogWarning("Portal: Nenhum sistema de transição encontrado, carregando cena diretamente");
-                SceneManager.LoadScene(nomeDaProximaCena);
+                TrocarDeFase();
             }
         }
     }

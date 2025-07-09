@@ -7,6 +7,7 @@ public class PlayerInteraction : MonoBehaviour
     public LayerMask pushableLayer;
     private PushableObject grabbedObject;
     private int holdSide = 1; // 1 = direita, -1 = esquerda
+    private LeverPuzzle nearbyLever;
 
     private InputSystem_Actions playerControls;
 
@@ -29,7 +30,21 @@ public class PlayerInteraction : MonoBehaviour
         playerControls.Player.Disable();
     }
 
-    // Remover o método Update inteiro, pois não será mais necessário
+    void Update()
+    {
+        // Detecta alavanca próxima continuamente
+        Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, new Vector2(1, 1), 0);
+        nearbyLever = null;
+        foreach (var hit in hits)
+        {
+            var lever = hit.GetComponent<LeverPuzzle>();
+            if (lever != null)
+            {
+                nearbyLever = lever;
+                break;
+            }
+        }
+    }
 
     private void OnThrow(InputAction.CallbackContext ctx)
     {
@@ -44,6 +59,20 @@ public class PlayerInteraction : MonoBehaviour
     private void OnInteract(InputAction.CallbackContext context)
     {
         Debug.Log("OnInteract chamado! Context: " + context);
+        // Primeiro, tenta interagir com o portal se estiver próximo
+        var portal = FindObjectOfType<Portal>();
+        if (portal != null)
+        {
+            portal.TryInteract();
+        }
+        // Depois, tenta interagir com uma alavanca próxima
+        if (nearbyLever != null)
+        {
+            Debug.Log("Chamando Interact() na alavanca: " + nearbyLever.name);
+            nearbyLever.Interact();
+            return;
+        }
+        // Depois, lógica de empurrar/soltar objetos
         if (grabbedObject == null)
         {
             // Detecta objeto empurrável próximo usando OverlapBox
