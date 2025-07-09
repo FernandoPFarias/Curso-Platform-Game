@@ -16,7 +16,10 @@ public class SceneAutoSetup : MonoBehaviour
 
         // Garante Player
         if (FindObjectOfType<PlayerController>() == null && playerPrefab != null)
-            Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        {
+            var playerObj = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+            playerObj.tag = "Player"; // <-- Garante a tag correta!
+        }
 
         // Garante CoinManager
         if (FindObjectOfType<CoinManager>() == null && coinManagerPrefab != null)

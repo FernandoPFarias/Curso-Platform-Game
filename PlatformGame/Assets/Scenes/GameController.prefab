@@ -136,12 +136,13 @@ MonoBehaviour:
   loadingSprites: []
   fadeOutDuration: 0.5
   fadeInDuration: 0.5
-  loadingImageDuration: 2
+  loadingImageDuration: 1
   sceneSetupDelay: 0.2
   useLoadingAnimation: 0
   animationSpeed: 0.5
   useMinimumLoadingTime: 1
   minimumLoadingTime: 2
+  ultraFastTransition: 1
 --- !u!114 &9194485385053484941
 MonoBehaviour:
   m_ObjectHideFlags: 0

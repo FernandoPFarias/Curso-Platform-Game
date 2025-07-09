@@ -55,7 +55,20 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"GameManager: Nova cena carregada: {scene.name}");
         lastCheckpointPosition = Vector3.zero;
-        
+
+        // Garante que só existe um player na cena
+        var players = FindObjectsOfType<PlayerController>();
+        if (players.Length > 1)
+        {
+            for (int i = 1; i < players.Length; i++)
+                Destroy(players[i].gameObject);
+        }
+        // Atualiza referência do player
+        var player = FindObjectOfType<PlayerController>();
+        if (player != null)
+            player.gameObject.tag = "Player";
+        // Atualize outras referências necessárias aqui (ex: UI, câmera)
+
         // Reconecta a câmera ao player após a mudança de cena
         StartCoroutine(ReconnectCameraAfterSceneLoad());
     }

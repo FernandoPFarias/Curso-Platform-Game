@@ -15,19 +15,8 @@ public class Portal : MonoBehaviour
 
     void Update()
     {
-        if (playerInPortal && playerTransform != null)
-        {
-            // Checa se o player está centralizado na porta
-            if (Mathf.Abs(playerTransform.position.x - transform.position.x) < requiredCenterDistance)
-            {
-                // Checa se o botão de interação foi pressionado
-                if (Input.GetButtonDown("Interact")) // Certifique-se que o botão está mapeado no Input System
-                {
-                    TrocarDeFase();
-                }
-                // (Opcional) Mostrar dica visual: "Pressione Interagir para entrar"
-            }
-        }
+        // Remove toda a lógica de input daqui. A interação será feita via TryInteract() chamada pelo PlayerInteraction.
+        // (Opcional) Pode deixar apenas a checagem visual de centralização, se quiser mostrar dicas na tela.
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -55,8 +44,7 @@ public class Portal : MonoBehaviour
     private void TrocarDeFase()
     {
         Debug.Log($"Portal: Player usou o portal para {nomeDaProximaCena}");
-        if (playerController != null)
-            playerController.enabled = false;
+        // Removido: playerController.enabled = false;
 
         if (useLoadingScreen && LoadingScreenManager.Instance != null)
         {

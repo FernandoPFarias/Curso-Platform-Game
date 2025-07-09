@@ -17,7 +17,7 @@ public class SceneTransitionManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // Remover ou corrigir DontDestroyOnLoad
         }
         else
         {
