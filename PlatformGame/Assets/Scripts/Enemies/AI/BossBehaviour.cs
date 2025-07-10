@@ -18,6 +18,9 @@ public class BossBehaviour : AIBehaviour
     private float lastAttack1Time;
     private float lastAttack2Time;
     private float stateTimer;
+    private bool ignoringPlayerCollision = false;
+    private Collider2D bossCollider;
+    private Collider2D playerCollider;
 
     public override void Initialize(Enemy puppet)
     {
@@ -27,6 +30,10 @@ public class BossBehaviour : AIBehaviour
         lastAttack2Time = -1f;
         currentState = BossState.Chasing;
         stateTimer = 0f;
+        ignoringPlayerCollision = false;
+        bossCollider = puppet.GetComponent<Collider2D>();
+        if (puppet.PlayerTarget != null)
+            playerCollider = puppet.PlayerTarget.GetComponent<Collider2D>();
         Debug.Log($"[BossBehaviour] Inicializado para {puppet.gameObject.name}");
     }
 
@@ -88,12 +95,30 @@ public class BossBehaviour : AIBehaviour
             hitboxCenter = (Vector2)puppet.transform.position + puppet.EnemyData.attackOffset;
         }
 
-        float distanceToPlayer = Vector2.Distance(hitboxCenter, puppet.PlayerTarget.position);
+        Vector2 minDistCenter = (Vector2)puppet.transform.position + puppet.EnemyData.minDistanceOffset;
+        float minDistance = puppet.EnemyData.minDistanceToPlayer;
+        float escapeSpeed = puppet.EnemyData.escapeSpeed;
+        float distanceToPlayer = Vector2.Distance(minDistCenter, puppet.PlayerTarget.position);
 
         switch (currentState)
         {
             case BossState.Chasing:
-                if (distanceToPlayer > attackRange)
+                if (distanceToPlayer < minDistance)
+                {
+                    // Player está muito perto: afasta rapidamente a partir do centro com offset, sem ignorar colisão
+                    Vector2 dir = (minDistCenter - (Vector2)puppet.PlayerTarget.position).normalized;
+                    Vector2 newPos = (Vector2)puppet.transform.position + dir * escapeSpeed * Time.fixedDeltaTime;
+                    puppet.Rb.MovePosition(newPos);
+                    puppet.AnimationManager.animator.SetTrigger("T_Run");
+                    return;
+                }
+                else if (ignoringPlayerCollision && bossCollider != null && playerCollider != null)
+                {
+                    // Reativa colisão ao sair da área
+                    Physics2D.IgnoreCollision(bossCollider, playerCollider, false);
+                    ignoringPlayerCollision = false;
+                }
+                else if (distanceToPlayer > attackRange)
                 {
                     puppet.SetMoveSpeed(chaseSpeed);
                     puppet.MoveTowards(puppet.PlayerTarget.position);
@@ -180,5 +205,15 @@ public class BossBehaviour : AIBehaviour
         #if UNITY_EDITOR
         UnityEditor.Handles.Label(enemy.transform.position + Vector3.left * enemy.EnemyData.giveUpRange, "Give Up Range");
         #endif
+
+        // No DrawGizmos, desenhar minDistanceToPlayer
+        if (enemy.EnemyData.minDistanceToPlayer > 0f)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(enemy.transform.position, enemy.EnemyData.minDistanceToPlayer);
+            #if UNITY_EDITOR
+            UnityEditor.Handles.Label(enemy.transform.position + Vector3.up * enemy.EnemyData.minDistanceToPlayer, "Min Distance to Player");
+            #endif
+        }
     }
 } 

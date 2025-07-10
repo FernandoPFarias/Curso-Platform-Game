@@ -111,6 +111,21 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
                 }
                 else
                 {
+                    // No Tick, após calcular distâncias:
+                    Vector2 minDistCenter = (Vector2)puppet.transform.position + puppet.EnemyData.minDistanceOffset;
+                    float minDistance = puppet.EnemyData.minDistanceToPlayer;
+                    float escapeSpeed = puppet.EnemyData.escapeSpeed;
+                    float distanceToPlayer = Vector2.Distance(minDistCenter, puppet.PlayerTarget.position);
+
+                    if (distanceToPlayer < minDistance)
+                    {
+                        // Player está muito perto: afasta rapidamente a partir do centro com offset, sem ignorar colisão
+                        Vector2 dir = ((Vector2)minDistCenter - (Vector2)puppet.PlayerTarget.position).normalized;
+                        Vector2 newPos = (Vector2)puppet.transform.position + dir * escapeSpeed * Time.fixedDeltaTime;
+                        puppet.Rb.MovePosition(newPos);
+                        puppet.AnimationManager?.animator.SetTrigger("T_Run");
+                        return;
+                    }
                     puppet.MoveTowards(puppet.PlayerTarget.position);
                 }
                 break;
@@ -191,6 +206,17 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
         Gizmos.color = Color.magenta;
         Vector3 attackPos = enemy.transform.position + (Vector3)enemy.EnemyData.attackOffset;
         Gizmos.DrawWireSphere(attackPos, enemy.EnemyData.attackRange);
+
+        // No DrawGizmos, desenhar minDistanceToPlayer com offset
+        if (enemy.EnemyData.minDistanceToPlayer > 0f)
+        {
+            Vector3 minDistCenter = enemy.transform.position + (Vector3)enemy.EnemyData.minDistanceOffset;
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(minDistCenter, enemy.EnemyData.minDistanceToPlayer);
+            #if UNITY_EDITOR
+            UnityEditor.Handles.Label(minDistCenter + Vector3.up * enemy.EnemyData.minDistanceToPlayer, "Min Distance to Player");
+            #endif
+        }
     }
 
     // Método para instanciar o projétil

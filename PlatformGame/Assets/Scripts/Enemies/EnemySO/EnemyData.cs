@@ -33,6 +33,11 @@ public abstract class EnemyData : ScriptableObject
     public GameObject deathParticlesPrefab;
     public GameEvent onDeathEvent;
 
+    [Header("Distância mínima ao player (anti-grude)")]
+    public float minDistanceToPlayer = 1.0f; // Distância mínima para não grudar no player
+    public float escapeSpeed = 8.0f; // Velocidade para se afastar rapidamente
+    public Vector2 minDistanceOffset = Vector2.zero; // Offset para ajustar a posição do centro da área mínima
+
     [System.Serializable]
     public class AttackInfo
     {
