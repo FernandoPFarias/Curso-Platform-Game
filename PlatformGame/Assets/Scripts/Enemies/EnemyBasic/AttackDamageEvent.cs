@@ -6,27 +6,33 @@ public class AttackDamageEvent : MonoBehaviour
     public LayerMask playerLayer = default;
 
     // Chame este método via Animation Event
-    public void DealAttackDamage()
+    public void DealAttackDamage(int attackIndex)
     {
-        if (enemyData == null) return;
+        if (enemyData == null || enemyData.attacks == null || attackIndex >= enemyData.attacks.Length) return;
 
-        // Calcula a posição do ataque baseada no offset do SO e na direção do inimigo
-        Vector3 offset = (Vector3)enemyData.attackOffset;
+        var atk = enemyData.attacks[attackIndex];
+        Vector3 offset = (Vector3)atk.offset;
         float rootScaleX = transform.root.lossyScale.x;
         if (rootScaleX < 0)
             offset.x = -offset.x;
 
         Vector3 origin = transform.position + offset;
-        float range = enemyData.attackRange;
+        float range = atk.range;
 
         Collider2D hit = Physics2D.OverlapCircle(origin, range, playerLayer);
         if (hit != null && hit.TryGetComponent<PlayerHealth>(out PlayerHealth playerHealth))
         {
-            if (playerHealth.CurrentHealth <= enemyData.contactDamage)
-                playerHealth.HandlePlayerDeath(enemyData.contactDamage);
+            if (playerHealth.CurrentHealth <= atk.damage)
+                playerHealth.HandlePlayerDeath(atk.damage);
             else
-                playerHealth.TakeDamage(enemyData.contactDamage);
+                playerHealth.TakeDamage(atk.damage);
         }
+    }
+
+    // Mantém o método antigo para compatibilidade
+    public void DealAttackDamage()
+    {
+        DealAttackDamage(0);
     }
 
     // Gizmo para visualizar o alcance no editor

@@ -33,8 +33,23 @@ public abstract class EnemyData : ScriptableObject
     public GameObject deathParticlesPrefab;
     public GameEvent onDeathEvent;
 
-    [Header("Attack Settings")]
+    [System.Serializable]
+    public class AttackInfo
+    {
+        public string name; // Ex: "Attack1", "Attack2"
+        public float damage;
+        public float range;
+        public Vector2 offset;
+        public float cooldown;
+        public string triggerName; // Ex: "T_Attack1"
+    }
+
+    [Header("Attack Settings (Comum)")]
     public string attackTriggerName = "T_DoAttack";
     public float attackRange = 1f;
     public Vector2 attackOffset = Vector2.zero;
+
+    [Header("Attack Settings (Boss)")]
+    // Preencha este array apenas para bosses!
+    public AttackInfo[] attacks;
 }

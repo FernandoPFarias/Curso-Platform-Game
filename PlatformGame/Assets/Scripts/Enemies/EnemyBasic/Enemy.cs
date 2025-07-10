@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     [Header("Sentry Area")]
     public Transform sentryGuardPoint;
     public Transform sentryChaseLimit;
+    [Header("Activation Area (Boss)")]
+    public Transform activationPoint;
+    public float activationRange = 5f;
     [Header("Animation Reference")]
     public EnemyAnimator animationManager;
     [Header("Sprite Settings")]
@@ -67,10 +70,10 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         behaviour?.Tick(this);
-        // Atualiza a velocidade no Animator para garantir Idle
-        if (animationManager != null)
+        // Atualiza a velocidade no Animator para Idle/Run automático
+        if (animationManager != null && animationManager.animator != null)
         {
-            animationManager.UpdateSpeed(Mathf.Abs(Rb.linearVelocity.x));
+            animationManager.animator.SetFloat("Speed", Mathf.Abs(Rb.linearVelocity.x));
         }
     }
 
@@ -119,6 +122,15 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawSphere(sentryChaseLimit.position, 0.1f);
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(sentryGuardPoint.position, sentryChaseLimit.position);
+        }
+        // Gizmo da área de ativação do boss
+        if (activationPoint != null && activationRange > 0f)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(activationPoint.position, activationRange);
+            #if UNITY_EDITOR
+            UnityEditor.Handles.Label(activationPoint.position + Vector3.up * activationRange, "Boss Activation Range");
+            #endif
         }
     }
 }

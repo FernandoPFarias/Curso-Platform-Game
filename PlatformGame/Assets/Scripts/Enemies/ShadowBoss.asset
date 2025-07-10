@@ -10,27 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 997c0a227e472564191a4abfa1ef0f4f, type: 3}
-  m_Name: GoblinKnife
+  m_Name: ShadowBoss
   m_EditorClassIdentifier: 
-  enemyName: GoblinKnife
-  tier: 0
-  maxHealth: 50
-  moveSpeed: 1
-  chaseSpeed: 1.5
+  enemyName: Shadow
+  tier: 2
+  maxHealth: 100
+  moveSpeed: 2
+  chaseSpeed: 6
   contactDamage: 10
   hurtDuration: 0.5
   knockbackForce: {x: 5, y: 3}
   knockbackDuration: 0.3
-  detectionRange: 5.4
-  giveUpRange: 5
-  alertDuration: 0.2
-  behaviour: {fileID: 11400000, guid: 0d6db4fbdb841e7429d9fd4ae1f2c870, type: 2}
+  detectionRange: 11.23
+  giveUpRange: 35.26
+  alertDuration: 1
+  behaviour: {fileID: 11400000, guid: 999a288a943137f468f5a2cdcef91c74, type: 2}
   deathParticlesPrefab: {fileID: 0}
   onDeathEvent: {fileID: 0}
-  attackTriggerName: T_DoAttack
-  attackRange: 0.21
-  attackOffset: {x: -0.6, y: 0.35}
-  attacks: []
+  attackTriggerName: 0
+  attackRange: 0
+  attackOffset: {x: 0, y: 0}
+  attacks:
+  - name: 
+    damage: 0.12
+    range: 6.48
+    offset: {x: -4.33, y: -0.8}
+    cooldown: 0.48
+    triggerName: 
+  - name: 
+    damage: 0
+    range: 0
+    offset: {x: 0, y: 0}
+    cooldown: 0
+    triggerName: 
   attackDamage: 10
   attackCooldown: 1
   attackType: Melee
