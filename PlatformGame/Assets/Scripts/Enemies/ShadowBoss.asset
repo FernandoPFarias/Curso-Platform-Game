@@ -27,22 +27,25 @@ MonoBehaviour:
   behaviour: {fileID: 11400000, guid: 999a288a943137f468f5a2cdcef91c74, type: 2}
   deathParticlesPrefab: {fileID: 0}
   onDeathEvent: {fileID: 0}
+  minDistanceToPlayer: 2.02
+  escapeSpeed: 6
+  minDistanceOffset: {x: 0, y: 0}
   attackTriggerName: 0
   attackRange: 0
   attackOffset: {x: 0, y: 0}
   attacks:
-  - name: 
-    damage: 0.12
-    range: 6.48
-    offset: {x: -4.33, y: -0.8}
-    cooldown: 0.48
-    triggerName: 
-  - name: 
-    damage: 0
-    range: 0
-    offset: {x: 0, y: 0}
-    cooldown: 0
-    triggerName: 
+  - name: ShadowHunter
+    damage: 20
+    range: 2
+    offset: {x: -3.88, y: 2.04}
+    cooldown: 2
+    triggerName: T_Attack1
+  - name: ShadowScruller
+    damage: 20
+    range: 1.12
+    offset: {x: -4.41, y: 1.14}
+    cooldown: 3
+    triggerName: T_Attack2
   attackDamage: 10
   attackCooldown: 1
   attackType: Melee
