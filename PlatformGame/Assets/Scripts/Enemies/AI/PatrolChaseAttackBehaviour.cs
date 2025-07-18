@@ -90,8 +90,12 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
                     break;
                 }
                 // Ataca se estiver no range de ataque
-                float distToPlayer = Vector2.Distance(puppet.transform.position, puppet.PlayerTarget.position);
-                if (distToPlayer < puppet.EnemyData.attackRange)
+                Vector3 offset = (Vector3)puppet.EnemyData.attackOffset;
+                float rootScaleX = puppet.transform.root.lossyScale.x;
+                if (rootScaleX < 0)
+                    offset.x = -offset.x;
+                float attackDistance = Vector2.Distance(puppet.transform.position + offset, puppet.PlayerTarget.position);
+                if (attackDistance < puppet.EnemyData.attackRange)
                 {
                     puppet.Rb.linearVelocity = Vector2.zero;
                     puppet.FlipTowards(puppet.PlayerTarget.position);
@@ -204,7 +208,11 @@ public class PatrolChaseAttackBehaviour : AIBehaviour
         Gizmos.DrawWireSphere(pos, enemy.EnemyData.giveUpRange);
         // attackRange
         Gizmos.color = Color.magenta;
-        Vector3 attackPos = enemy.transform.position + (Vector3)enemy.EnemyData.attackOffset;
+        Vector3 offset = (Vector3)enemy.EnemyData.attackOffset;
+        float rootScaleX = enemy.transform.root.lossyScale.x;
+        if (rootScaleX < 0)
+            offset.x = -offset.x;
+        Vector3 attackPos = enemy.transform.position + offset;
         Gizmos.DrawWireSphere(attackPos, enemy.EnemyData.attackRange);
 
         // No DrawGizmos, desenhar minDistanceToPlayer com offset

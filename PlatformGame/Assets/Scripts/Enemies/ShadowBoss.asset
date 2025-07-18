@@ -21,14 +21,14 @@ MonoBehaviour:
   hurtDuration: 0.5
   knockbackForce: {x: 5, y: 3}
   knockbackDuration: 0.3
-  detectionRange: 11.23
-  giveUpRange: 35.26
+  detectionRange: 11.22
+  giveUpRange: 26.8
   alertDuration: 1
   behaviour: {fileID: 11400000, guid: 999a288a943137f468f5a2cdcef91c74, type: 2}
   deathParticlesPrefab: {fileID: 0}
   onDeathEvent: {fileID: 0}
-  minDistanceToPlayer: 2.02
-  escapeSpeed: 6
+  minDistanceToPlayer: 0.95
+  escapeSpeed: 10
   minDistanceOffset: {x: 0, y: 0}
   attackTriggerName: 0
   attackRange: 0
@@ -36,14 +36,14 @@ MonoBehaviour:
   attacks:
   - name: ShadowHunter
     damage: 20
-    range: 2
-    offset: {x: -3.88, y: 2.04}
+    range: 1.79
+    offset: {x: -3.23, y: 1.8}
     cooldown: 2
     triggerName: T_Attack1
   - name: ShadowScruller
     damage: 20
-    range: 1.12
-    offset: {x: -4.41, y: 1.14}
+    range: 1.28
+    offset: {x: -3.48, y: 1.38}
     cooldown: 3
     triggerName: T_Attack2
   attackDamage: 10

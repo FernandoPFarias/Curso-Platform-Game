@@ -21,6 +21,8 @@ public class BossBehaviour : AIBehaviour
     private bool ignoringPlayerCollision = false;
     private Collider2D bossCollider;
     private Collider2D playerCollider;
+    private float lastPushTime = -1f; // Cooldown do empurrão
+    private Coroutine aiRoutine;
 
     public override void Initialize(Enemy puppet)
     {
@@ -35,135 +37,137 @@ public class BossBehaviour : AIBehaviour
         if (puppet.PlayerTarget != null)
             playerCollider = puppet.PlayerTarget.GetComponent<Collider2D>();
         Debug.Log($"[BossBehaviour] Inicializado para {puppet.gameObject.name}");
+        // Inicia a corrotina principal de IA
+        if (aiRoutine != null) puppet.StopCoroutine(aiRoutine);
+        aiRoutine = puppet.StartCoroutine(BossAI(puppet));
     }
 
     public override void Tick(Enemy puppet)
     {
-        // Ativação por proximidade
-        if (!isActive)
-        {
-            if (puppet.PlayerTarget != null && puppet.activationPoint != null)
-            {
-                float dist = Vector2.Distance(puppet.PlayerTarget.position, puppet.activationPoint.position);
-                if (dist <= puppet.activationRange)
-                {
-                    isActive = true;
-                    Debug.Log("[BossBehaviour] Boss ativado por proximidade!");
-                }
-            }
-            puppet.AnimationManager.TriggerIdle();
-            puppet.Rb.linearVelocity = Vector2.zero;
-            return;
-        }
+        // Não faz nada aqui, a lógica está na corrotina
+    }
 
-        if (puppet.PlayerTarget == null)
+    private IEnumerator BossAI(Enemy puppet)
+    {
+        while (true)
         {
-            puppet.AnimationManager.TriggerIdle();
-            puppet.Rb.linearVelocity = Vector2.zero;
-            return;
-        }
-
-        // Escolhe dinamicamente o ataque disponível e usa seu range
-        // Cálculo correto: distância do centro da hitbox ao player
-        float attackRange = 1f;
-        int attackToUse = -1;
-        Vector2 hitboxCenter = puppet.transform.position;
-        var attacks = puppet.EnemyData.attacks;
-        if (puppet.EnemyData.tier == EnemyTier.Boss && attacks != null && attacks.Length > 0)
-        {
-            if (Time.time - lastAttack1Time > attacks[0].cooldown)
+            // Ativação por proximidade
+            if (!isActive)
             {
-                attackRange = attacks[0].range;
-                attackToUse = 0;
-                hitboxCenter = (Vector2)puppet.transform.position + attacks[0].offset;
+                if (puppet.PlayerTarget != null && puppet.activationPoint != null)
+                {
+                    float dist = Vector2.Distance(puppet.PlayerTarget.position, puppet.activationPoint.position);
+                    if (dist <= puppet.activationRange)
+                    {
+                        isActive = true;
+                        Debug.Log("[BossBehaviour] Boss ativado por proximidade!");
+                    }
+                }
+                puppet.AnimationManager.TriggerIdle();
+                puppet.Rb.linearVelocity = Vector2.zero;
+                yield return null;
+                continue;
             }
-            else if (attacks.Length > 1 && Time.time - lastAttack2Time > attacks[1].cooldown)
+            if (puppet.PlayerTarget == null)
             {
-                attackRange = attacks[1].range;
-                attackToUse = 1;
-                hitboxCenter = (Vector2)puppet.transform.position + attacks[1].offset;
+                puppet.AnimationManager.TriggerIdle();
+                puppet.Rb.linearVelocity = Vector2.zero;
+                yield return null;
+                continue;
             }
-            else
+            // Calcule o offset já invertido
+            Vector2 offset = Vector2.zero;
+            float attackRange = 1f;
+            int attackToUse = -1;
+            var attacks = puppet.EnemyData.attacks;
+            float rootScaleX = puppet.transform.root.lossyScale.x;
+            if (puppet.EnemyData.tier == EnemyTier.Boss && attacks != null && attacks.Length > 0)
             {
-                attackRange = attacks[0].range;
-                hitboxCenter = (Vector2)puppet.transform.position + attacks[0].offset;
-            }
-        }
-        else
-        {
-            attackRange = puppet.EnemyData.attackRange;
-            hitboxCenter = (Vector2)puppet.transform.position + puppet.EnemyData.attackOffset;
-        }
-
-        Vector2 minDistCenter = (Vector2)puppet.transform.position + puppet.EnemyData.minDistanceOffset;
-        float minDistance = puppet.EnemyData.minDistanceToPlayer;
-        float escapeSpeed = puppet.EnemyData.escapeSpeed;
-        float distanceToPlayer = Vector2.Distance(minDistCenter, puppet.PlayerTarget.position);
-
-        switch (currentState)
-        {
-            case BossState.Chasing:
-                if (distanceToPlayer < minDistance)
+                if (Time.time - lastAttack1Time > attacks[0].cooldown)
                 {
-                    // Player está muito perto: afasta rapidamente a partir do centro com offset, sem ignorar colisão
-                    Vector2 dir = (minDistCenter - (Vector2)puppet.PlayerTarget.position).normalized;
-                    Vector2 newPos = (Vector2)puppet.transform.position + dir * escapeSpeed * Time.fixedDeltaTime;
-                    puppet.Rb.MovePosition(newPos);
-                    puppet.AnimationManager.animator.SetTrigger("T_Run");
-                    return;
+                    attackRange = attacks[0].range;
+                    attackToUse = 0;
+                    offset = attacks[0].offset;
                 }
-                else if (ignoringPlayerCollision && bossCollider != null && playerCollider != null)
+                else if (attacks.Length > 1 && Time.time - lastAttack2Time > attacks[1].cooldown)
                 {
-                    // Reativa colisão ao sair da área
-                    Physics2D.IgnoreCollision(bossCollider, playerCollider, false);
-                    ignoringPlayerCollision = false;
-                }
-                else if (distanceToPlayer > attackRange)
-                {
-                    puppet.SetMoveSpeed(chaseSpeed);
-                    puppet.MoveTowards(puppet.PlayerTarget.position);
-                    puppet.AnimationManager.animator.SetTrigger("T_Run");
-                }
-                else if (attackToUse != -1)
-                {
-                    // Executa o ataque disponível
-                    var atk = attacks[attackToUse];
-                    puppet.Rb.linearVelocity = Vector2.zero;
-                    puppet.AnimationManager.TriggerIdle();
-                    if (attackToUse == 0)
-                        lastAttack1Time = Time.time;
-                    else if (attackToUse == 1)
-                        lastAttack2Time = Time.time;
-                    lastAttackTime = Time.time;
-                    puppet.AnimationManager.animator.SetTrigger(atk.triggerName);
-                    currentState = BossState.Attacking;
-                    stateTimer = attackDuration;
+                    attackRange = attacks[1].range;
+                    attackToUse = 1;
+                    offset = attacks[1].offset;
                 }
                 else
                 {
-                    puppet.Rb.linearVelocity = Vector2.zero;
-                    puppet.AnimationManager.TriggerIdle();
+                    attackRange = attacks[0].range;
+                    offset = attacks[0].offset;
                 }
-                break;
-            case BossState.Attacking:
+            }
+            else
+            {
+                attackRange = puppet.EnemyData.attackRange;
+                offset = puppet.EnemyData.attackOffset;
+            }
+            if (rootScaleX < 0) offset.x = -offset.x;
+            Vector2 attackPoint = (Vector2)puppet.transform.position + offset;
+            float minDistance = puppet.EnemyData.minDistanceToPlayer;
+            float escapeSpeed = puppet.EnemyData.escapeSpeed;
+            float distanceToPlayer = Vector2.Distance(attackPoint, puppet.PlayerTarget.position);
+            // 1. Se está muito perto, foge para o lado oposto ao player até sair da distância mínima
+            if (distanceToPlayer < minDistance)
+            {
+                // Calcula a direção de fuga (oposta ao player) e ponto alvo só uma vez
+                Vector2 fugaDir = ((Vector2)puppet.transform.position - (Vector2)puppet.PlayerTarget.position).normalized;
+                Vector2 fugaTarget = (Vector2)puppet.transform.position + fugaDir * minDistance * 1.5f; // Vai além da zona mínima
+                float fugaSpeed = escapeSpeed * 2f; // Fuga mais rápida
+
+                // Ignora colisão durante a fuga
+                if (bossCollider != null && playerCollider != null)
+                    Physics2D.IgnoreCollision(bossCollider, playerCollider, true);
+
+                while (Vector2.Distance(attackPoint, puppet.PlayerTarget.position) < minDistance)
+                {
+                    Vector2 moveDir = (fugaTarget - (Vector2)puppet.transform.position).normalized;
+                    puppet.SetMoveSpeed(fugaSpeed);
+                    puppet.Rb.MovePosition((Vector2)puppet.transform.position + moveDir * fugaSpeed * Time.fixedDeltaTime);
+                    puppet.AnimationManager.animator.SetTrigger("T_Run");
+                    yield return null;
+                    attackPoint = (Vector2)puppet.transform.position + offset;
+                }
+                // Reativa colisão ao sair da zona
+                if (bossCollider != null && playerCollider != null)
+                    Physics2D.IgnoreCollision(bossCollider, playerCollider, false);
+                continue;
+            }
+            // 2. Se está na distância de ataque, ataca
+            else if (distanceToPlayer < attackRange && attackToUse != -1)
+            {
+                var atk = attacks[attackToUse];
                 puppet.Rb.linearVelocity = Vector2.zero;
                 puppet.AnimationManager.TriggerIdle();
-                stateTimer -= Time.fixedDeltaTime;
-                if (stateTimer <= 0f)
-                {
-                    currentState = BossState.Cooldown;
-                    stateTimer = cooldownDuration;
-                }
-                break;
-            case BossState.Cooldown:
-                puppet.Rb.linearVelocity = Vector2.zero;
-                puppet.AnimationManager.TriggerIdle();
-                stateTimer -= Time.fixedDeltaTime;
-                if (stateTimer <= 0f)
-                {
-                    currentState = BossState.Chasing;
-                }
-                break;
+                if (attackToUse == 0)
+                    lastAttack1Time = Time.time;
+                else if (attackToUse == 1)
+                    lastAttack2Time = Time.time;
+                lastAttackTime = Time.time;
+                puppet.AnimationManager.animator.SetTrigger(atk.triggerName);
+                currentState = BossState.Attacking;
+                stateTimer = attackDuration;
+                // Espera o tempo do ataque
+                yield return new WaitForSeconds(attackDuration);
+                // Vai para cooldown
+                currentState = BossState.Cooldown;
+                stateTimer = cooldownDuration;
+                yield return new WaitForSeconds(cooldownDuration);
+                currentState = BossState.Chasing;
+                continue;
+            }
+            // 3. Caso contrário, persegue
+            else
+            {
+                puppet.SetMoveSpeed(chaseSpeed);
+                puppet.MoveTowards(puppet.PlayerTarget.position);
+                puppet.AnimationManager.animator.SetTrigger("T_Run");
+                yield return null;
+            }
         }
     }
 
@@ -171,12 +175,15 @@ public class BossBehaviour : AIBehaviour
     {
         // Range de ataque
         var attacks = enemy.EnemyData.attacks;
+        float rootScaleX = enemy.transform.root.lossyScale.x;
         if (enemy.EnemyData.tier == EnemyTier.Boss && attacks != null && attacks.Length > 0)
         {
             for (int i = 0; i < attacks.Length; i++)
             {
                 Gizmos.color = i == 0 ? Color.magenta : Color.cyan;
-                Vector3 attackPos = enemy.transform.position + (Vector3)attacks[i].offset;
+                Vector3 offset = (Vector3)attacks[i].offset;
+                if (rootScaleX < 0) offset.x = -offset.x;
+                Vector3 attackPos = enemy.transform.position + offset;
                 Gizmos.DrawWireSphere(attackPos, attacks[i].range);
                 #if UNITY_EDITOR
                 UnityEditor.Handles.Label(attackPos + Vector3.up * attacks[i].range, $"Attack {i} Range");
@@ -186,7 +193,9 @@ public class BossBehaviour : AIBehaviour
         else
         {
             Gizmos.color = Color.magenta;
-            Vector3 attackPos = enemy.transform.position + (Vector3)enemy.EnemyData.attackOffset;
+            Vector3 offset = (Vector3)enemy.EnemyData.attackOffset;
+            if (rootScaleX < 0) offset.x = -offset.x;
+            Vector3 attackPos = enemy.transform.position + offset;
             Gizmos.DrawWireSphere(attackPos, enemy.EnemyData.attackRange);
             #if UNITY_EDITOR
             UnityEditor.Handles.Label(attackPos + Vector3.up * enemy.EnemyData.attackRange, "Attack Range");

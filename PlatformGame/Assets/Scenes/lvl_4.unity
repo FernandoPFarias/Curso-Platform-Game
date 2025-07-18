@@ -1907,7 +1907,7 @@ MonoBehaviour:
   sentryGuardPoint: {fileID: 0}
   sentryChaseLimit: {fileID: 0}
   activationPoint: {fileID: 719866556}
-  activationRange: 23.02
+  activationRange: 10.3
   animationManager: {fileID: 509006462}
   startsFacingLeft: 1
 --- !u!114 &555808860
@@ -1960,8 +1960,8 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &555808863
 MonoBehaviour:
@@ -1975,7 +1975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9caf6da9ee05c5e45b2c89326bdc5ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: b0e536a87da764f47a0896276d6a1613, type: 2}
   onDeathEvent: {fileID: 0}
 --- !u!61 &555808864
 BoxCollider2D:
