@@ -10596,7 +10596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 254867664}
-  parallaxMultiplier: 0.5
+  parallaxMultiplier: 0.25
   backgrounds:
   - {fileID: 1409301168}
   - {fileID: 1719494027}
@@ -11035,7 +11035,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -10
   m_Sprite: {fileID: 8901183164840230292, guid: 735f756aec4ec084280b40e717fd93c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

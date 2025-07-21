@@ -91,7 +91,18 @@ public class EnemyHealth : MonoBehaviour
         onDeathEvent?.Raise();
 
         // 3. Desliga a "inteligência" do inimigo
-        if (enemy != null) enemy.enabled = false;
+        if (enemy != null)
+        {
+            // Para todas as corrotinas do Enemy
+            enemy.StopAllCoroutines();
+            // Para corrotinas do BossBehaviour, se for boss
+            var bossBehaviour = enemy.GetBehaviour() as BossBehaviour;
+            if (bossBehaviour != null)
+            {
+                // Não há referência direta à corrotina, mas desabilitar o Enemy já impede novas execuções
+            }
+            enemy.enabled = false;
+        }
 
         // 4. Congela o Rigidbody2D completamente
         var rb = GetComponent<Rigidbody2D>();
@@ -108,7 +119,17 @@ public class EnemyHealth : MonoBehaviour
         if (col != null)
             col.enabled = false;
 
-        // 6. Agenda a destruição do objeto, dando tempo para a animação tocar.
+        // 6. Desativa scripts de ataque e hitboxes filhos
+        foreach (var atk in GetComponentsInChildren<AttackDamageEvent>())
+            atk.enabled = false;
+        foreach (var contact in GetComponentsInChildren<ContactDamage>())
+            contact.enabled = false;
+        foreach (var collider in GetComponentsInChildren<Collider2D>())
+        {
+            if (collider != col) collider.enabled = false;
+        }
+
+        // 7. Agenda a destruição do objeto, dando tempo para a animação tocar.
         Destroy(gameObject, 3f); // Ajuste o tempo conforme sua animação de morte.
     }
 }

@@ -9,6 +9,8 @@ public class BossBehaviour : AIBehaviour
     public float timeBetweenAttacks = 1.5f; // Tempo mínimo entre ataques globais
     public float attackDuration = 0.7f; // Tempo "travado" durante o ataque
     public float cooldownDuration = 1.0f; // Tempo parado após atacar
+    [Header("Tempo de respiro após fuga")]
+    public float waitBeforeChase = 1.5f; // Tempo de espera após fugir antes de perseguir novamente
 
     private enum BossState { Chasing, Attacking, Cooldown }
     private BossState currentState = BossState.Chasing;
@@ -23,6 +25,9 @@ public class BossBehaviour : AIBehaviour
     private Collider2D playerCollider;
     private float lastPushTime = -1f; // Cooldown do empurrão
     private Coroutine aiRoutine;
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+    private bool forceReset = false;
 
     public override void Initialize(Enemy puppet)
     {
@@ -37,9 +42,25 @@ public class BossBehaviour : AIBehaviour
         if (puppet.PlayerTarget != null)
             playerCollider = puppet.PlayerTarget.GetComponent<Collider2D>();
         Debug.Log($"[BossBehaviour] Inicializado para {puppet.gameObject.name}");
+        // Salva posição inicial
+        initialPosition = puppet.transform.position;
+        initialRotation = puppet.transform.rotation;
+        forceReset = false;
         // Inicia a corrotina principal de IA
         if (aiRoutine != null) puppet.StopCoroutine(aiRoutine);
         aiRoutine = puppet.StartCoroutine(BossAI(puppet));
+    }
+
+    // Método público para resetar o boss
+    public void ResetToInitialPosition(Enemy puppet)
+    {
+        forceReset = true;
+        puppet.transform.position = initialPosition;
+        puppet.transform.rotation = initialRotation;
+        isActive = false;
+        currentState = BossState.Chasing;
+        stateTimer = 0f;
+        Debug.Log("[BossBehaviour] Boss resetado para posição inicial e aguardando ativação.");
     }
 
     public override void Tick(Enemy puppet)
@@ -51,6 +72,27 @@ public class BossBehaviour : AIBehaviour
     {
         while (true)
         {
+            // Reset forçado: volta para posição inicial e espera ativação
+            if (forceReset)
+            {
+                puppet.Rb.linearVelocity = Vector2.zero;
+                puppet.AnimationManager.TriggerIdle();
+                // Aguarda até player entrar na área de ativação
+                while (!isActive)
+                {
+                    if (puppet.PlayerTarget != null && puppet.activationPoint != null)
+                    {
+                        float dist = Vector2.Distance(puppet.PlayerTarget.position, puppet.activationPoint.position);
+                        if (dist <= puppet.activationRange)
+                        {
+                            isActive = true;
+                            forceReset = false;
+                            Debug.Log("[BossBehaviour] Boss reativado após reset!");
+                        }
+                    }
+                    yield return null;
+                }
+            }
             // Ativação por proximidade
             if (!isActive)
             {
@@ -107,34 +149,38 @@ public class BossBehaviour : AIBehaviour
                 offset = puppet.EnemyData.attackOffset;
             }
             if (rootScaleX < 0) offset.x = -offset.x;
+            // NOVO: usar minDistanceOffset como centro da zona de anti-grude
+            Vector2 minDistCenter = (Vector2)puppet.transform.position + puppet.EnemyData.minDistanceOffset;
             Vector2 attackPoint = (Vector2)puppet.transform.position + offset;
             float minDistance = puppet.EnemyData.minDistanceToPlayer;
             float escapeSpeed = puppet.EnemyData.escapeSpeed;
-            float distanceToPlayer = Vector2.Distance(attackPoint, puppet.PlayerTarget.position);
+            float distanceToPlayer = Vector2.Distance(minDistCenter, puppet.PlayerTarget.position);
             // 1. Se está muito perto, foge para o lado oposto ao player até sair da distância mínima
             if (distanceToPlayer < minDistance)
             {
-                // Calcula a direção de fuga (oposta ao player) e ponto alvo só uma vez
-                Vector2 fugaDir = ((Vector2)puppet.transform.position - (Vector2)puppet.PlayerTarget.position).normalized;
-                Vector2 fugaTarget = (Vector2)puppet.transform.position + fugaDir * minDistance * 1.5f; // Vai além da zona mínima
-                float fugaSpeed = escapeSpeed * 2f; // Fuga mais rápida
-
                 // Ignora colisão durante a fuga
                 if (bossCollider != null && playerCollider != null)
                     Physics2D.IgnoreCollision(bossCollider, playerCollider, true);
-
-                while (Vector2.Distance(attackPoint, puppet.PlayerTarget.position) < minDistance)
+                // Fuga dinâmica: recalcula direção e alvo a cada frame
+                while (Vector2.Distance(minDistCenter, puppet.PlayerTarget.position) < minDistance)
                 {
+                    minDistCenter = (Vector2)puppet.transform.position + puppet.EnemyData.minDistanceOffset;
+                    Vector2 fugaDir = (minDistCenter - (Vector2)puppet.PlayerTarget.position).normalized;
+                    Vector2 fugaTarget = minDistCenter + fugaDir * minDistance * 1.2f; // Vai além da zona mínima
+                    float fugaSpeed = escapeSpeed * 2f; // Fuga mais rápida
                     Vector2 moveDir = (fugaTarget - (Vector2)puppet.transform.position).normalized;
                     puppet.SetMoveSpeed(fugaSpeed);
                     puppet.Rb.MovePosition((Vector2)puppet.transform.position + moveDir * fugaSpeed * Time.fixedDeltaTime);
                     puppet.AnimationManager.animator.SetTrigger("T_Run");
                     yield return null;
-                    attackPoint = (Vector2)puppet.transform.position + offset;
                 }
                 // Reativa colisão ao sair da zona
                 if (bossCollider != null && playerCollider != null)
                     Physics2D.IgnoreCollision(bossCollider, playerCollider, false);
+                // NOVO: Espera um tempo antes de voltar a perseguir
+                puppet.AnimationManager.TriggerIdle();
+                puppet.Rb.linearVelocity = Vector2.zero;
+                yield return new WaitForSeconds(waitBeforeChase);
                 continue;
             }
             // 2. Se está na distância de ataque, ataca

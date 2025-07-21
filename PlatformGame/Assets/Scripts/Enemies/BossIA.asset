@@ -16,3 +16,4 @@ MonoBehaviour:
   timeBetweenAttacks: 1.5
   attackDuration: 0.7
   cooldownDuration: 1
+  waitBeforeChase: 1.5

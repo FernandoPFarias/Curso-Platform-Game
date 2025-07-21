@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: useLoadingScreen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1012960538441832182, guid: bf5668d400912c046a49b5f4638d1f64, type: 3}
+      propertyPath: nomeDaProximaCena
+      value: lvl_4
+      objectReference: {fileID: 0}
     - target: {fileID: 5064068707460574319, guid: bf5668d400912c046a49b5f4638d1f64, type: 3}
       propertyPath: m_Name
       value: Porta
@@ -11588,7 +11592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 254867664}
-  parallaxMultiplier: 0.5
+  parallaxMultiplier: 0.25
   backgrounds:
   - {fileID: 1409301168}
   - {fileID: 1719494027}
@@ -11946,7 +11950,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -10
   m_Sprite: {fileID: 8901183164840230292, guid: 735f756aec4ec084280b40e717fd93c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12137,7 +12141,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -10
   m_Sprite: {fileID: 8901183164840230292, guid: 735f756aec4ec084280b40e717fd93c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12848,7 +12852,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -3
   m_Sprite: {fileID: 3525453149786773092, guid: 6deca9550ece00041a4428958f682f18, type: 3}
   m_Color: {r: 0.01619794, g: 0.0371517, b: 0.26415092, a: 0.98039216}
   m_FlipX: 0
@@ -13119,7 +13123,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -3
   m_Sprite: {fileID: 3525453149786773092, guid: 6deca9550ece00041a4428958f682f18, type: 3}
   m_Color: {r: 0.04387683, g: 0.06495539, b: 0.3207547, a: 1}
   m_FlipX: 0

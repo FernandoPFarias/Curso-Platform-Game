@@ -5282,7 +5282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 254867664}
-  parallaxMultiplier: 0.5
+  parallaxMultiplier: 0.25
   backgrounds:
   - {fileID: 1409301168}
   - {fileID: 1719494027}
