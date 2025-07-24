@@ -26,7 +26,7 @@ MonoBehaviour:
   alertDuration: 1
   behaviour: {fileID: 11400000, guid: 999a288a943137f468f5a2cdcef91c74, type: 2}
   deathParticlesPrefab: {fileID: 0}
-  onDeathEvent: {fileID: 0}
+  onDeathEvent: {fileID: 11400000, guid: b4bc70ab4a9a6d64791a7cbb4137db74, type: 2}
   minDistanceToPlayer: 1
   escapeSpeed: 10
   minDistanceOffset: {x: 0, y: 0}

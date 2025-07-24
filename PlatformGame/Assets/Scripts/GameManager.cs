@@ -54,7 +54,17 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"GameManager: Nova cena carregada: {scene.name}");
-        lastCheckpointPosition = Vector3.zero;
+        // Usa o ponto de spawn inicial da fase, se disponível
+        if (initialPlayerSpawnPoint != null)
+        {
+            lastCheckpointPosition = initialPlayerSpawnPoint.position;
+            lastCheckpointYOffset = 0.3f; // Ou outro valor padrão se preferir
+        }
+        else
+        {
+            lastCheckpointPosition = Vector3.zero;
+            lastCheckpointYOffset = 0.3f;
+        }
 
         // Garante que só existe um player na cena
         var players = FindObjectsOfType<PlayerController>();

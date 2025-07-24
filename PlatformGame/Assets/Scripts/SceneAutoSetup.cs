@@ -12,7 +12,17 @@ public class SceneAutoSetup : MonoBehaviour
     {
         // Garante GameManager
         if (GameManager.Instance == null && gameManagerPrefab != null)
-            Instantiate(gameManagerPrefab);
+        {
+            var gmObj = Instantiate(gameManagerPrefab);
+            // Procura o PlayerSpawn na cena e seta no GameManager
+            var spawn = GameObject.Find("PlayerSpawn");
+            if (spawn != null)
+            {
+                var gm = gmObj.GetComponent<GameManager>();
+                if (gm != null)
+                    gm.initialPlayerSpawnPoint = spawn.transform;
+            }
+        }
 
         // Garante Player
         if (FindObjectOfType<PlayerController>() == null && playerPrefab != null)
