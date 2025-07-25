@@ -87,12 +87,18 @@ public class PlayerInteraction : MonoBehaviour
                     // Salva o lado
                     holdSide = (transform.position.x < obj.transform.position.x) ? -1 : 1;
                     grabbedObject.TryGrab(transform, holdSide);
+                    // Atualiza referência no PlayerController
+                    var controller = GetComponent<PlayerController>();
+                    if (controller != null) controller.grabbedObject = grabbedObject;
                 }
             }
         }
         else
         {
             grabbedObject.Release();
+            // Limpa referência no PlayerController
+            var controller = GetComponent<PlayerController>();
+            if (controller != null) controller.grabbedObject = null;
             grabbedObject = null;
         }
     }

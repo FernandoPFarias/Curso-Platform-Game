@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+// Gerencia a saúde do jogador, respawn e lógica de morte
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
@@ -28,16 +29,17 @@ public class PlayerHealth : MonoBehaviour
         // Nada a fazer, GameManager já tem a vida atual
     }
 
-    public void TakeDamage(float damageAmount)
+    // Aplica dano ao jogador
+    public void TakeDamage(float amount)
     {
         if (isDead || isInvincible) return;
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.playerHealth -= damageAmount;
+            GameManager.Instance.playerHealth -= amount;
             if (GameManager.Instance.playerHealth < 0)
                 GameManager.Instance.playerHealth = 0;
         }
-        Debug.Log($"JOGADOR tomou {damageAmount} de dano! Vida atual: {CurrentHealth}");
+        Debug.Log($"JOGADOR tomou {amount} de dano! Vida atual: {CurrentHealth}");
 
         if (CurrentHealth <= 0)
         {
@@ -48,7 +50,7 @@ public class PlayerHealth : MonoBehaviour
         animator?.SetTrigger("Hurt");
     }
 
-    // Método para penalidade (DeathZone)
+    // Aplica penalidade de vida e respawna (usado por DeathZone)
     public void ApplyPenaltyAndRespawn(float penalty)
     {
         if (isDead) return;
@@ -74,7 +76,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // Método para morte (vida zerada)
+    // Lida com morte e respawn completo
     public void DieAndRespawn()
     {
         if (isDead) return;
@@ -127,6 +129,7 @@ public class PlayerHealth : MonoBehaviour
         DieAndRespawn();
     }
 
+    // Respawna o jogador no checkpoint
     private void RespawnAtCheckpoint(float healthAfterPenalty)
     {
         var rb = GetComponent<Rigidbody2D>();

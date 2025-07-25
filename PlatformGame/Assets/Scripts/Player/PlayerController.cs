@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public bool podeVirar = true;
     public bool podeAtacar = true;
     public bool segurandoCaixa = false;
+    public PushableObject grabbedObject = null; // Pedra atualmente segurada
 
     // --- Componentes e Referências ---
     private Rigidbody2D rb;
@@ -147,6 +148,29 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_ANDROID || UNITY_IOS
+        // Movimento mobile
+        Vector2 mobileMove = MobileInput.move;
+        if (mobileMove != Vector2.zero)
+        {
+            moveDirection = mobileMove;
+        }
+        // Ataque mobile
+        if (MobileInput.attackPressed)
+        {
+            if (Combat != null)
+                Combat.SendMessage("OnBasicAttack", null, SendMessageOptions.DontRequireReceiver);
+            MobileInput.attackPressed = false;
+        }
+        // Interação mobile
+        if (MobileInput.interactPressed)
+        {
+            var interaction = GetComponent<PlayerInteraction>();
+            if (interaction != null)
+                interaction.SendMessage("OnInteract", null, SendMessageOptions.DontRequireReceiver);
+            MobileInput.interactPressed = false;
+        }
+#endif
         // Se acabamos de aterrissar...
         if (!wasGrounded && isGrounded)
         {

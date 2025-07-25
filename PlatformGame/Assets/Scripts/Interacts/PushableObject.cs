@@ -69,7 +69,10 @@ public class PushableObject : MonoBehaviour
         if (playerTransform != null)
         {
             var controller = playerTransform.GetComponent<PlayerController>();
-            if (controller != null) controller.segurandoCaixa = false;
+            if (controller != null) {
+                controller.segurandoCaixa = false;
+                controller.grabbedObject = null; // Limpa referência ao soltar
+            }
             var anim = playerTransform.GetComponentInChildren<Animator>();
             if (anim != null) anim.SetBool("Empurrando", false);
             // Remove FixedJoint2D do player

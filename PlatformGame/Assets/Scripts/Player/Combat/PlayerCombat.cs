@@ -36,20 +36,7 @@ public class PlayerCombat : MonoBehaviour
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
         var controller = GetComponent<PlayerController>();
-        if (controller != null && controller.segurandoCaixa)
-        {
-            // Tenta arremessar a caixa se estiver segurando
-            var pushables = FindObjectsOfType<PushableObject>();
-            foreach (var pushable in pushables)
-            {
-                if (pushable.IsGrabbed)
-                {
-                    pushable.Arremessar(controller.transform);
-                    break;
-                }
-            }
-            return;
-        }
+        // Não arremessa mais a pedra aqui! Só ataca normalmente
         if (controller != null && !controller.podeAtacar)
         {
             Debug.Log("Não pode atacar enquanto empurra!");
