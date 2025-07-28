@@ -32,10 +32,18 @@ public class PlayerCombat : MonoBehaviour
         playerControls.Player.Disable();
         playerControls.Player.Attack.performed -= OnBasicAttack;
     }
+    // Vamos analisar o OnBasicAttack para possíveis erros que podem travar o ataque:
 
+    // 1. Verifique se o cooldown está correto e se lastAttackTime está sendo atualizado sempre que o ataque é executado.
+    // 2. Certifique-se de que o controller.podeAtacar está correto e não está ficando permanentemente falso.
+    // 3. Adicione logs detalhados para entender o fluxo.
+
+    // Atualize o método para logs detalhados:
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
         var controller = GetComponent<PlayerController>();
+        Debug.Log($"[OnBasicAttack] chamado em {Time.time}. podeAtacar: {(controller != null ? controller.podeAtacar.ToString() : "controller nulo")}, lastAttackTime: {lastAttackTime}, cooldown: {basicAttack.attackCooldown}");
+
         // Não arremessa mais a pedra aqui! Só ataca normalmente
         if (controller != null && !controller.podeAtacar)
         {
@@ -45,17 +53,24 @@ public class PlayerCombat : MonoBehaviour
 
         if (Time.time >= lastAttackTime + basicAttack.attackCooldown)
         {
+            Debug.Log("[OnBasicAttack] Executando ataque!");
             CurrentAttack = basicAttack;
-            basicAttack?.Execute(this.gameObject);
+            if (basicAttack != null)
+            {
+                basicAttack.Execute(this.gameObject);
+            }
+            else
+            {
+                Debug.LogWarning("basicAttack está nulo!");
+            }
             lastAttackTime = Time.time;
         }
         else
         {
-            Debug.Log("ATAQUE EM CDR");
+            float restante = (lastAttackTime + basicAttack.attackCooldown) - Time.time;
+            Debug.Log($"ATAQUE EM CDR. Tempo restante: {restante:F2}s");
         }
     }
-
-
 
     private void OnDrawGizmos()
     {

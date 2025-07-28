@@ -50,6 +50,7 @@ public class PlayerHealth : MonoBehaviour
         animator?.SetTrigger("Hurt");
     }
 
+
     // Aplica penalidade de vida e respawna (usado por DeathZone)
     public void ApplyPenaltyAndRespawn(float penalty)
     {

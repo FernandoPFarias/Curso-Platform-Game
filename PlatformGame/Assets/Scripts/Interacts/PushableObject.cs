@@ -108,6 +108,11 @@ public class PushableObject : MonoBehaviour
             }
 
             // Solta se o player se afastar demais da pedra
+            if (playerTransform == null)
+            {
+                Release();
+                return;
+            }
             float dist = Vector2.Distance(transform.position, playerTransform.position);
             if (dist > maxGrabDistance)
             {
@@ -123,6 +128,8 @@ public class PushableObject : MonoBehaviour
             foiArremessada = false;
         }
     }
+
+
 
     public void Arremessar(Transform player)
     {
