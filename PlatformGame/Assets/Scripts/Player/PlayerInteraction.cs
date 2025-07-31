@@ -59,7 +59,16 @@ public class PlayerInteraction : MonoBehaviour
     private void OnInteract(InputAction.CallbackContext context)
     {
         Debug.Log("OnInteract chamado! Context: " + context);
-        // Primeiro, tenta interagir com o portal se estiver próximo
+        
+        // Primeiro, tenta interagir com checkpoint se estiver próximo
+        var checkpoint = FindObjectOfType<Checkpoint>();
+        if (checkpoint != null)
+        {
+            checkpoint.TryInteract();
+            return; // Se interagiu com checkpoint, não faz outras interações
+        }
+        
+        // Depois, tenta interagir com o portal se estiver próximo
         var portal = FindObjectOfType<Portal>();
         if (portal != null)
         {

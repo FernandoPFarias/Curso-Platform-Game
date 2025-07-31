@@ -227,17 +227,19 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 10
   maxJumps: 2
-  groundCheck: {fileID: 1916704468378719472}
-  groundCheckRadius: 0.5
+  groundCheckBoxSize: {x: 0.5, y: 0.1}
+  groundCheckBoxOffset: {x: 0, y: -0.5}
   groundLayer:
     serializedVersion: 2
     m_Bits: 3136
+  coyoteTime: 0.1
   OnGroundJumpEvent: {fileID: 11400000, guid: b7b4f402a9b6fa74eb27c753366e97d6, type: 2}
   OnAirJumpEvent: {fileID: 11400000, guid: 3425e8c4cfb72a0428416d130ef6d634, type: 2}
   OnLandedEvent: {fileID: 11400000, guid: 4f5023a4e914aef45833a955c7132e59, type: 2}
   podeVirar: 1
   podeAtacar: 1
   segurandoCaixa: 0
+  grabbedObject: {fileID: 0}
 --- !u!114 &4008000099734371907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +390,7 @@ MonoBehaviour:
   interactDistance: 0.3
   pushableLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 34816
 --- !u!50 &5692750868759189291
 Rigidbody2D:
   serializedVersion: 5

@@ -13,13 +13,69 @@ public class FadeController : MonoBehaviour
 
     void Awake()
     {
+        // Se fadeImage não foi configurado, tenta criar ou encontrar um
+        if (fadeImage == null)
+        {
+            SetupFadeImage();
+        }
+        
         if (fadeImage != null)
             fadeImage.gameObject.SetActive(false); // Começa desativado
+    }
+    
+    // Configura automaticamente o fadeImage se não estiver configurado
+    private void SetupFadeImage()
+    {
+        // Primeiro, procura por uma imagem de fade existente na cena
+        var existingFadeImage = FindObjectOfType<Image>();
+        if (existingFadeImage != null && existingFadeImage.gameObject.name.Contains("Fade"))
+        {
+            fadeImage = existingFadeImage;
+            Debug.Log("FadeController: fadeImage encontrado automaticamente na cena");
+            return;
+        }
+        
+        // Se não encontrar, procura por um Canvas
+        var canvas = FindObjectOfType<Canvas>();
+        if (canvas != null)
+        {
+            // Cria uma nova imagem de fade
+            GameObject fadeObj = new GameObject("FadeImage");
+            fadeObj.transform.SetParent(canvas.transform, false);
+            
+            // Configura o RectTransform para cobrir toda a tela
+            var rectTransform = fadeObj.AddComponent<RectTransform>();
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.offsetMin = Vector2.zero;
+            rectTransform.offsetMax = Vector2.zero;
+            
+            // Adiciona a Image
+            fadeImage = fadeObj.AddComponent<Image>();
+            fadeImage.color = Color.black;
+            fadeImage.raycastTarget = false;
+            
+            // Garante que fique por cima de tudo
+            var canvasGroup = fadeObj.AddComponent<CanvasGroup>();
+            canvasGroup.blocksRaycasts = false;
+            
+            Debug.Log("FadeController: fadeImage criado automaticamente");
+        }
+        else
+        {
+            Debug.LogWarning("FadeController: Nenhum Canvas encontrado para criar fadeImage");
+        }
     }
 
     // Inicia o efeito de fade
     public void Fade(System.Action onBlack = null, System.Action onComplete = null)
     {
+        // Garante que o fadeImage está configurado
+        if (fadeImage == null)
+        {
+            SetupFadeImage();
+        }
+        
         StartCoroutine(FadeRoutine(onBlack, onComplete));
     }
 
@@ -28,8 +84,17 @@ public class FadeController : MonoBehaviour
         // Verifica se o fadeImage ainda existe
         if (fadeImage == null)
         {
-            Debug.LogWarning("FadeController: fadeImage é null, abortando fade");
-            if (onComplete != null) onComplete();
+            Debug.LogWarning("FadeController: fadeImage é null, executando callback onBlack diretamente");
+            if (onBlack != null) 
+            {
+                Debug.Log("FadeController: Executando callback onBlack (sem fade)");
+                onBlack();
+            }
+            if (onComplete != null) 
+            {
+                Debug.Log("FadeController: Executando callback onComplete (sem fade)");
+                onComplete();
+            }
             yield break;
         }
 
@@ -47,7 +112,11 @@ public class FadeController : MonoBehaviour
         }
         
         // Tela preta
-        if (onBlack != null) onBlack();
+        if (onBlack != null) 
+        {
+            Debug.Log("FadeController: Executando callback onBlack");
+            onBlack();
+        }
         yield return new WaitForSeconds(blackDuration);
         
         // Verifica se ainda existe antes do fade in
@@ -67,7 +136,11 @@ public class FadeController : MonoBehaviour
             fadeImage.gameObject.SetActive(false);
         }
         
-        if (onComplete != null) onComplete();
+        if (onComplete != null) 
+        {
+            Debug.Log("FadeController: Executando callback onComplete");
+            onComplete();
+        }
     }
 
     private IEnumerator FadeAlpha(float from, float to, float duration)

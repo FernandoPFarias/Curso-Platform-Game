@@ -8,6 +8,9 @@ public class SceneAutoSetup : MonoBehaviour
     public GameObject coinManagerPrefab;
     public GameObject uiPrefab;
     public GameObject mobileControlsPrefab;
+    
+    [Header("Spawn Point")]
+    public Transform initialPlayerSpawnPoint; // Referência via Inspector para o ponto de spawn inicial
 
     void Awake()
     {
@@ -15,13 +18,29 @@ public class SceneAutoSetup : MonoBehaviour
         if (GameManager.Instance == null && gameManagerPrefab != null)
         {
             var gmObj = Instantiate(gameManagerPrefab);
-            // Procura o PlayerSpawn na cena e seta no GameManager
-            var spawn = GameObject.Find("PlayerSpawn");
-            if (spawn != null)
+            // Configura o ponto de spawn inicial
+            var gm = gmObj.GetComponent<GameManager>();
+            if (gm != null)
             {
-                var gm = gmObj.GetComponent<GameManager>();
-                if (gm != null)
-                    gm.initialPlayerSpawnPoint = spawn.transform;
+                if (initialPlayerSpawnPoint != null)
+                {
+                    gm.initialPlayerSpawnPoint = initialPlayerSpawnPoint;
+                    Debug.Log($"SceneAutoSetup: initialPlayerSpawnPoint configurado via Inspector: {initialPlayerSpawnPoint.position}");
+                }
+                else
+                {
+                    // Fallback: procura o PlayerSpawn na cena
+                    var spawn = GameObject.Find("PlayerSpawn");
+                    if (spawn != null)
+                    {
+                        gm.initialPlayerSpawnPoint = spawn.transform;
+                        Debug.Log($"SceneAutoSetup: PlayerSpawn encontrado na cena: {spawn.transform.position}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("SceneAutoSetup: Nenhum ponto de spawn encontrado! Configure initialPlayerSpawnPoint via Inspector.");
+                    }
+                }
             }
         }
 

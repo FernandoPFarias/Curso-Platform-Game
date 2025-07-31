@@ -54,18 +54,10 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"GameManager: Nova cena carregada: {scene.name}");
-        // Usa o ponto de spawn inicial da fase, se disponível
-        if (initialPlayerSpawnPoint != null)
-        {
-            lastCheckpointPosition = initialPlayerSpawnPoint.position;
-            lastCheckpointYOffset = 0.3f; // Ou outro valor padrão se preferir
-        }
-        else
-        {
-            lastCheckpointPosition = Vector3.zero;
-            lastCheckpointYOffset = 0.3f;
-        }
-
+        
+        // SEMPRE procura e configura o spawn point da nova cena
+        UpdateSpawnPointForCurrentScene();
+        
         // Garante que só existe um player na cena
         var players = FindObjectsOfType<PlayerController>();
         if (players.Length > 1)
@@ -81,6 +73,46 @@ public class GameManager : MonoBehaviour
 
         // Reconecta a câmera ao player após a mudança de cena
         StartCoroutine(ReconnectCameraAfterSceneLoad());
+    }
+    
+    // Novo método para atualizar o spawn point da cena atual
+    private void UpdateSpawnPointForCurrentScene()
+    {
+        // Primeiro, procura por um SceneAutoSetup na cena atual
+        var sceneAutoSetup = FindObjectOfType<SceneAutoSetup>();
+        if (sceneAutoSetup != null && sceneAutoSetup.initialPlayerSpawnPoint != null)
+        {
+            initialPlayerSpawnPoint = sceneAutoSetup.initialPlayerSpawnPoint;
+            lastCheckpointPosition = initialPlayerSpawnPoint.position;
+            lastCheckpointYOffset = 0.3f;
+            Debug.Log($"GameManager: Spawn point configurado via SceneAutoSetup: {lastCheckpointPosition}");
+        }
+        else
+        {
+            // Fallback: procura por "PlayerSpawn" na cena
+            var spawn = GameObject.Find("PlayerSpawn");
+            if (spawn != null)
+            {
+                initialPlayerSpawnPoint = spawn.transform;
+                lastCheckpointPosition = initialPlayerSpawnPoint.position;
+                lastCheckpointYOffset = 0.3f;
+                Debug.Log($"GameManager: PlayerSpawn encontrado na cena: {lastCheckpointPosition}");
+            }
+            else
+            {
+                // Se não encontrar nada, mantém o último checkpoint ou usa Vector3.zero
+                if (lastCheckpointPosition == Vector3.zero)
+                {
+                    lastCheckpointPosition = Vector3.zero;
+                    lastCheckpointYOffset = 0.3f;
+                    Debug.LogWarning($"GameManager: Nenhum spawn point encontrado! Usando Vector3.zero: {lastCheckpointPosition}");
+                }
+                else
+                {
+                    Debug.Log($"GameManager: Mantendo último checkpoint: {lastCheckpointPosition}");
+                }
+            }
+        }
     }
     
     private System.Collections.IEnumerator ReconnectCameraAfterSceneLoad()
