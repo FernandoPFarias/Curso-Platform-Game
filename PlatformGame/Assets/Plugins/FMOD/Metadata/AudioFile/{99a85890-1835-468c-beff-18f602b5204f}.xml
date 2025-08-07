@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{99a85890-1835-468c-beff-18f602b5204f}">
+		<property name="assetPath">
+			<value>Last Firefly - Batalha Chefe.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>240.024</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{9a294450-42cb-4391-9782-bcc5024d8946}</destination>
+		</relationship>
+	</object>
+</objects>

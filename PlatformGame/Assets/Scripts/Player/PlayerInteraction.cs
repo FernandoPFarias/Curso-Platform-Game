@@ -65,7 +65,7 @@ public class PlayerInteraction : MonoBehaviour
         if (checkpoint != null)
         {
             checkpoint.TryInteract();
-            return; // Se interagiu com checkpoint, não faz outras interações
+            // Não retorna aqui, continua para verificar outros objetos
         }
         
         // Depois, tenta interagir com o portal se estiver próximo
@@ -73,7 +73,9 @@ public class PlayerInteraction : MonoBehaviour
         if (portal != null)
         {
             portal.TryInteract();
+            // Não retorna aqui, continua para verificar outros objetos
         }
+        
         // Depois, tenta interagir com uma alavanca próxima
         if (nearbyLever != null)
         {

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{1e0e6681-ad2f-4c5c-866e-695fd51ddf4c}">
+		<property name="assetPath">
+			<value>Last Firefly - Exploração.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>240.024</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{50019a02-6ba0-4130-b04e-bdab761ea4c2}</destination>
+		</relationship>
+	</object>
+</objects>

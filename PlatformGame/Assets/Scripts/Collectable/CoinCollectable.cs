@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class CoinCollectable : Collectable
 {
+    [Header("Visual Effects")]
+    [Tooltip("Partícula de brilho que será desativada quando a moeda for coletada")]
+    public ParticleSystem glowParticle;
+    
     private Animator animator;
     private bool collected = false;
 
@@ -14,6 +18,14 @@ public class CoinCollectable : Collectable
     {
         if (collected) return;
         collected = true;
+        
+        // Desativa a partícula de brilho se estiver configurada
+        if (glowParticle != null)
+        {
+            glowParticle.Stop();
+            glowParticle.gameObject.SetActive(false);
+        }
+        
         CoinManager.Instance.AddCoin();
         if (animator != null)
         {
